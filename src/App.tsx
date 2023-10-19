@@ -28,7 +28,7 @@ function App() {
           <img src={reactLogo} className="logo rune" alt="Rune logo" />
         </a>
       </div>
-      <h1 className="bg-black text-white">Vite + Rune</h1>
+      <h1 className="bg-black text-white">Vite + Rune + TS + TW</h1>
       <div className="card">
         <button onClick={() => Rune.actions.increment({ amount: 1 })}>
           count is {game.count}
