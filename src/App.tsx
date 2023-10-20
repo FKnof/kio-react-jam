@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg"
 import "./App.css"
 import { GameState } from "./logic.ts"
 import { PixiTest } from "./components/PixiTest.tsx"
+import { Game } from "./components/Game.tsx"
 
 function App() {
   const [game, setGame] = useState<GameState>()
@@ -16,12 +17,13 @@ function App() {
   }, [])
 
   if (!game) {
-    return <div>Loading...</div>
+    return <div>Lade...</div>
   }
 
   return (
     <>
-    <PixiTest /> 
+    {/* <PixiTest />  */}
+    <Game />
     </>
   )
 }
