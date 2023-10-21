@@ -5,8 +5,6 @@ import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 import { Projectile } from "./Projectile";
 
 export function HomeBase(props: any) {
-  const bunny =
-    "https://s3-us-west-2.amazonaws.com/s.cdpn.io/693612/IaUrttj.png";
   const height = props.height;
   const width = props.width;
   const x = props.x;
@@ -18,7 +16,7 @@ export function HomeBase(props: any) {
 
   const cannonHeight = 40;
   const homeBaseHeight = height + cannonHeight;
-  const [graphicsColor, setGraphicsColor] = useState("#ff0000");
+  const [graphicsColor, setGraphicsColor] = useState("#0000ff");
   const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
   const [projectileId, setProjectileId] = useState(0);
   const [tidyUp, setTidyUp] = useState([]);
@@ -76,12 +74,51 @@ export function HomeBase(props: any) {
     [width, mouseCoordinates, y]
   );
 
+  const background = useCallback(
+    (g: any) => {
+      g.clear();
+      g.beginFill("#ff0000");
+      g.drawRect(0, 0, width, window.innerHeight);
+    },
+    [width]
+  );
+
+  const calculateVelocity = (
+    fromX: number,
+    fromY: number,
+    toX: number,
+    toY: number,
+    speedFactor: number,
+    maxSpeed: number
+  ) => {
+    const dx = toX - fromX;
+    const dy = toY - fromY;
+    const length = Math.sqrt(dx * dx + dy * dy);
+    let speed = length * speedFactor;
+
+    if (speed > maxSpeed) speed = maxSpeed;
+    return {
+      vx: (dx / length) * speed,
+      vy: (dy / length) * speed,
+    };
+  };
+
   const addPlayerProjectile = () => {
+    const speedFactor = 0.1; // Wie sehr sich die Geschwindigkeit an der Entfernung orientiert
+    const maxSpeed = 4;
+    const velocity = calculateVelocity(
+      width * 0.5,
+      y,
+      mouseCoordinates.x,
+      mouseCoordinates.y,
+      speedFactor,
+      maxSpeed
+    );
     const newProjectile = {
       x: width * 0.5,
       y: y,
-      vx: 0,
-      vy: 0,
+      vx: velocity.vx,
+      vy: velocity.vy,
       radius: 5,
       color: "#000000",
       type: "scissors",
@@ -94,20 +131,35 @@ export function HomeBase(props: any) {
     console.log(playerProjectiles);
   };
 
-  const deleteOldProjectiles = (id: number) => {
-    setPlayerProjectiles(
-      playerProjectiles.filter((projectile) => projectile.id !== id)
-    );
-    console.log("deleted: " + id + playerProjectiles);
-  };
-
   useTick((delta) => {
     if (playerProjectiles.length > 0) {
       const updatedProjectiles = playerProjectiles
-        .map((p) => {
-          return { ...p, y: p.y - delta * 0.5 };
+        .map((p: PlayerProjectile) => {
+          let newVx = p.vx;
+          let newVy = p.vy;
+
+          // Calculate new position
+          const newX = p.x + p.vx * delta;
+          const newY = p.y + p.vy * delta;
+
+          // Bounce off left wall
+          if (newX - p.radius <= 0) {
+            newVx = Math.abs(p.vx);
+          }
+
+          // Bounce off right wall
+          if (newX + p.radius >= width) {
+            newVx = -Math.abs(p.vx);
+          }
+
+          // Bounce off bottom wall
+          if (newY + p.radius >= height) {
+            newVy = -Math.abs(p.vy);
+          }
+
+          return { ...p, x: newX, y: newY, vx: newVx, vy: newVy };
         })
-        .filter((p) => p.y >= 0); // Filter out any projectiles with y less than 0
+        .filter((p) => p.y + p.radius > 0); // Despawn when out of the top boundary
 
       setPlayerProjectiles(updatedProjectiles);
     }
@@ -115,6 +167,13 @@ export function HomeBase(props: any) {
 
   return (
     <>
+      <Graphics
+        draw={background}
+        eventMode={"static"}
+        pointerdown={() => {
+          addPlayerProjectile();
+        }}
+      />
       <Graphics draw={aim} />
       <Container
         x={x}
