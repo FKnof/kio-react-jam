@@ -37,7 +37,7 @@ export function HomeBase(props: any) {
     Rune.initClient({
       onChange: ({ game, yourPlayerId, players }) => {
         setGame(game);
-        setYourPlayerId(yourPlayerId);
+        setYourPlayerId(yourPlayerId || ""); // provide a default value for yourPlayerId
         setPlayers(players);
       },
     });
