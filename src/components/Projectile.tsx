@@ -1,19 +1,24 @@
-import { Graphics } from "@pixi/react";
+import { Container, Graphics, Text } from "@pixi/react";
 import { useCallback } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 
 export function Projectile({ props }: { props: PlayerProjectile }) {
-  const { x, y, radius, color } = props;
+  const { x, y, radius, color, type } = props;
 
   const projectile = useCallback(
     (g: any) => {
       g.clear();
       g.lineStyle(2, color, 1);
       g.beginFill("#fefefe");
-      g.drawCircle(x, y, radius);
+      g.drawCircle(0, 0, radius);
     },
-    [color, radius, x, y]
+    [color, radius]
   );
 
-  return <Graphics draw={projectile} />;
+  return (
+    <Container x={x} y={y}>
+      <Graphics draw={projectile} />
+      <Text text={type.charAt(0)} anchor={0.5} x={0} y={0} />
+    </Container>
+  );
 }
