@@ -7,6 +7,7 @@ export interface GameState {
     [playerId: string]: {
       color: string;
       life: number;
+      playerIndex: number;
     };
   };
   playerProjectiles: PlayerProjectile[];
@@ -45,10 +46,12 @@ Rune.initLogic({
   minPlayers: 2,
   maxPlayers: 2,
   setup: (players): GameState => {
-    const playerState: { [playerId: string]: { color: string; life: number } } =
-      {};
+    const playerState: {
+      [playerId: string]: { color: string; life: number; playerIndex: number };
+    } = {};
     players.forEach((player, index) => {
       playerState[player] = {
+        playerIndex: index,
         color: colors[index],
         life: 3,
       };

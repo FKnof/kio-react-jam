@@ -16,8 +16,10 @@ import { checkTypeWeakness } from "../util/checkTypeWeakness";
 export function HomeBase(props: any) {
   const [game, setGame] = useState<GameState>();
   const [yourPlayerId, setYourPlayerId] = useState<string>("");
+  const [thisPlayer, setThisPlayer] = useState<number>();
   const [players, setPlayers] = useState<any>();
   const { x, y, height, width } = props;
+  const colors = ["#ffff00", "#00ffff"];
 
   const [playerProjectiles, setPlayerProjectiles] = useState<
     Array<PlayerProjectile>
@@ -39,6 +41,8 @@ export function HomeBase(props: any) {
       onChange: ({ game, yourPlayerId, players }) => {
         setGame(game);
         setYourPlayerId(yourPlayerId || ""); // provide a default value for yourPlayerId
+        if (yourPlayerId != undefined)
+          setThisPlayer(game.playerState[yourPlayerId].playerIndex);
         setPlayers(players);
       },
     });
@@ -50,6 +54,7 @@ export function HomeBase(props: any) {
   }, []);
 
   const handleShot = () => {
+    const col = thisPlayer !== undefined ? colors[thisPlayer] : "#000000";
     const {
       newId,
       newProjectile,
@@ -58,7 +63,8 @@ export function HomeBase(props: any) {
       y,
       mouseCoordinates,
       projectileId,
-      yourPlayerId
+      yourPlayerId,
+      col
     );
     setProjectileId(newId);
     Rune.actions.addProjectile({ projectile: newProjectile });

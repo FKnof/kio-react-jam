@@ -4,7 +4,8 @@ export const addPlayerProjectile = (
   y: number,
   mouseCoordinates: { x: number; y: number },
   projectileId: number,
-  ownerId: string
+  ownerId: string,
+  color: string
 ) => {
   // for testing only
   const typeDecision =
@@ -29,7 +30,7 @@ export const addPlayerProjectile = (
     vx: velocity.vx,
     vy: velocity.vy,
     radius: 20,
-    color: "#000000",
+    color: color,
     type: typeDecision,
     level: 1,
     id: projectileId,
