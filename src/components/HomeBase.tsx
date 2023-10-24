@@ -141,51 +141,8 @@ export function HomeBase(props: any) {
     const newId = projectileId + 1;
     setProjectileId(newId);
     setPlayerProjectiles([...playerProjectiles, newProjectile]);
-    console.log(playerProjectiles);
+    Rune.actions.addProjectile({ projectile: newProjectile });
   };
-
-  useTick((delta) => {
-    if (playerProjectiles.length > 0) {
-      const updatedProjectiles = playerProjectiles
-        .map((p: PlayerProjectile) => {
-          let newVx = p.vx;
-          let newVy = p.vy;
-
-          // Calculate new position
-          const newX = p.x + p.vx * delta;
-          const newY = p.y + p.vy * delta;
-
-          // Bounce off left wall
-          if (newX - p.radius <= 0) {
-            newVx = Math.abs(p.vx);
-          }
-
-          // Bounce off right wall
-          if (newX + p.radius >= width) {
-            newVx = -Math.abs(p.vx);
-          }
-
-          // Bounce off bottom wall
-          if (newY + p.radius >= height) {
-            newVy = -Math.abs(p.vy);
-          }
-
-          return { ...p, x: newX, y: newY, vx: newVx, vy: newVy };
-        })
-        .filter((p) => {
-          if (p.y + p.radius > 0) {
-            return true;
-          } else {
-            Rune.actions.decreaseLife({
-              opponentPlayerId: opponentPlayerId,
-              amount: 1,
-            });
-          }
-        }); // Despawn when out of the top boundary
-
-      setPlayerProjectiles(updatedProjectiles);
-    }
-  });
 
   let opponentPlayerId = "";
 
@@ -220,9 +177,7 @@ export function HomeBase(props: any) {
       />
     );
   }
-  console.log("MyId: " + yourPlayerId);
-  console.log("OpponentId: " + opponentPlayerId);
-  console.log(players);
+
   return (
     <>
       <Graphics
@@ -285,7 +240,7 @@ export function HomeBase(props: any) {
         text={game.playerState[yourPlayerId].life.toString()}
         anchor={0.5}
         x={25}
-        y={600}
+        y={400}
         style={
           new PIXI.TextStyle({
             align: "center",
@@ -302,7 +257,7 @@ export function HomeBase(props: any) {
           })
         }
       />
-      {playerProjectiles.map((p, index) => (
+      {game.playerProjectiles.map((p, index) => (
         <Projectile props={p} key={index} />
       ))}
     </>
