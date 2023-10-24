@@ -145,7 +145,6 @@ Rune.initLogic({
         })
         .filter((p) => {
           if (p.y + p.radius > 0 && p.level > 0) {
-            console.log("filtered ", p.id);
             return true;
           } else {
             // Rune.actions.decreaseLife({
