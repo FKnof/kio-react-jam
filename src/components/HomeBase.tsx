@@ -50,16 +50,18 @@ export function HomeBase(props: any) {
   }, []);
 
   const handleShot = () => {
-    const { newId, newProjectile } = addPlayerProjectile(
+    const {
+      newId,
+      newProjectile,
+    }: { newId: number; newProjectile: PlayerProjectile } = addPlayerProjectile(
       width,
       y,
       mouseCoordinates,
-      projectileId
+      projectileId,
+      yourPlayerId
     );
     setProjectileId(newId);
-    setPlayerProjectiles([...playerProjectiles, newProjectile]);
     Rune.actions.addProjectile({ projectile: newProjectile });
-  };
   };
 
   useTick((delta) => {
@@ -163,7 +165,6 @@ export function HomeBase(props: any) {
       />
     );
   }
-
   return (
     <>
       <HomeBaseBackground width={width} pointerdown={handleShot} />
@@ -211,7 +212,7 @@ export function HomeBase(props: any) {
         text={game.playerState[yourPlayerId].life.toString()}
         anchor={0.5}
         x={25}
-        y={400}
+        y={600}
         style={
           new PIXI.TextStyle({
             align: "center",
@@ -228,8 +229,8 @@ export function HomeBase(props: any) {
           })
         }
       />
-      {game.playerProjectiles.map((p, index) => (
-        <Projectile props={p} key={index} />
+      {game.playerProjectiles.map((projectile, index) => (
+        <Projectile props={projectile} key={index} />
       ))}
     </>
   );

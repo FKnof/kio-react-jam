@@ -1,4 +1,4 @@
-import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
+import { PlayerProjectile } from "../logic";
 
 export function detectProjectileCollision(
   projectile1: PlayerProjectile,

@@ -1,4 +1,6 @@
 import type { RuneClient } from "rune-games-sdk/multiplayer";
+import { detectProjectileCollision } from "./util/detectProjectileCollision";
+import { checkTypeWeakness } from "./util/checkTypeWeakness";
 
 export interface GameState {
   playerState: {
@@ -8,6 +10,7 @@ export interface GameState {
     };
   };
   playerProjectiles: PlayerProjectile[];
+  absoluteProjectileIds: number;
 }
 export const colors = ["#BCFE00", "#10D4FF"];
 
@@ -17,17 +20,18 @@ type GameActions = {
   deleteProjectile: (params: { id: number }) => void;
 };
 
-export interface PlayerProjectile {
-  color: string;
-  id: number;
-  level: number;
-  radius: number;
-  type: string;
-  vx: number;
-  vy: number;
+export type PlayerProjectile = {
   x: number;
   y: number;
-}
+  vx: number;
+  vy: number;
+  radius: number;
+  color: string;
+  type: string;
+  level: number;
+  id: number;
+  ownerId: string;
+};
 
 declare global {
   const Rune: RuneClient<GameState, GameActions>;
@@ -52,6 +56,7 @@ Rune.initLogic({
     return {
       playerState: playerState,
       playerProjectiles: [],
+      absoluteProjectileIds: 0,
     };
   },
   actions: {
@@ -63,7 +68,10 @@ Rune.initLogic({
       }
     },
     addProjectile: ({ projectile }, { game }) => {
-      game.playerProjectiles.push(projectile);
+      const newProjectile = { ...projectile, id: game.absoluteProjectileIds };
+      console.log("Adding projectile:", newProjectile);
+      game.playerProjectiles.push(newProjectile);
+      game.absoluteProjectileIds++;
       // console.log("Updated playerProjectiles:", game.playerProjectiles);
       //
       // game.playerState[opponentPlayerId].life -= amount;
@@ -85,6 +93,21 @@ Rune.initLogic({
     if (game && game.playerProjectiles.length > 0) {
       const updatedProjectiles = game.playerProjectiles
         .map((p: PlayerProjectile) => {
+          let newLevel = p.level;
+          game.playerProjectiles.forEach((target) => {
+            if (
+              target.id !== p.id &&
+              detectProjectileCollision(p, target) &&
+              checkTypeWeakness(target.type, p.type)
+            ) {
+              newLevel = p.level - 1;
+              console.log(
+                "Collision detected: ",
+                p.id + ": " + newLevel,
+                target.id
+              );
+            }
+          });
           let newVx = p.vx;
           let newVy = p.vy;
 
@@ -107,10 +130,18 @@ Rune.initLogic({
             newVy = -Math.abs(p.vy);
           }
 
-          return { ...p, x: newX, y: newY, vx: newVx, vy: newVy };
+          return {
+            ...p,
+            x: newX,
+            y: newY,
+            vx: newVx,
+            vy: newVy,
+            level: newLevel,
+          };
         })
         .filter((p) => {
-          if (p.y + p.radius > 0) {
+          if (p.y + p.radius > 0 && p.level > 0) {
+            console.log("filtered ", p.id);
             return true;
           } else {
             // Rune.actions.decreaseLife({

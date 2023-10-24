@@ -8,4 +8,5 @@ export type PlayerProjectile = {
   type: string;
   level: number;
   id: number;
+  ownerId: string;
 };

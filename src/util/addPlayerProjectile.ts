@@ -3,7 +3,8 @@ export const addPlayerProjectile = (
   width: number,
   y: number,
   mouseCoordinates: { x: number; y: number },
-  projectileId: number
+  projectileId: number,
+  ownerId: string
 ) => {
   // for testing only
   const typeDecision =
@@ -32,6 +33,7 @@ export const addPlayerProjectile = (
     type: typeDecision,
     level: 1,
     id: projectileId,
+    ownerId: ownerId,
   };
   const newId = projectileId + 1;
   return { newProjectile, newId };
