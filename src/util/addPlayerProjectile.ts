@@ -6,7 +6,8 @@ export const addPlayerProjectile = (
   projectileId: number,
   ownerId: string,
   color: string,
-  playerIndex: number
+  playerIndex: number,
+  offset: number
 ) => {
   const height = window.innerHeight;
   // for testing only
@@ -20,7 +21,7 @@ export const addPlayerProjectile = (
   const maxSpeed = 2;
   const velocity = calculateVelocity(
     width * 0.5,
-    y,
+    y - offset,
     mouseCoordinates.x,
     mouseCoordinates.y,
     speedFactor,
@@ -42,7 +43,7 @@ export const addPlayerProjectile = (
         }
       : {
           x: width * 0.5,
-          y: height - y,
+          y: height - y + 100,
           vx: velocity.vx * -1,
           vy: velocity.vy * -1,
           radius: 20,

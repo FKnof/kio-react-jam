@@ -12,11 +12,15 @@ export interface GameState {
   };
   playerProjectiles: PlayerProjectile[];
   absoluteProjectileIds: number;
+  baseOffset: number;
 }
 export const colors = ["#BCFE00", "#10D4FF"];
 
 type GameActions = {
-  decreaseLife: (params: { opponentPlayerId: string; amount: number }) => void;
+  decreaseLife: (params: {
+    opponentPlayerId: string[undefined];
+    amount: number;
+  }) => void;
   addProjectile: (params: { projectile: PlayerProjectile }) => void;
   deleteProjectile: (params: { id: number }) => void;
 };
@@ -53,17 +57,19 @@ Rune.initLogic({
       playerState[player] = {
         playerIndex: index,
         color: colors[index],
-        life: 3,
+        life: 5,
       };
     });
     return {
       playerState: playerState,
       playerProjectiles: [],
       absoluteProjectileIds: 0,
+      baseOffset: 100,
     };
   },
   actions: {
     decreaseLife: ({ opponentPlayerId, amount }, { game }) => {
+      if (opponentPlayerId == undefined) return;
       game.playerState[opponentPlayerId].life -= amount;
 
       if (game.playerState[opponentPlayerId].life <= 0) {
@@ -75,21 +81,10 @@ Rune.initLogic({
       console.log("Adding projectile:", newProjectile);
       game.playerProjectiles.push(newProjectile);
       game.absoluteProjectileIds++;
-      // console.log("Updated playerProjectiles:", game.playerProjectiles);
-      //
-      // game.playerState[opponentPlayerId].life -= amount;
-      // if (game.playerState[opponentPlayerId].life <= 0) {
-      //   Rune.gameOver();
-      // }
     },
     deleteProjectile: ({ id }, { game }) => {
       game.playerProjectiles.filter((item) => item.id !== id);
       console.log("Updated playerProjectiles:", game.playerProjectiles);
-
-      // game.playerState[opponentPlayerId].life -= amount;
-      // if (game.playerState[opponentPlayerId].life <= 0) {
-      //   Rune.gameOver();
-      // }
     },
   },
   update: ({ game }) => {
@@ -129,10 +124,10 @@ Rune.initLogic({
             newVx = -Math.abs(p.vx);
           }
 
-          // Bounce off bottom wall
-          if (newY + p.radius >= innerHeight) {
-            newVy = -Math.abs(p.vy);
-          }
+          // // Bounce off bottom wall
+          // if (newY + p.radius >= innerHeight) {
+          //   newVy = -Math.abs(p.vy);
+          // }
 
           return {
             ...p,
@@ -144,9 +139,28 @@ Rune.initLogic({
           };
         })
         .filter((p) => {
-          if (p.y + p.radius > 0 && p.level > 0) {
+          const opponentPlayerId = Object.keys(game.playerState).find(
+            (playerId) => playerId !== p.ownerId
+          );
+
+          if (
+            game.playerState[p.ownerId].playerIndex == 0 &&
+            p.y + p.radius > game.baseOffset &&
+            p.level > 0
+          ) {
+            return true;
+          } else if (
+            game.playerState[p.ownerId].playerIndex == 1 &&
+            p.y - p.radius < innerHeight &&
+            p.level > 0
+          ) {
             return true;
           } else {
+            if (p.level <= 0) {
+              console.log("Projectile despawned: ", p.id);
+              return false;
+            }
+            console.log("Leben abgezogen");
             // Rune.actions.decreaseLife({
             //   opponentPlayerId: opponentPlayerId,
             //   amount: 1,

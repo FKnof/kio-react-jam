@@ -18,6 +18,7 @@ export function HomeBase(props: any) {
   const [game, setGame] = useState<GameState>();
   const [yourPlayerId, setYourPlayerId] = useState<string>("");
   const [thisPlayer, setThisPlayer] = useState<number>();
+  const [opponentPlayerId, setOpponentPlayerId] = useState<string>("");
   const [players, setPlayers] = useState<any>();
   const { x, y, height, width } = props;
   const colors = ["#ffff00", "#00ffff"];
@@ -42,8 +43,13 @@ export function HomeBase(props: any) {
       onChange: ({ game, yourPlayerId, players }) => {
         setGame(game);
         setYourPlayerId(yourPlayerId || ""); // provide a default value for yourPlayerId
-        if (yourPlayerId != undefined)
+        if (yourPlayerId != undefined) {
           setThisPlayer(game.playerState[yourPlayerId].playerIndex);
+          const enemyId = Object.keys(game.playerState).find(
+            (playerId) => playerId !== yourPlayerId
+          );
+          setOpponentPlayerId(enemyId || "");
+        }
         setPlayers(players);
       },
     });
@@ -61,25 +67,18 @@ export function HomeBase(props: any) {
       newProjectile,
     }: { newId: number; newProjectile: PlayerProjectile } = addPlayerProjectile(
       width,
-      y,
+      window.innerHeight,
       mouseCoordinates,
       projectileId,
       yourPlayerId,
       col,
-      thisPlayer !== undefined ? thisPlayer : 0
+      thisPlayer !== undefined ? thisPlayer : 0,
+      game ? game.baseOffset : 0
     );
     setProjectileId(newId);
     Rune.actions.addProjectile({ projectile: newProjectile });
   };
 
-  let opponentPlayerId = "";
-
-  for (const item in players) {
-    if (item !== yourPlayerId) {
-      opponentPlayerId = item;
-      break; // Assuming it's a two-player game, exit the loop once you find the opponent.
-    }
-  }
   if (!game) {
     return (
       <Text
@@ -105,6 +104,7 @@ export function HomeBase(props: any) {
       />
     );
   }
+  console.log(game.playerState[yourPlayerId].life.toString());
   return (
     <>
       <HomeBaseBackground width={width} pointerdown={handleShot} />
@@ -129,14 +129,14 @@ export function HomeBase(props: any) {
 
       <Text
         text={game.playerState[opponentPlayerId].life.toString()}
-        anchor={0.5}
-        x={innerWidth / 2}
-        y={100}
+        anchor={0}
+        x={innerWidth - 25}
+        y={5}
         style={
           new PIXI.TextStyle({
             align: "center",
             fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
-            fontSize: 50,
+            fontSize: 20,
             fontWeight: "400",
             fill: "#ffffff", // gradient
             stroke: "#000000",
@@ -172,9 +172,9 @@ export function HomeBase(props: any) {
       />
       <Text
         text={game.playerState[yourPlayerId].life.toString()}
-        anchor={0.5}
-        x={25}
-        y={600}
+        anchor={0}
+        x={width - 50}
+        y={window.innerHeight - game.baseOffset}
         style={
           new PIXI.TextStyle({
             align: "center",
@@ -193,7 +193,11 @@ export function HomeBase(props: any) {
       />
       {thisPlayer !== undefined && thisPlayer === 0
         ? game.playerProjectiles.map((projectile, index) => (
-            <Projectile props={projectile} key={index} />
+            <Projectile
+              props={projectile}
+              offset={game.baseOffset}
+              key={index}
+            />
           ))
         : game.playerProjectiles.map((projectile, index) => (
             <ProjectileInverted props={projectile} key={index} />

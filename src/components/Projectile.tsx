@@ -2,7 +2,13 @@ import { Container, Graphics, Text } from "@pixi/react";
 import { useCallback } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 
-export function Projectile({ props }: { props: PlayerProjectile }) {
+export function Projectile({
+  props,
+  offset,
+}: {
+  props: PlayerProjectile;
+  offset: number;
+}) {
   const { x, y, radius, color, type } = props;
 
   const projectile = useCallback(
@@ -16,7 +22,7 @@ export function Projectile({ props }: { props: PlayerProjectile }) {
   );
 
   return (
-    <Container x={x} y={y}>
+    <Container x={x} y={y - offset}>
       <Graphics draw={projectile} />
       <Text text={type.charAt(0)} anchor={0.5} x={0} y={0} />
     </Container>
