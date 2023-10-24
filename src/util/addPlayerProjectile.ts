@@ -5,8 +5,10 @@ export const addPlayerProjectile = (
   mouseCoordinates: { x: number; y: number },
   projectileId: number,
   ownerId: string,
-  color: string
+  color: string,
+  playerIndex: number
 ) => {
+  const height = window.innerHeight;
   // for testing only
   const typeDecision =
     projectileId % 3 == 0
@@ -24,18 +26,32 @@ export const addPlayerProjectile = (
     speedFactor,
     maxSpeed
   );
-  const newProjectile = {
-    x: width * 0.5,
-    y: y,
-    vx: velocity.vx,
-    vy: velocity.vy,
-    radius: 20,
-    color: color,
-    type: typeDecision,
-    level: 1,
-    id: projectileId,
-    ownerId: ownerId,
-  };
+  const newProjectile =
+    playerIndex == 0
+      ? {
+          x: width * 0.5,
+          y: y,
+          vx: velocity.vx,
+          vy: velocity.vy,
+          radius: 20,
+          color: color,
+          type: typeDecision,
+          level: 1,
+          id: projectileId,
+          ownerId: ownerId,
+        }
+      : {
+          x: width * 0.5,
+          y: height - y,
+          vx: velocity.vx * -1,
+          vy: velocity.vy * -1,
+          radius: 20,
+          color: color,
+          type: typeDecision,
+          level: 1,
+          id: projectileId,
+          ownerId: ownerId,
+        };
   const newId = projectileId + 1;
   return { newProjectile, newId };
 };
