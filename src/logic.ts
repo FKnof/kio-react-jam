@@ -99,6 +99,7 @@ Rune.initLogic({
           let newLevel = p.level;
           game.playerProjectiles.forEach((target) => {
             if (
+              target.ownerId !== p.ownerId &&
               target.id !== p.id &&
               detectProjectileCollision(p, target) &&
               checkTypeWeakness(target.type, p.type)
