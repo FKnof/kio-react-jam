@@ -58,6 +58,8 @@ export function HomeBase(props: any) {
     );
     setProjectileId(newId);
     setPlayerProjectiles([...playerProjectiles, newProjectile]);
+    Rune.actions.addProjectile({ projectile: newProjectile });
+  };
   };
 
   useTick((delta) => {
@@ -161,9 +163,7 @@ export function HomeBase(props: any) {
       />
     );
   }
-  console.log("MyId: " + yourPlayerId);
-  console.log("OpponentId: " + opponentPlayerId);
-  console.log(players);
+
   return (
     <>
       <HomeBaseBackground width={width} pointerdown={handleShot} />
@@ -211,7 +211,7 @@ export function HomeBase(props: any) {
         text={game.playerState[yourPlayerId].life.toString()}
         anchor={0.5}
         x={25}
-        y={600}
+        y={400}
         style={
           new PIXI.TextStyle({
             align: "center",
@@ -228,8 +228,8 @@ export function HomeBase(props: any) {
           })
         }
       />
-      {playerProjectiles.map((projectile, index) => (
-        <Projectile props={projectile} key={index} />
+      {game.playerProjectiles.map((p, index) => (
+        <Projectile props={p} key={index} />
       ))}
     </>
   );
