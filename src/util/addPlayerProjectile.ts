@@ -40,6 +40,7 @@ export const addPlayerProjectile = (
           level: 1,
           id: projectileId,
           ownerId: ownerId,
+          tookALife: false,
         }
       : {
           x: width * 0.5,
@@ -52,6 +53,7 @@ export const addPlayerProjectile = (
           level: 1,
           id: projectileId,
           ownerId: ownerId,
+          tookALife: false,
         };
   const newId = projectileId + 1;
   return { newProjectile, newId };
