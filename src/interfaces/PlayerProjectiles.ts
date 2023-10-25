@@ -9,4 +9,5 @@ export type PlayerProjectile = {
   level: number;
   id: number;
   ownerId: string;
+  tookALife: boolean;
 };
