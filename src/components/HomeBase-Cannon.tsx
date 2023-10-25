@@ -1,16 +1,22 @@
-import { Graphics } from "@pixi/react";
-import { useCallback } from "react";
+import { Graphics, useTick } from "@pixi/react";
+import { useCallback, useState } from "react";
 
 export function HomeBaseCannon(props: any) {
-  const { width, cannonHeight } = props;
+  const { x, cannonHeight, y } = props;
+  const [currentHeight, setCurrentHeight] = useState(0);
+  const [currentAlpha, setCurrentAlpha] = useState(0);
+  useTick((delta) => {
+    if (currentHeight < cannonHeight) setCurrentHeight(currentHeight + 4);
+    if (currentAlpha <= 1.1) setCurrentAlpha(currentAlpha + 0.1);
+  });
   const cannon = useCallback(
     (g: any) => {
       g.clear();
-      g.lineStyle(2, "#000000", 1);
-      g.beginFill("#fefefe");
-      g.drawCircle(width * 0.5, 0, cannonHeight);
+      g.lineStyle(2, "#000000", currentAlpha);
+      g.beginFill("#fefefe", currentAlpha);
+      g.drawCircle(x, y, currentHeight);
     },
-    [width, cannonHeight]
+    [x, currentHeight, y]
   );
   return (
     <Graphics

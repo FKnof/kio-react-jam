@@ -1,84 +1,101 @@
 import "@pixi/events";
-import { Container, Graphics, Sprite, Text, useTick } from "@pixi/react";
-import * as PIXI from "pixi.js";
-import { useEffect, useState } from "react";
+import { Container, Text, useTick } from "@pixi/react";
+import { useState } from "react";
+import { fontstyle } from "../ui/fontstyle.ts";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
-import { Projectile } from "./Projectile";
-import { GameState } from "../logic.ts";
 import { HomeBaseCannon } from "./HomeBase-Cannon";
 import { HomeBaseCastle } from "./HomeBase-Castle";
 import { HomeBaseAim } from "./HomeBase-Aim";
 import { HomeBaseBackground } from "./HomeBase-Background";
 import { addPlayerProjectile } from "../util/addPlayerProjectile";
-import { detectProjectileCollision } from "../util/detectProjectileCollision";
-import { checkTypeWeakness } from "../util/checkTypeWeakness";
-import { ProjectileInverted } from "./ProjectileInverted.tsx";
 import Profile from "./HomeBase-Profile.tsx";
+import { SelectedWeaponMarker } from "./HomeBase-SelectedWeaponMarker.tsx";
 
 export function HomeBase(props: any) {
-  const [game, setGame] = useState<GameState>();
-  const [yourPlayerId, setYourPlayerId] = useState<string>("");
-  const [thisPlayer, setThisPlayer] = useState<number>();
-  const [opponentPlayerId, setOpponentPlayerId] = useState<string>("");
-  const [players, setPlayers] = useState<any>();
-  const { x, y, height, width } = props;
+  const {
+    x,
+    y,
+    height,
+    width,
+    mouseCoordinates,
+    yourPlayerId,
+    thisPlayer,
+    game,
+  } = props;
+
   const colors = ["#ffff00", "#00ffff"];
-
-  const [playerProjectiles, setPlayerProjectiles] = useState<
-    Array<PlayerProjectile>
-  >([]);
-
-  const cannonHeight = 40;
+  const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: y });
+  const [selectedWeapon, setSelectedWeapon] = useState<string>("empty");
+  const [weaponSlot, setWeaponSlot] = useState(0);
+  const [respawnWeapon, setRespawnWeapon] = useState(false);
+  const cannonHeight = 30;
   const [graphicsColor, setGraphicsColor] = useState("#0000ff");
-  const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
-  const [projectileId, setProjectileId] = useState(0);
-  const mouseMoveHandler = (event: any) => {
-    setMouseCoordinates({
-      x: event.clientX,
-      y: event.clientY,
-    });
+
+  const [slots, setSlots] = useState<Array<string>>([
+    "rock",
+    "paper",
+    "scissors",
+    "empty",
+  ]);
+  const [localGameTime, setLocalGameTime] = useState(0);
+  const respawnSeconds = 1;
+  const respawnFrames = 60 * respawnSeconds;
+
+  // useTick((delta) => {
+  //   setLocalGameTime(localGameTime + 1 * delta);
+  // });
+
+  const handleRespawn = () => {
+    const weapon =
+      Math.random() < 0.33
+        ? "rock"
+        : Math.random() < 0.5
+        ? "paper"
+        : "scissors";
+    const newSlots = [...slots];
+    newSlots[weaponSlot] = weapon;
+    setSlots(newSlots);
+    setRespawnWeapon(false);
   };
 
-  useEffect(() => {
-    Rune.initClient({
-      onChange: ({ game, yourPlayerId, players }) => {
-        setGame(game);
-        setYourPlayerId(yourPlayerId || ""); // provide a default value for yourPlayerId
-        if (yourPlayerId != undefined) {
-          setThisPlayer(game.playerState[yourPlayerId].playerIndex);
-          const enemyId = Object.keys(game.playerState).find(
-            (playerId) => playerId !== yourPlayerId
-          );
-          setOpponentPlayerId(enemyId || "");
-        }
-        setPlayers(players);
-      },
-    });
-
-    window.addEventListener("mousemove", mouseMoveHandler);
-    return () => {
-      window.removeEventListener("mousemove", mouseMoveHandler);
-    };
-  }, []);
+  const handleSelection = (index: number) => {
+    //index = schere, stein,. papier, halde
+    const newSelectedWeapon = selectedWeapon; // speichere zwischen, welche Waffe gerade ausgewählt war. empty = keine ausgewählt
+    setWeaponSlot(index); // Notiere, aus welchem Slot die neu ausgewählte Waffe kommt
+    setSelectedWeapon(slots[index]); // Aktualisiere, welche Waffe ausgewählt ist
+    console.log("slot " + slots[index] + " clicked");
+    const newSlots = [...slots]; // Kopie des Slots-Arrays
+    newSlots[index] = newSelectedWeapon; // setze die alte Waffe in den Slot, aus dem die neue Waffe kommt
+    setSlots(newSlots); // Aktualisiere das Slots-Array
+  };
 
   const handleShot = () => {
+    if (selectedWeapon == "empty") return;
     const col = thisPlayer !== undefined ? colors[thisPlayer] : "#000000";
     const {
       newId,
       newProjectile,
     }: { newId: number; newProjectile: PlayerProjectile } = addPlayerProjectile(
+      selectedWeapon,
       width,
-      window.innerHeight,
+      selectedPosition,
       mouseCoordinates,
-      projectileId,
+      0,
       yourPlayerId,
       col,
       thisPlayer !== undefined ? thisPlayer : 0,
       game ? game.baseOffset : 0
     );
-    setProjectileId(newId);
     Rune.actions.addProjectile({ projectile: newProjectile });
+    setSelectedWeapon("empty");
+    if (weaponSlot < 3) {
+      handleRespawn();
+    }
   };
+
+  if (respawnWeapon) {
+    handleRespawn();
+  }
 
   if (!game) {
     return (
@@ -87,30 +104,19 @@ export function HomeBase(props: any) {
         anchor={0.5}
         x={innerWidth / 2}
         y={100}
-        style={
-          new PIXI.TextStyle({
-            align: "center",
-            fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
-            fontSize: 50,
-            fontWeight: "400",
-            fill: "#ffffff", // gradient
-            stroke: "#000000",
-            strokeThickness: 5,
-            letterSpacing: 20,
-
-            wordWrap: true,
-            wordWrapWidth: 440,
-          })
-        }
+        style={fontstyle}
       />
     );
   }
-  console.log(game.playerState);
-  console.log(game.playerState[yourPlayerId].life.toString());
   return (
     <>
       <HomeBaseBackground width={width} pointerdown={handleShot} />
-      <HomeBaseAim y={y} width={width} mouseCoordinates={mouseCoordinates} />
+      <HomeBaseAim
+        y={y}
+        x={selectedPosition.x}
+        mouseCoordinates={mouseCoordinates}
+        selectedWeapon={selectedWeapon}
+      />
       <Container
         x={x}
         y={y}
@@ -125,16 +131,20 @@ export function HomeBase(props: any) {
           height={height}
           width={width}
           graphicsColor={graphicsColor}
-        />
-        <HomeBaseCannon
-          width={width}
-          playerId={yourPlayerId}
-          cannonHeight={cannonHeight}
+          setSelectedWeapon={setSelectedWeapon}
+          selectedWeapon={selectedWeapon}
+          mouseCoordinates={mouseCoordinates}
+          respawnWeapon={respawnWeapon}
+          setRespawnWeapon={setRespawnWeapon}
+          weaponSlot={weaponSlot}
+          setWeaponSlot={setWeaponSlot}
+          slots={slots}
+          handleSelection={handleSelection}
         />
       </Container>
 
       {/* Mein Profil durch Übergabe der "yourPlayerId" */}
-      <Profile
+      {/* <Profile
         playerState={game.playerState}
         playerId={yourPlayerId}
         x={width - 50}
@@ -142,24 +152,19 @@ export function HomeBase(props: any) {
       ></Profile>
 
       {/* Gegnerisches Profil durch Übergabe der "opponentPlayerId" */}
-      <Profile
+      {/* <Profile
         playerState={game.playerState}
         playerId={opponentPlayerId}
         x={width - 50}
         y={6}
-      ></Profile>
-
-      {thisPlayer !== undefined && thisPlayer === 0
-        ? game.playerProjectiles.map((projectile, index) => (
-            <Projectile
-              props={projectile}
-              offset={game.baseOffset}
-              key={index}
-            />
-          ))
-        : game.playerProjectiles.map((projectile, index) => (
-            <ProjectileInverted props={projectile} key={index} />
-          ))}
+      ></Profile> */}
+      <SelectedWeaponMarker
+        selectedWeapon={selectedWeapon}
+        y={y}
+        mouseCoordinates={mouseCoordinates}
+        setSelectedPosition={setSelectedPosition}
+        cannonHeight={cannonHeight}
+      />
     </>
   );
 }
