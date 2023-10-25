@@ -13,6 +13,7 @@ import { addPlayerProjectile } from "../util/addPlayerProjectile";
 import { detectProjectileCollision } from "../util/detectProjectileCollision";
 import { checkTypeWeakness } from "../util/checkTypeWeakness";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
+import Profile from "./HomeBase-Profile.tsx";
 
 export function HomeBase(props: any) {
   const [game, setGame] = useState<GameState>();
@@ -104,6 +105,7 @@ export function HomeBase(props: any) {
       />
     );
   }
+  console.log(game.playerState);
   console.log(game.playerState[yourPlayerId].life.toString());
   return (
     <>
@@ -124,73 +126,29 @@ export function HomeBase(props: any) {
           width={width}
           graphicsColor={graphicsColor}
         />
-        <HomeBaseCannon width={width} cannonHeight={cannonHeight} />
+        <HomeBaseCannon
+          width={width}
+          playerId={yourPlayerId}
+          cannonHeight={cannonHeight}
+        />
       </Container>
 
-      <Text
-        text={game.playerState[opponentPlayerId].life.toString()}
-        anchor={0}
-        x={innerWidth - 25}
-        y={5}
-        style={
-          new PIXI.TextStyle({
-            align: "center",
-            fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
-            fontSize: 20,
-            fontWeight: "400",
-            fill: "#ffffff", // gradient
-            stroke: "#000000",
-            strokeThickness: 5,
-            letterSpacing: 20,
-
-            wordWrap: true,
-            wordWrapWidth: 440,
-          })
-        }
-      />
-
-      <Text
-        text={`P${thisPlayer !== undefined ? thisPlayer.toString() : "0"}`}
-        anchor={0}
-        x={10}
-        y={5}
-        style={
-          new PIXI.TextStyle({
-            align: "center",
-            fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
-            fontSize: 20,
-            fontWeight: "400",
-            fill: colors[thisPlayer !== undefined ? thisPlayer : 0], // gradient
-            stroke: "#000000",
-            strokeThickness: 5,
-            letterSpacing: 5,
-
-            wordWrap: true,
-            wordWrapWidth: 440,
-          })
-        }
-      />
-      <Text
-        text={game.playerState[yourPlayerId].life.toString()}
-        anchor={0}
+      {/* Mein Profil durch Übergabe der "yourPlayerId" */}
+      <Profile
+        playerState={game.playerState}
+        playerId={yourPlayerId}
         x={width - 50}
         y={window.innerHeight - game.baseOffset}
-        style={
-          new PIXI.TextStyle({
-            align: "center",
-            fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
-            fontSize: 50,
-            fontWeight: "400",
-            fill: "#ffffff", // gradient
-            stroke: "#000000",
-            strokeThickness: 5,
-            letterSpacing: 20,
+      ></Profile>
 
-            wordWrap: true,
-            wordWrapWidth: 440,
-          })
-        }
-      />
+      {/* Gegnerisches Profil durch Übergabe der "opponentPlayerId" */}
+      <Profile
+        playerState={game.playerState}
+        playerId={opponentPlayerId}
+        x={width - 50}
+        y={6}
+      ></Profile>
+
       {thisPlayer !== undefined && thisPlayer === 0
         ? game.playerProjectiles.map((projectile, index) => (
             <Projectile
