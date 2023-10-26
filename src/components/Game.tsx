@@ -30,6 +30,8 @@ export function Game() {
     y: stageProps.height * (1 - baseHeightPercentage),
     mouseCoordinates,
     yourPlayerId,
+    opponentPlayerId,
+    players,
     thisPlayer,
     game,
   };

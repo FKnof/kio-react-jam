@@ -3,7 +3,6 @@ import { Container, Text, useTick } from "@pixi/react";
 import { useCallback, useEffect, useState } from "react";
 import { fontstyle } from "../ui/fontstyle.ts";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
-import { HomeBaseCannon } from "./HomeBase-Cannon";
 import { HomeBaseCastle } from "./HomeBase-Castle";
 import { HomeBaseAim } from "./HomeBase-Aim";
 import { HomeBaseBackground } from "./HomeBase-Background";
@@ -18,7 +17,9 @@ export function HomeBase(props: any) {
     height,
     width,
     mouseCoordinates,
+    players,
     yourPlayerId,
+    opponentPlayerId,
     thisPlayer,
     game,
   } = props;
@@ -187,20 +188,15 @@ export function HomeBase(props: any) {
       </Container>
 
       {/* Mein Profil durch Übergabe der "yourPlayerId" */}
-      {/* <Profile
+      <Profile
         playerState={game.playerState}
-        playerId={yourPlayerId}
-        x={width - 50}
-        y={window.innerHeight - game.baseOffset}
-      ></Profile>
-
-      {/* Gegnerisches Profil durch Übergabe der "opponentPlayerId" */}
-      {/* <Profile
-        playerState={game.playerState}
-        playerId={opponentPlayerId}
-        x={width - 50}
-        y={6}
-      ></Profile> */}
+        yourPlayerId={yourPlayerId}
+        x={0}
+        y={10}
+        opponentPlayerId={opponentPlayerId}
+        allPlayer={players}
+        maxLife={game.maxlife}
+      />
       <SelectedWeaponMarker
         mouseCoordinates={mouseCoordinates}
         y={y}

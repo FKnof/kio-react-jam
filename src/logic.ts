@@ -13,6 +13,7 @@ export interface GameState {
   playerProjectiles: PlayerProjectile[];
   absoluteProjectileIds: number;
   baseOffset: number;
+  maxlife: number;
 }
 export const colors = ["#BCFE00", "#10D4FF"];
 
@@ -46,6 +47,7 @@ declare global {
 export function getlife(game: GameState, playerId: string) {
   return game.playerState[playerId].life;
 }
+const maxlife = 5;
 
 Rune.initLogic({
   minPlayers: 2,
@@ -58,7 +60,7 @@ Rune.initLogic({
       playerState[player] = {
         playerIndex: index,
         color: colors[index],
-        life: 5,
+        life: maxlife,
       };
     });
     return {
@@ -66,6 +68,7 @@ Rune.initLogic({
       playerProjectiles: [],
       absoluteProjectileIds: 0,
       baseOffset: 100,
+      maxlife: maxlife,
     };
   },
   actions: {
@@ -117,7 +120,7 @@ Rune.initLogic({
             }
           });
           let newVx = p.vx;
-          let newVy = p.vy;
+          const newVy = p.vy;
 
           // Calculate new position
           const newX = p.x + p.vx;
