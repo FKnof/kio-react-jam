@@ -38,17 +38,25 @@ export function HomeBase(props: any) {
     "scissors",
     "empty",
   ]);
+  const [slotsCooldown, setSlotsCooldown] = useState([0, 0, 0, 0]);
+
   const [localGameTime, setLocalGameTime] = useState(0);
-  const respawnSeconds = 1;
+  const respawnSeconds = 5;
   const respawnFrames = 60 * respawnSeconds;
 
-  // useTick((delta) => {
-  //   setLocalGameTime(localGameTime + 1 * delta);
-  // });
+  useTick((delta) => {
+    const newSlotsCooldown = [...slotsCooldown];
+    for (let i = 0; i < newSlotsCooldown.length; i++) {
+      if (newSlotsCooldown[i] > 0) {
+        newSlotsCooldown[i]--;
+      }
+    }
+    setSlotsCooldown(newSlotsCooldown);
+  });
 
   const handleRespawn = useCallback(() => {
     const newSlots = [...slots];
-
+    const newSlotsCooldown = [...slotsCooldown];
     let updated = 0;
     for (let i = 0; i < newSlots.length - 1; i++) {
       if (newSlots[i] === "empty" && updated < 3) {
@@ -59,12 +67,14 @@ export function HomeBase(props: any) {
             ? "paper"
             : "scissors";
         newSlots[i] = weapon;
+        newSlotsCooldown[i] = respawnFrames;
         updated++;
       }
     }
     setSlots(newSlots);
+    setSlotsCooldown(newSlotsCooldown);
     setRespawnWeapon(false);
-  }, [slots]);
+  }, [respawnFrames, slots, slotsCooldown]);
 
   useEffect(() => {
     if (respawnWeapon) {
@@ -73,6 +83,10 @@ export function HomeBase(props: any) {
   }, [respawnWeapon, handleRespawn]);
 
   const handleSelection = (index: number) => {
+    if (slotsCooldown[index] > 0) {
+      console.log("cooldown");
+      return;
+    }
     //index = schere, stein,. papier, halde
     const oldSelectedWeapon = selectedWeapon; // speichere zwischen, welche Waffe gerade ausgewählt war. empty = keine ausgewählt
     const oldSlot = weaponSlot; // speichere den Alten weaponSlot zwischen
@@ -165,15 +179,10 @@ export function HomeBase(props: any) {
           height={height}
           width={width}
           graphicsColor={graphicsColor}
-          setSelectedWeapon={setSelectedWeapon}
-          selectedWeapon={selectedWeapon}
-          mouseCoordinates={mouseCoordinates}
-          respawnWeapon={respawnWeapon}
-          setRespawnWeapon={setRespawnWeapon}
-          weaponSlot={weaponSlot}
-          setWeaponSlot={setWeaponSlot}
           slots={slots}
           handleSelection={handleSelection}
+          slotsCooldown={slotsCooldown}
+          maxCooldown={respawnFrames}
         />
       </Container>
 

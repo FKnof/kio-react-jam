@@ -1,6 +1,6 @@
-import { Graphics, Container, Text, useTick } from "@pixi/react";
-import { fontstyle } from "../ui/fontstyle";
 import { useCallback, useState } from "react";
+import { Graphics, Container, Text } from "@pixi/react";
+import { fontstyle } from "../ui/fontstyle";
 
 export function HomeBaseCastle(props: any) {
   const {
@@ -9,13 +9,8 @@ export function HomeBaseCastle(props: any) {
     graphicsColor,
     slots,
     handleSelection,
-    setSelectedWeapon,
-    selectedWeapon,
-    mouseCoordinates,
-    respawnWeapon,
-    setRespawnWeapon,
-    weaponSlot,
-    setWeaponSlot,
+    slotsCooldown,
+    maxCooldown,
   } = props;
 
   const spacer = width / 5 / 5;
@@ -39,39 +34,46 @@ export function HomeBaseCastle(props: any) {
     [spacer, width]
   );
 
+  const cooldownGraphic = useCallback(
+    (g: any, cooldown: number) => {
+      const height = (cooldown / maxCooldown) * (width / 5);
+      g.clear();
+      g.beginFill("#ffffff", 0.75);
+      g.lineStyle(1, "#ffffff");
+      g.drawRect(spacer, 20 + (width / 5 - height), width / 5, height);
+    },
+    [spacer, width, maxCooldown]
+  );
+
   return (
     <>
-      <Graphics
-        draw={castle}
-        pointerdown={() => {
-          console.log("pointer down");
-        }}
-        eventMode={"static"}
-      />
-      {slots.map((slot, index: number) => {
-        return (
-          <Container
-            key={index}
-            x={index * (spacer + width / 5)}
-            y={0}
-            width={width / 5}
-            height={width / 5}
+      <Graphics draw={castle} eventMode={"static"} />
+      {slots.map((slot: string, index: number) => (
+        <Container
+          key={index}
+          x={index * (spacer + width / 5)}
+          y={0}
+          width={width / 5}
+          height={width / 5}
+          eventMode={"static"}
+          pointerdown={() => handleSelection(index)}
+        >
+          <Graphics draw={slotGraphic} eventMode={"static"} />
+          <Text
+            text={slot.charAt(0) !== "e" ? slots[index].charAt(0) : ""}
+            anchor={0}
+            x={20}
             eventMode={"static"}
-            pointerdown={() => {
-              handleSelection(index);
-            }}
-          >
-            <Graphics draw={slotGraphic} key={index} eventMode={"static"} />
-            <Text
-              text={slot.charAt(0) !== "e" ? slots[index].charAt(0) : ""}
-              anchor={0}
-              x={20}
+            style={fontstyle}
+          />
+          {slotsCooldown[index] > 0 && (
+            <Graphics
+              draw={(g) => cooldownGraphic(g, slotsCooldown[index])}
               eventMode={"static"}
-              style={fontstyle}
             />
-          </Container>
-        );
-      })}
+          )}
+        </Container>
+      ))}
     </>
   );
 }
