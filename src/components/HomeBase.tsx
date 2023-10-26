@@ -1,6 +1,6 @@
 import "@pixi/events";
 import { Container, Text, useTick } from "@pixi/react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fontstyle } from "../ui/fontstyle.ts";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 import { HomeBaseCannon } from "./HomeBase-Cannon";
@@ -46,28 +46,57 @@ export function HomeBase(props: any) {
   //   setLocalGameTime(localGameTime + 1 * delta);
   // });
 
-  const handleRespawn = () => {
-    const weapon =
-      Math.random() < 0.33
-        ? "rock"
-        : Math.random() < 0.5
-        ? "paper"
-        : "scissors";
+  const handleRespawn = useCallback(() => {
     const newSlots = [...slots];
-    newSlots[weaponSlot] = weapon;
+
+    let updated = 0;
+    for (let i = 0; i < newSlots.length - 1; i++) {
+      if (newSlots[i] === "empty" && updated < 3) {
+        const weapon =
+          Math.random() < 0.33
+            ? "rock"
+            : Math.random() < 0.5
+            ? "paper"
+            : "scissors";
+        newSlots[i] = weapon;
+        updated++;
+      }
+    }
     setSlots(newSlots);
     setRespawnWeapon(false);
-  };
+  }, [slots]);
+
+  useEffect(() => {
+    if (respawnWeapon) {
+      handleRespawn();
+    }
+  }, [respawnWeapon, handleRespawn]);
 
   const handleSelection = (index: number) => {
     //index = schere, stein,. papier, halde
-    const newSelectedWeapon = selectedWeapon; // speichere zwischen, welche Waffe gerade ausgewählt war. empty = keine ausgewählt
+    const oldSelectedWeapon = selectedWeapon; // speichere zwischen, welche Waffe gerade ausgewählt war. empty = keine ausgewählt
+    const oldSlot = weaponSlot; // speichere den Alten weaponSlot zwischen
+    const newSelectedWeapon = slots[index]; // speichere die neue Waffe, die ausgewählt werden soll
     setWeaponSlot(index); // Notiere, aus welchem Slot die neu ausgewählte Waffe kommt
-    setSelectedWeapon(slots[index]); // Aktualisiere, welche Waffe ausgewählt ist
-    console.log("slot " + slots[index] + " clicked");
+    setSelectedWeapon(newSelectedWeapon); // Aktualisiere, welche Waffe ausgewählt ist
     const newSlots = [...slots]; // Kopie des Slots-Arrays
-    newSlots[index] = newSelectedWeapon; // setze die alte Waffe in den Slot, aus dem die neue Waffe kommt
+    newSlots[index] = oldSelectedWeapon; // setze die alte Waffe in den Slot, aus dem die neue Waffe kommt
     setSlots(newSlots); // Aktualisiere das Slots-Array
+    console.log(
+      "changed " +
+        oldSelectedWeapon +
+        " to " +
+        newSelectedWeapon +
+        " in slot " +
+        index
+    );
+    if (
+      index == 3 &&
+      newSelectedWeapon == "empty" &&
+      oldSelectedWeapon != "empty"
+    ) {
+      setRespawnWeapon(true);
+    }
   };
 
   const handleSelectionFrozen = () => {
@@ -101,10 +130,6 @@ export function HomeBase(props: any) {
       handleRespawn();
     }
   };
-
-  if (respawnWeapon) {
-    handleRespawn();
-  }
 
   if (!game) {
     return (
