@@ -8,6 +8,7 @@ export interface GameState {
       color: string;
       life: number;
       playerIndex: number;
+      playerScreenSize: { x: number; y: number };
     };
   };
   playerProjectiles: PlayerProjectile[];
@@ -24,6 +25,11 @@ type GameActions = {
   }) => void;
   addProjectile: (params: { projectile: PlayerProjectile }) => void;
   deleteProjectile: (params: { id: number }) => void;
+  setScreenSize: (params: {
+    width: number;
+    height: number;
+    yourPlayerId: string;
+  }) => void;
 };
 
 export type PlayerProjectile = {
@@ -54,13 +60,19 @@ Rune.initLogic({
   maxPlayers: 2,
   setup: (players): GameState => {
     const playerState: {
-      [playerId: string]: { color: string; life: number; playerIndex: number };
+      [playerId: string]: {
+        color: string;
+        life: number;
+        playerIndex: number;
+        playerScreenSize: { x: number; y: number };
+      };
     } = {};
     players.forEach((player, index) => {
       playerState[player] = {
         playerIndex: index,
         color: colors[index],
         life: maxlife,
+        playerScreenSize: { x: 0, y: 0 },
       };
     });
     return {
@@ -91,6 +103,21 @@ Rune.initLogic({
         (item) => item.id !== id
       );
       console.log("Updated playerProjectiles:", game.playerProjectiles);
+    },
+    setScreenSize: ({ width, height, yourPlayerId }, { game }) => {
+      game.playerState[yourPlayerId].playerScreenSize.x = width;
+      game.playerState[yourPlayerId].playerScreenSize.y = height;
+
+      // for (const playerId in game.playerState) {
+      //   const player = game.playerState[playerId];
+      //   const screenSize = player.playerScreenSize;
+      //   const screenSizeArea = screenSize.x * screenSize.y;
+
+      //   if (screenSizeArea < smallestSize) {
+      //     smallestSize = screenSizeArea;
+      //     playerIdWithSmallestSize = playerId;
+      //   }
+      // }
     },
   },
   update: ({ game }) => {
