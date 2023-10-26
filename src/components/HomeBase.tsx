@@ -26,6 +26,7 @@ export function HomeBase(props: any) {
   const colors = ["#ffff00", "#00ffff"];
   const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: y });
   const [selectedWeapon, setSelectedWeapon] = useState<string>("empty");
+  const [selectionFrozen, setSelectionFrozen] = useState(false);
   const [weaponSlot, setWeaponSlot] = useState(0);
   const [respawnWeapon, setRespawnWeapon] = useState(false);
   const cannonHeight = 30;
@@ -67,6 +68,14 @@ export function HomeBase(props: any) {
     const newSlots = [...slots]; // Kopie des Slots-Arrays
     newSlots[index] = newSelectedWeapon; // setze die alte Waffe in den Slot, aus dem die neue Waffe kommt
     setSlots(newSlots); // Aktualisiere das Slots-Array
+  };
+
+  const handleSelectionFrozen = () => {
+    setSelectionFrozen(false);
+  };
+  const handleSelectionPosition = () => {
+    setSelectedPosition({ x: mouseCoordinates.x, y: y });
+    setSelectionFrozen(true);
   };
 
   const handleShot = () => {
@@ -159,11 +168,14 @@ export function HomeBase(props: any) {
         y={6}
       ></Profile> */}
       <SelectedWeaponMarker
-        selectedWeapon={selectedWeapon}
-        y={y}
         mouseCoordinates={mouseCoordinates}
-        setSelectedPosition={setSelectedPosition}
+        y={y}
+        selectedWeapon={selectedWeapon}
+        selectionFrozen={selectionFrozen}
+        handleSelectionFrozen={handleSelectionFrozen}
+        handleSelectionPosition={handleSelectionPosition}
         cannonHeight={cannonHeight}
+        selectedPosition={selectedPosition}
       />
     </>
   );
