@@ -1,7 +1,7 @@
 import { Text } from "@pixi/react";
 import { fontstyle } from "../ui/fontstyle";
-import { useState } from "react";
 import { HomeBaseCannon } from "./HomeBase-Cannon";
+import { useEffect } from "react";
 export function SelectedWeaponMarker(props: any) {
   const {
     mouseCoordinates,
@@ -14,11 +14,24 @@ export function SelectedWeaponMarker(props: any) {
     selectedPosition,
   } = props;
 
-  if (selectedWeapon !== "empty" && !selectionFrozen && mouseCoordinates.y < y)
-    handleSelectionPosition();
+  useEffect(() => {
+    if (
+      selectedWeapon !== "empty" &&
+      !selectionFrozen &&
+      mouseCoordinates.y < y
+    )
+      handleSelectionPosition();
 
-  if (selectedWeapon !== "empty" && selectionFrozen && mouseCoordinates.y > y)
-    handleSelectionFrozen();
+    if (selectedWeapon !== "empty" && selectionFrozen && mouseCoordinates.y > y)
+      handleSelectionFrozen();
+  }, [
+    selectedWeapon,
+    selectionFrozen,
+    mouseCoordinates.y,
+    y,
+    handleSelectionPosition,
+    handleSelectionFrozen,
+  ]);
 
   if (selectedWeapon !== "empty")
     return (
