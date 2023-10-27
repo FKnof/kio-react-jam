@@ -2,10 +2,18 @@ import { Container, Graphics, Text } from "@pixi/react";
 import { useCallback } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 
-export function ProjectileInverted({ props }: { props: PlayerProjectile }) {
+export function ProjectileInverted({
+  props,
+  gameHeight,
+  gameWidth,
+}: {
+  props: PlayerProjectile;
+  gameHeight: number;
+  gameWidth: number;
+}) {
   const { x, y, radius, color, type } = props;
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  const width = gameWidth;
+  const height = gameHeight;
 
   const projectile = useCallback(
     (g: any) => {

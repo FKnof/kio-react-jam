@@ -16,7 +16,10 @@ export function HomeBase(props: any) {
     y,
     height,
     width,
+    gameHeight,
     mouseCoordinates,
+    scaleX,
+    scaleY,
     players,
     yourPlayerId,
     opponentPlayerId,
@@ -131,6 +134,7 @@ export function HomeBase(props: any) {
     }: { newId: number; newProjectile: PlayerProjectile } = addPlayerProjectile(
       selectedWeapon,
       width,
+      gameHeight,
       selectedPosition,
       mouseCoordinates,
       0,
@@ -159,7 +163,12 @@ export function HomeBase(props: any) {
   }
   return (
     <>
-      <HomeBaseBackground width={width} pointerdown={handleShot} />
+      <HomeBaseBackground
+        width={width}
+        height={gameHeight}
+        scaleY={scaleY}
+        pointerdown={handleShot}
+      />
       <HomeBaseAim
         y={y}
         x={selectedPosition.x}

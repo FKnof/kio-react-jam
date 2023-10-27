@@ -2,6 +2,7 @@ import { calculateVelocity } from "./calculateVelocity";
 export const addPlayerProjectile = (
   weapon: string,
   width: number,
+  height: number,
   projectileCoordinates: { x: number; y: number },
   mouseCoordinates: { x: number; y: number },
   projectileId: number,
@@ -10,7 +11,6 @@ export const addPlayerProjectile = (
   playerIndex: number,
   offset: number
 ) => {
-  const height = window.innerHeight;
   // for testing only
   const speedFactor = 0.1; // Wie sehr sich die Geschwindigkeit an der Entfernung orientiert
   const maxSpeed = 2;
