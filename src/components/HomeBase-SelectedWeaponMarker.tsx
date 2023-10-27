@@ -2,6 +2,7 @@ import { Sprite, Text } from "@pixi/react";
 import { fontstyle } from "../ui/fontstyle";
 import { HomeBaseCannon } from "./HomeBase-Cannon";
 import { useEffect } from "react";
+import CharacterSprite from "./sprites/character";
 export function SelectedWeaponMarker(props: any) {
   const {
     mouseCoordinates,
@@ -12,6 +13,7 @@ export function SelectedWeaponMarker(props: any) {
     handleSelectionPosition,
     cannonHeight,
     selectedPosition,
+    characterTextures,
   } = props;
 
   useEffect(() => {
@@ -32,7 +34,8 @@ export function SelectedWeaponMarker(props: any) {
     handleSelectionPosition,
     handleSelectionFrozen,
   ]);
-
+  // console.log(characterTextures);
+  console.log(selectedWeapon);
   if (selectedWeapon !== "empty")
     return (
       <>
@@ -43,20 +46,14 @@ export function SelectedWeaponMarker(props: any) {
             cannonHeight={cannonHeight}
           />
         )}
-        {/* <Sprite
-          texture={characterTexture}
-          scale={{ x: 0.5, y: 0.5 }}
-          anchor={0.5}
-          x={0}
-          y={0}
-        /> */}
-        {/* <Text
-          text={selectedWeapon.charAt(0)}
-          anchor={0.5}
+
+        <CharacterSprite
+          characterTextures={characterTextures}
+          type={selectedWeapon}
+          rotation={0}
           x={selectionFrozen ? selectedPosition.x : mouseCoordinates.x}
           y={selectionFrozen ? selectedPosition.y : mouseCoordinates.y}
-          style={fontstyle}
-        /> */}
+        />
       </>
     );
 }

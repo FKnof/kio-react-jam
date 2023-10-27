@@ -5,6 +5,7 @@ import { GameState } from "../logic.ts";
 import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
+import { useTextureStore } from "../util/store";
 import { HomeBaseBackground } from "./HomeBase-Background.tsx";
 
 export function Game() {
@@ -81,12 +82,13 @@ export function Game() {
       }
     }
     getTextures();
+
     window.addEventListener("mousemove", mouseMoveHandler);
     return () => {
       window.removeEventListener("mousemove", mouseMoveHandler);
     };
   }, []);
-  // console.log(characterTextures);
+
   const mouseMoveHandler = (event: any) => {
     setMouseCoordinates({
       x: event.clientX,
@@ -104,14 +106,14 @@ export function Game() {
         transformOrigin: "top left",
       }}
     >
-      <HomeBase {...baseProps} />
+      <HomeBase {...baseProps} characterTextures={characterTextures} />
       {thisPlayer !== undefined && thisPlayer === 0
         ? game.playerProjectiles.map((projectile, index) => (
             <Projectile
               props={projectile}
               offset={game.baseOffset}
               key={index}
-              textures={characterTextures}
+              characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
             />
           ))
@@ -119,7 +121,7 @@ export function Game() {
             <ProjectileInverted
               props={projectile}
               key={index}
-              textures={characterTextures}
+              characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
               gameWidth={gameWidth}
               gameHeight={gameHeight}
