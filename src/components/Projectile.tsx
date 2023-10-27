@@ -6,12 +6,12 @@ import CharacterSprite from "./sprites/character";
 export function Projectile({
   props,
   offset,
-  textures,
+  characterTextures,
   yourPlayerId,
 }: {
   props: PlayerProjectile;
   offset: number;
-  textures: any;
+  characterTextures: any;
   yourPlayerId: string;
 }) {
   const { x, y, type, ownerId } = props;
@@ -24,7 +24,11 @@ export function Projectile({
   }
   return (
     <Container x={x} y={y - offset}>
-      <CharacterSprite textures={textures} type={type} rotation={rotation} />
+      <CharacterSprite
+        characterTextures={characterTextures}
+        type={type}
+        rotation={rotation}
+      />
     </Container>
   );
 }

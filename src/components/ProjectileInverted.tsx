@@ -6,11 +6,11 @@ import CharacterSprite from "./sprites/character";
 
 export function ProjectileInverted({
   props,
-  textures,
+  characterTextures,
   yourPlayerId,
 }: {
   props: PlayerProjectile;
-  textures: any;
+  characterTextures: any;
   yourPlayerId: string;
 }) {
   const { x, y, type, ownerId } = props;
@@ -25,7 +25,11 @@ export function ProjectileInverted({
 
   return (
     <Container x={width - x} y={height - y}>
-      <CharacterSprite textures={textures} type={type} rotation={rotation} />
+      <CharacterSprite
+        characterTextures={characterTextures}
+        type={type}
+        rotation={rotation}
+      />
     </Container>
   );
 }

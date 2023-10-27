@@ -22,6 +22,7 @@ export function HomeBase(props: any) {
     opponentPlayerId,
     thisPlayer,
     game,
+    characterTextures,
   } = props;
 
   const colors = ["#ffff00", "#00ffff"];
@@ -206,6 +207,7 @@ export function HomeBase(props: any) {
         handleSelectionPosition={handleSelectionPosition}
         cannonHeight={cannonHeight}
         selectedPosition={selectedPosition}
+        characterTextures={characterTextures}
       />
     </>
   );

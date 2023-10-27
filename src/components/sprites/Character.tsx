@@ -2,45 +2,49 @@ import { Sprite } from "@pixi/react";
 
 export default function CharacterSprite({
   rotation,
-  textures,
+  characterTextures,
   type,
+  x,
+  y,
 }: {
   rotation: number;
-  textures: any;
+  characterTextures: any;
   type: string;
+  x?: number;
+  y?: number;
 }) {
   let characterTexture;
 
-  console.log(textures, type);
+  // console.log(characterTextures, type);
   switch (type) {
     case "paper":
-      characterTexture = textures.paper;
+      characterTexture = characterTextures.paper;
       break;
     case "rock":
-      characterTexture = textures.stone;
+      characterTexture = characterTextures.stone;
       break;
     case "scissors":
-      characterTexture = textures.scissors;
+      characterTexture = characterTextures.scissors;
       break;
     default:
-      characterTexture = textures.paper;
+      characterTexture = characterTextures.paper;
       break;
   }
-  console.log(characterTexture);
 
   if (rotation) {
     rotation = 3;
   } else {
     rotation = 0;
   }
+
   return (
     <Sprite
       texture={characterTexture}
       scale={{ x: 0.5, y: 0.5 }}
       rotation={rotation}
       anchor={0.5}
-      x={0}
-      y={0}
+      x={x ? x : 0}
+      y={y ? y : 0}
     />
   );
 }
