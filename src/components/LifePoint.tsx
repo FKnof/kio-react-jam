@@ -1,18 +1,21 @@
 import { Graphics } from "@pixi/react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function LifePoint(props: any) {
   const { x, y, active } = props;
-  let color = "";
-  console.log(active);
-  switch (active) {
-    case true:
-      color = "00FF1A";
-      break;
-    case false:
-      color = "D8D8D8";
-      break;
-  }
+  const [color, setColor] = useState("#000000");
+  // console.log(active);
+  useEffect(() => {
+    switch (active) {
+      case true:
+        setColor("#00FF1A");
+        break;
+      case false:
+        setColor("#D8D8D8");
+        break;
+    }
+  }, [active]);
+
   const lifePoint = useCallback(
     (g: any) => {
       g.clear();
