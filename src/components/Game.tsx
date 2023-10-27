@@ -5,6 +5,7 @@ import { GameState } from "../logic.ts";
 import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
+import { useTextureStore } from "../util/store";
 import { HomeBaseBackground } from "./HomeBase-Background.tsx";
 export function Game() {
   const [game, setGame] = useState<GameState>();
@@ -170,7 +171,7 @@ export function Game() {
             <ProjectileInverted
               props={projectile}
               key={index}
-              textures={characterTextures}
+              characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
               gameWidth={gameWidth}
               gameHeight={gameHeight}
