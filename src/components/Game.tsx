@@ -22,6 +22,7 @@ export function Game() {
   const gameHeight = 932;
   const scaleX = window.innerWidth / gameWidth;
   const scaleY = window.innerHeight / gameHeight;
+  const [characterTextures, setCharacterTextures] = useState<any>();
 
   const stageProps = {
     width: gameWidth,
@@ -169,6 +170,8 @@ export function Game() {
             <ProjectileInverted
               props={projectile}
               key={index}
+              textures={characterTextures}
+              yourPlayerId={yourPlayerId}
               gameWidth={gameWidth}
               gameHeight={gameHeight}
               characterTextures={characterTextures}

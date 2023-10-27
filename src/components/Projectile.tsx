@@ -1,7 +1,7 @@
 import { Container, Graphics, Text, Sprite } from "@pixi/react";
 import { useCallback, useEffect, useState } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
-import CharacterSprite from "./sprites/Character";
+import CharacterSprite from "./sprites/character";
 
 export function Projectile({
   props,
