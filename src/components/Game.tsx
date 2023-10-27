@@ -23,8 +23,6 @@ export function Game() {
   const gameHeight = 932;
   const scaleX = window.innerWidth / gameWidth;
   const scaleY = window.innerHeight / gameHeight;
-  const [characterTextures, setCharacterTextures] = useState<any>();
-  const [environmentTextures, setEnvironmentTextures] = useState<any>();
 
   const stageProps = {
     width: gameWidth,
