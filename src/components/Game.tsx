@@ -5,7 +5,7 @@ import { GameState } from "../logic.ts";
 import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
-import { HomeBaseBackground } from "./HomeBase-Background.tsx";
+
 export function Game() {
   const [game, setGame] = useState<GameState>();
   const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
@@ -21,11 +21,6 @@ export function Game() {
   const [characterTextures, setCharacterTextures] = useState<any>();
   const [environmentTextures, setEnvironmentTextures] = useState<any>();
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
-
-  const gameWidth = 430;
-  const gameHeight = 932;
-  const scaleX = window.innerWidth / gameWidth;
-  const scaleY = window.innerHeight / gameHeight;
 
   const stageProps = {
     width: gameWidth,
@@ -166,8 +161,6 @@ export function Game() {
               gameHeight={gameHeight}
               characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
-              gameWidth={gameWidth}
-              gameHeight={gameHeight}
             />
           ))}
       <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} />
