@@ -5,7 +5,6 @@ import { GameState } from "../logic.ts";
 import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
-import { useTextureStore } from "../util/store";
 import { HomeBaseBackground } from "./HomeBase-Background.tsx";
 export function Game() {
   const [game, setGame] = useState<GameState>();
@@ -18,6 +17,11 @@ export function Game() {
   const [environmentTextures, setEnvironmentTextures] = useState<any>();
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
+
+  const gameWidth = 430;
+  const gameHeight = 932;
+  const scaleX = window.innerWidth / gameWidth;
+  const scaleY = window.innerHeight / gameHeight;
 
   const gameWidth = 430;
   const gameHeight = 932;
@@ -170,6 +174,8 @@ export function Game() {
             <ProjectileInverted
               props={projectile}
               key={index}
+              gameWidth={gameWidth}
+              gameHeight={gameHeight}
               characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
               gameWidth={gameWidth}
