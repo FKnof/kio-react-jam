@@ -79,7 +79,7 @@ Rune.initLogic({
       playerState: playerState,
       playerProjectiles: [],
       absoluteProjectileIds: 0,
-      baseOffset: 100,
+      baseOffset: 163, // BaseHeight = 0,175* 932px
       maxlife: maxlife,
     };
   },
@@ -159,7 +159,7 @@ Rune.initLogic({
           }
 
           // Bounce off right wall
-          if (newX + p.radius >= innerWidth) {
+          if (newX + p.radius >= 430) {
             newVx = -Math.abs(p.vx);
           }
 
@@ -191,7 +191,7 @@ Rune.initLogic({
             return true;
           } else if (
             game.playerState[p.ownerId].playerIndex == 1 &&
-            p.y - p.radius < innerHeight &&
+            p.y - p.radius < 932 &&
             p.level > 0
           ) {
             return true;

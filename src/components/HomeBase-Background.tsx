@@ -2,14 +2,21 @@ import { Container, Graphics, Sprite, useTick } from "@pixi/react";
 import { useCallback, useState } from "react";
 
 export function HomeBaseBackground(props: any) {
-  const { width, pointerdown, environmentTextures, backgroundTextures } = props;
+  const {
+    width,
+    pointerdown,
+    scaleY,
+    height,
+    environmentTextures,
+    backgroundTextures,
+  } = props;
   const background = useCallback(
     (g: any) => {
       g.clear();
       g.beginFill("#130C5F");
-      g.drawRect(0, 0, width, window.innerHeight);
+      g.drawRect(0, 0, width, height);
     },
-    [width]
+    [width, height]
   );
 
   // console.log(backgroundTextures);

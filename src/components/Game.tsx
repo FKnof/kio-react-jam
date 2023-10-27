@@ -1,10 +1,11 @@
-import { Stage, Container, Sprite, Text, useTick } from "@pixi/react";
+import { Stage, Container, Text, useTick } from "@pixi/react";
 import * as PIXI from "pixi.js";
 import { HomeBase } from "./HomeBase";
 import { GameState } from "../logic.ts";
 import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
+import { HomeBaseBackground } from "./HomeBase-Background.tsx";
 export function Game() {
   const [game, setGame] = useState<GameState>();
   const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
@@ -17,9 +18,15 @@ export function Game() {
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
 
+  const gameWidth = 430;
+  const gameHeight = 932;
+  const scaleX = window.innerWidth / gameWidth;
+  const scaleY = window.innerHeight / gameHeight;
+
   const stageProps = {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: gameWidth,
+    height: gameHeight,
+    // scale: new PIXI.Point(scaleX, scaleY),
     options: {
       backgroundAlpha: 0,
       antialias: true,
@@ -27,11 +34,17 @@ export function Game() {
   };
   const baseHeightPercentage = 0.175;
   const baseProps = {
-    width: stageProps.width,
-    height: stageProps.height * baseHeightPercentage,
+    width: gameWidth,
+    height: gameHeight * baseHeightPercentage,
+    gameHeight,
     x: 0,
-    y: stageProps.height * (1 - baseHeightPercentage),
-    mouseCoordinates,
+    y: gameHeight * (1 - baseHeightPercentage),
+    mouseCoordinates: {
+      x: mouseCoordinates.x / scaleX,
+      y: mouseCoordinates.y / scaleY,
+    },
+    scaleX,
+    scaleY,
     yourPlayerId,
     opponentPlayerId,
     players,
@@ -127,7 +140,13 @@ export function Game() {
   if (!game) return "Lade...";
 
   return (
-    <Stage {...stageProps}>
+    <Stage
+      {...stageProps}
+      style={{
+        transform: "scale(" + scaleX + "," + scaleY + ")",
+        transformOrigin: "top left",
+      }}
+    >
       <HomeBase
         {...baseProps}
         characterTextures={characterTextures}
@@ -150,6 +169,8 @@ export function Game() {
             <ProjectileInverted
               props={projectile}
               key={index}
+              gameWidth={gameWidth}
+              gameHeight={gameHeight}
               characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
             />
