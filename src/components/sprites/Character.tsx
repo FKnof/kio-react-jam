@@ -61,7 +61,7 @@ export default function CharacterSprite({
       width={50}
       height={50}
       texture={characterTexture}
-      scale={{ x: 1, y: 1 }}
+      // scale={{ x: 1, y: 1 }}
       rotation={rotation}
       anchor={0.5}
       x={x ? x : 0}
