@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { Graphics, Container, Text } from "@pixi/react";
-import CharacterSprite from "./sprites/character";
+import CharacterSprite from "./sprites/Character";
 export function HomeBaseCastle(props: any) {
   const {
     height,

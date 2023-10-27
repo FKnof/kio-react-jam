@@ -2,7 +2,7 @@ import { Sprite, Text } from "@pixi/react";
 import { fontstyle } from "../ui/fontstyle";
 import { HomeBaseCannon } from "./HomeBase-Cannon";
 import { useEffect } from "react";
-import CharacterSprite from "./sprites/character";
+import CharacterSprite from "./sprites/Character";
 export function SelectedWeaponMarker(props: any) {
   const {
     mouseCoordinates,

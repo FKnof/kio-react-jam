@@ -1,5 +1,5 @@
 import "@pixi/events";
-import { Container, Text, useTick } from "@pixi/react";
+import { Container, Sprite, Text, useTick } from "@pixi/react";
 import { useCallback, useEffect, useState } from "react";
 import { fontstyle } from "../ui/fontstyle.ts";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
@@ -24,6 +24,7 @@ export function HomeBase(props: any) {
     game,
     characterTextures,
     environmentTextures,
+    backgroundTextures,
   } = props;
 
   const colors = ["red", "blue"];
@@ -159,12 +160,14 @@ export function HomeBase(props: any) {
       />
     );
   }
+  // console.log(backgroundTextures);
   return (
     <>
       <HomeBaseBackground
         width={width}
         pointerdown={handleShot}
         environmentTextures={environmentTextures}
+        backgroundTextures={backgroundTextures}
       />
       <HomeBaseAim
         y={y}
