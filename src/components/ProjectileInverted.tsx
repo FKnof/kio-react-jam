@@ -2,38 +2,25 @@ import { Container, Graphics, Text } from "@pixi/react";
 import { useCallback } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 import { Sprite } from "@pixi/react";
-import CharacterSprite from "./sprites/character";
+import CharacterSprite from "./sprites/Character";
 
 export function ProjectileInverted({
   props,
   characterTextures,
   yourPlayerId,
-}: {
-  props: PlayerProjectile;
-  characterTextures: any;
-  yourPlayerId: string;
-}) {
-  const { x, y, type, ownerId, color } = props;
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  let rotation = 0;
-  if (ownerId !== yourPlayerId) {
-    rotation = 3;
-  } else {
-    rotation = 0;
-  }
-export function ProjectileInverted({
-  props,
   gameHeight,
   gameWidth,
 }: {
   props: PlayerProjectile;
+  characterTextures: any;
+  yourPlayerId: string;
   gameHeight: number;
   gameWidth: number;
 }) {
-  const { x, y, radius, color, type } = props;
+  const { x, y, type, ownerId, color, radius } = props;
   const width = gameWidth;
   const height = gameHeight;
+  const rotation = ownerId == yourPlayerId ? 0 : 3;
 
   const projectile = useCallback(
     (g: any) => {
