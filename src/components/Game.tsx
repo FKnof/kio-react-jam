@@ -19,6 +19,7 @@ export function Game() {
   const gameHeight = 932;
   const scaleX = window.innerWidth / gameWidth;
   const scaleY = window.innerHeight / gameHeight;
+  const [characterTextures, setCharacterTextures] = useState<any>();
 
   const stageProps = {
     width: gameWidth,
@@ -65,12 +66,27 @@ export function Game() {
       },
     });
 
+    PIXI.Assets.addBundle("characters", {
+      paper: "./src/assets/paper_blue.png",
+      stone: "./src/assets/stone_blue.png",
+      scissors: "./src/assets/scissors_blue.png",
+    });
+
+    async function getTextures() {
+      try {
+        const characterTextures = await PIXI.Assets.loadBundle("characters");
+        setCharacterTextures(characterTextures);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getTextures();
     window.addEventListener("mousemove", mouseMoveHandler);
     return () => {
       window.removeEventListener("mousemove", mouseMoveHandler);
     };
   }, []);
-
+  // console.log(characterTextures);
   const mouseMoveHandler = (event: any) => {
     setMouseCoordinates({
       x: event.clientX,
@@ -95,12 +111,16 @@ export function Game() {
               props={projectile}
               offset={game.baseOffset}
               key={index}
+              textures={characterTextures}
+              yourPlayerId={yourPlayerId}
             />
           ))
         : game.playerProjectiles.map((projectile, index) => (
             <ProjectileInverted
               props={projectile}
               key={index}
+              textures={characterTextures}
+              yourPlayerId={yourPlayerId}
               gameWidth={gameWidth}
               gameHeight={gameHeight}
             />
