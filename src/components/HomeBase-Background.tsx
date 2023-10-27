@@ -48,7 +48,7 @@ export function HomeBaseBackground(props: any) {
         <Sprite
           anchor={0.5}
           scale={1}
-          x={280}
+          x={330}
           y={310}
           texture={backgroundTextures.starVariation2}
         />

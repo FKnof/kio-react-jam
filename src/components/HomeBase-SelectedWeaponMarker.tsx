@@ -46,13 +46,13 @@ export function SelectedWeaponMarker(props: any) {
           />
         )}
 
-        {/* <CharacterSprite
+        <CharacterSprite
           characterTextures={characterTextures}
           type={selectedWeapon}
           rotation={0}
           x={selectionFrozen ? selectedPosition.x : mouseCoordinates.x}
           y={selectionFrozen ? selectedPosition.y : mouseCoordinates.y}
-        /> */}
+        />
       </>
     );
 }
