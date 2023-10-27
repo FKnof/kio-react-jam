@@ -14,6 +14,7 @@ export function SelectedWeaponMarker(props: any) {
     cannonHeight,
     selectedPosition,
     characterTextures,
+    color,
   } = props;
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export function SelectedWeaponMarker(props: any) {
           rotation={0}
           x={selectionFrozen ? selectedPosition.x : mouseCoordinates.x}
           y={selectionFrozen ? selectedPosition.y : mouseCoordinates.y}
+          color={color}
         />
       </>
     );

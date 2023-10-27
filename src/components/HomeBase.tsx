@@ -229,6 +229,7 @@ export function HomeBase(props: any) {
         cannonHeight={cannonHeight}
         selectedPosition={selectedPosition}
         characterTextures={characterTextures}
+        color={colors[thisPlayer]}
       />
     </>
   );
