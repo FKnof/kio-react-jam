@@ -16,7 +16,7 @@ export interface GameState {
   baseOffset: number;
   maxlife: number;
 }
-export const colors = ["#BCFE00", "#10D4FF"];
+export const colors = ["blue", "red"];
 
 type GameActions = {
   decreaseLife: (params: {

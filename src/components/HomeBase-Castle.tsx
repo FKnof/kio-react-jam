@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { Graphics, Container, Text } from "@pixi/react";
-import { fontstyle } from "../ui/fontstyle";
-
+import CharacterSprite from "./sprites/character";
 export function HomeBaseCastle(props: any) {
   const {
     height,
@@ -11,6 +10,8 @@ export function HomeBaseCastle(props: any) {
     handleSelection,
     slotsCooldown,
     maxCooldown,
+    characterTextures,
+    color,
   } = props;
 
   const spacer = width / 5 / 5;
@@ -44,10 +45,10 @@ export function HomeBaseCastle(props: any) {
     },
     [spacer, width, maxCooldown]
   );
-
   return (
     <>
       <Graphics draw={castle} eventMode={"static"} />
+
       {slots.map((slot: string, index: number) => (
         <Container
           key={index}
@@ -59,13 +60,21 @@ export function HomeBaseCastle(props: any) {
           pointerdown={() => handleSelection(index)}
         >
           <Graphics draw={slotGraphic} eventMode={"static"} />
-          <Text
+          <CharacterSprite
+            characterTextures={characterTextures}
+            type={slot}
+            rotation={0}
+            x={0}
+            y={0}
+            color={color}
+          />
+          {/* <Text
             text={slot.charAt(0) !== "e" ? slots[index].charAt(0) : ""}
             anchor={0}
             x={20}
             eventMode={"static"}
             style={fontstyle}
-          />
+          /> */}
           {slotsCooldown[index] > 0 && (
             <Graphics
               draw={(g) => cooldownGraphic(g, slotsCooldown[index])}

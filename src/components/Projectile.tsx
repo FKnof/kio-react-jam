@@ -14,7 +14,7 @@ export function Projectile({
   characterTextures: any;
   yourPlayerId: string;
 }) {
-  const { x, y, type, ownerId } = props;
+  const { x, y, type, ownerId, color } = props;
 
   let rotation = 0;
   if (ownerId !== yourPlayerId) {
@@ -28,6 +28,7 @@ export function Projectile({
         characterTextures={characterTextures}
         type={type}
         rotation={rotation}
+        color={color}
       />
     </Container>
   );

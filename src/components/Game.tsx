@@ -5,8 +5,6 @@ import { GameState } from "../logic.ts";
 import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
-import { useTextureStore } from "../util/store";
-
 export function Game() {
   const [game, setGame] = useState<GameState>();
   const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
@@ -15,6 +13,7 @@ export function Game() {
   const [opponentPlayerId, setOpponentPlayerId] = useState<string>("");
   const [players, setPlayers] = useState<any>();
   const [characterTextures, setCharacterTextures] = useState<any>();
+  const [environmentTextures, setEnvironmentTextures] = useState<any>();
 
   const stageProps = {
     width: window.innerWidth,
@@ -55,15 +54,30 @@ export function Game() {
     });
 
     PIXI.Assets.addBundle("characters", {
-      paper: "./src/assets/paper_blue.png",
-      stone: "./src/assets/stone_blue.png",
-      scissors: "./src/assets/scissors_blue.png",
+      bluePaper: "./src/assets/paper_blue.png",
+      blueStone: "./src/assets/stone_blue.png",
+      blueScissors: "./src/assets/scissors_blue.png",
+      redPaper: "./src/assets/paper_red.png",
+      redStone: "./src/assets/stone_red.png",
+      redScissors: "./src/assets/scissors_red.png",
+    });
+
+    PIXI.Assets.addBundle("environment", {
+      dragLine: "./src/assets/drag-to-shoot.png",
+      menuBot: "./src/assets/menu_bot_separator.png",
+      menuTop: "./src/assets/menu_top_separator.png",
+      selectionBox: "./src/assets/selection_box_bonus.png",
+      selectionBoxBonus: "./src/assets/selection_box_bonus.png",
+      selectionMenu: "./src/assets/selection_menu.png",
+      warningSign: "./src/assets/warning_sign.png",
     });
 
     async function getTextures() {
       try {
         const characterTextures = await PIXI.Assets.loadBundle("characters");
+        const environmentTextures = await PIXI.Assets.loadBundle("environment");
         setCharacterTextures(characterTextures);
+        setEnvironmentTextures(environmentTextures);
       } catch (err) {
         console.log(err);
       }
@@ -87,7 +101,12 @@ export function Game() {
 
   return (
     <Stage {...stageProps}>
-      <HomeBase {...baseProps} characterTextures={characterTextures} />
+      <HomeBase
+        {...baseProps}
+        characterTextures={characterTextures}
+        thisPlayer={thisPlayer}
+        environmentTextures={environmentTextures}
+      />
       {thisPlayer !== undefined && thisPlayer === 0
         ? game.playerProjectiles.map((projectile, index) => (
             <Projectile
