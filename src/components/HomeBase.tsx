@@ -152,10 +152,13 @@ export function HomeBase(props: any) {
       handleRespawn();
     }
   };
-  if (!characterTextures || !environmentTextures || !backgroundTextures)
-    return console.log("...Lade");
 
-  if (!game) {
+  if (
+    !game ||
+    !characterTextures ||
+    !environmentTextures ||
+    !backgroundTextures
+  ) {
     return (
       <Text
         text="...Lade"
