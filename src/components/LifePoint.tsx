@@ -4,7 +4,7 @@ import { useCallback } from "react";
 export function LifePoint(props: any) {
   const { x, y, active } = props;
   let color = "";
-  console.log(active);
+
   switch (active) {
     case true:
       color = "00FF1A";
