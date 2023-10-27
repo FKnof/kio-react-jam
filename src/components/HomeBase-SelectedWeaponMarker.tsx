@@ -47,7 +47,7 @@ export function SelectedWeaponMarker(props: any) {
           />
         )}
 
-        <CharacterSprite
+        {/* <CharacterSprite
           characterTextures={characterTextures}
           type={selectedWeapon}
           rotation={0}
