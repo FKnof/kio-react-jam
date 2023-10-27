@@ -13,7 +13,7 @@ export function ProjectileInverted({
   characterTextures: any;
   yourPlayerId: string;
 }) {
-  const { x, y, type, ownerId } = props;
+  const { x, y, type, ownerId, color } = props;
   const width = window.innerWidth;
   const height = window.innerHeight;
   let rotation = 0;
@@ -29,6 +29,7 @@ export function ProjectileInverted({
         characterTextures={characterTextures}
         type={type}
         rotation={rotation}
+        color={color}
       />
     </Container>
   );

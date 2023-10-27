@@ -26,9 +26,10 @@ export function HomeBase(props: any) {
     thisPlayer,
     game,
     characterTextures,
+    environmentTextures,
   } = props;
 
-  const colors = ["#ffff00", "#00ffff"];
+  const colors = ["red", "blue"];
   const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: y });
   const [selectedWeapon, setSelectedWeapon] = useState<string>("empty");
   const [selectionFrozen, setSelectionFrozen] = useState(false);
@@ -128,7 +129,7 @@ export function HomeBase(props: any) {
 
   const handleShot = () => {
     if (selectedWeapon == "empty") return;
-    const col = thisPlayer !== undefined ? colors[thisPlayer] : "#000000";
+    const col = thisPlayer !== undefined ? colors[thisPlayer] : "no color";
     const {
       newId,
       newProjectile,
@@ -169,6 +170,7 @@ export function HomeBase(props: any) {
         height={gameHeight}
         scaleY={scaleY}
         pointerdown={handleShot}
+        environmentTextures={environmentTextures}
       />
       <HomeBaseAim
         y={y}
@@ -194,6 +196,8 @@ export function HomeBase(props: any) {
           handleSelection={handleSelection}
           slotsCooldown={slotsCooldown}
           maxCooldown={respawnFrames}
+          characterTextures={characterTextures}
+          color={colors[thisPlayer]}
         />
       </Container>
 
