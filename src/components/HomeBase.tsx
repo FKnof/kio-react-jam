@@ -152,6 +152,8 @@ export function HomeBase(props: any) {
       handleRespawn();
     }
   };
+  if (!characterTextures || !environmentTextures || !backgroundTextures)
+    return console.log("...Lade");
 
   if (!game) {
     return (
