@@ -15,13 +15,8 @@ export function Projectile({
   yourPlayerId: string;
 }) {
   const { x, y, type, ownerId, color } = props;
+  const rotation = ownerId == yourPlayerId ? 0 : 3;
 
-  let rotation = 0;
-  if (ownerId !== yourPlayerId) {
-    rotation = 3;
-  } else {
-    rotation = 0;
-  }
   return (
     <Container x={x} y={y - offset}>
       <CharacterSprite
