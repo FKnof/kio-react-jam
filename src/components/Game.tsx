@@ -5,6 +5,7 @@ import { GameState } from "../logic.ts";
 import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
+import { loadTextures } from "./TextureLoader";
 
 export function Game() {
   const [game, setGame] = useState<GameState>();
@@ -72,61 +73,12 @@ export function Game() {
       },
     });
 
-    PIXI.Assets.addBundle("characters", {
-      bluePaper: "./src/assets/Character/paper_blue.png",
-      blueStone: "./src/assets/Character/stone_blue.png",
-      blueScissors: "./src/assets/Character/scissors_blue.png",
-      redPaper: "./src/assets/Character/paper_red.png",
-      redStone: "./src/assets/Character/stone_red.png",
-      redScissors: "./src/assets/Character/scissors_red.png",
+    loadTextures().then((textures) => {
+      setCharacterTextures(textures.characterTextures);
+      setEnvironmentTextures(textures.environmentTextures);
+      setBackgroundTextures(textures.backgroundTextures);
+      sethealthbarTextures(textures.healthbarTextures);
     });
-
-    PIXI.Assets.addBundle("environment", {
-      dragLine: "./src/assets/Environment/drag-to-shoot.png",
-      menuBot: "./src/assets/Environment/menu_bot_separator.png",
-      menuTop: "./src/assets/Environment/menu_top_separator.png",
-      selectionBox: "./src/assets/Environment/selection_box.png",
-      selectionBoxBonus: "./src/assets/Environment/selection_box_bonus.png",
-      selectionMenu: "./src/assets/Environment/selection_menu.png",
-      warningSign: "./src/assets/Environment/warning_sign.png",
-    });
-    PIXI.Assets.addBundle("background", {
-      moon: "./src/assets/Background/Mond.png",
-      stars: "./src/assets/Background/Stern.png",
-      starVariation1: "./src/assets/Background/Sterne Variation_1.png",
-      starVariation2: "./src/assets/Background/Sterne Variation_2.png",
-      starVariation3: "./src/assets/Background/Sterne Variation_3.png",
-      starVariation4: "./src/assets/Background/Sterne Variation_4.png",
-      starVariation5: "./src/assets/Background/Sterne Variation_5.png",
-      starVariation6: "./src/assets/Background/Sterne Variation_6.png",
-      starVariation7: "./src/assets/Background/Sterne Variation_7.png",
-    });
-    PIXI.Assets.addBundle("healthbar", {
-      greenLeft: "./src/assets/HealthBar/lifebar_gree_left.png",
-      greenCenter: "./src/assets/HealthBar/lifebar_green_center.png",
-      greenRight: "./src/assets/HealthBar/lifebar_green_right.png",
-      redLeft: "./src/assets/HealthBar/lifebar_red_left.png",
-      redCenter: "./src/assets/HealthBar/lifebar_red_center.png",
-      redRight: "./src/assets/HealthBar/lifebar_red_right.png",
-    });
-
-    async function getTextures() {
-      try {
-        const characterTextures = await PIXI.Assets.loadBundle("characters");
-        const environmentTextures = await PIXI.Assets.loadBundle("environment");
-        const backgroundTextures = await PIXI.Assets.loadBundle("background");
-        const healthbarTextures = await PIXI.Assets.loadBundle("healthbar");
-
-        setCharacterTextures(characterTextures);
-        setEnvironmentTextures(environmentTextures);
-        setBackgroundTextures(backgroundTextures);
-        sethealthbarTextures(healthbarTextures);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    getTextures();
 
     window.addEventListener("mousemove", mouseMoveHandler);
     return () => {
