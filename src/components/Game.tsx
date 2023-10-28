@@ -50,6 +50,10 @@ export function Game() {
     players,
     thisPlayer,
     game,
+    characterTextures,
+    environmentTextures,
+    backgroundTextures,
+    healthbarTextures,
   };
 
   useEffect(() => {
@@ -147,14 +151,7 @@ export function Game() {
         transformOrigin: "top left",
       }}
     >
-      <HomeBase
-        {...baseProps}
-        characterTextures={characterTextures}
-        thisPlayer={thisPlayer}
-        environmentTextures={environmentTextures}
-        backgroundTextures={backgroundTextures}
-        healthbarTextures={healthbarTextures}
-      />
+      <HomeBase {...baseProps} />
       {thisPlayer !== undefined && thisPlayer === 0
         ? game.playerProjectiles.map((projectile, index) => (
             <Projectile
@@ -163,18 +160,12 @@ export function Game() {
               key={index}
               characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
-              characterTextures={characterTextures}
-              yourPlayerId={yourPlayerId}
             />
           ))
         : game.playerProjectiles.map((projectile, index) => (
             <ProjectileInverted
               props={projectile}
               key={index}
-              gameWidth={gameWidth}
-              gameHeight={gameHeight}
-              characterTextures={characterTextures}
-              yourPlayerId={yourPlayerId}
               gameWidth={gameWidth}
               gameHeight={gameHeight}
               characterTextures={characterTextures}

@@ -21,6 +21,8 @@ export function Profile({
   maxLife,
   environmentTextures,
   healthbarTextures,
+  gameHeight,
+  gameWidth,
 }: {
   playerState: PlayerState;
   yourPlayerId: string;
@@ -31,6 +33,8 @@ export function Profile({
   maxLife: number;
   environmentTextures: any;
   healthbarTextures: any;
+  gameHeight: number;
+  gameWidth: number;
 }) {
   function createHealthbar(
     HPofPlayer: number,
@@ -79,8 +83,8 @@ export function Profile({
           texture={environmentTextures.selectionMenu}
           x={0}
           y={-20}
-          width={innerWidth}
-          height={innerHeight * 0.13}
+          width={gameWidth}
+          height={gameHeight * 0.13}
         />
         <Sprite
           image={allPlayer[yourPlayerId].avatarUrl}

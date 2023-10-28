@@ -13,7 +13,9 @@ export function HomeBaseCastle(props: any) {
     characterTextures,
     environmentTextures,
     color,
+    gameHeight,
   } = props;
+  console.log(height);
 
   const spacer = width / 5 / 8;
 
@@ -25,7 +27,7 @@ export function HomeBaseCastle(props: any) {
       g.lineStyle(1, "#ffffff");
       g.drawRect(0, width / 5 - height, width / 5, height);
     },
-    [spacer, width, maxCooldown]
+    [width, maxCooldown]
   );
   return (
     <>
@@ -34,7 +36,7 @@ export function HomeBaseCastle(props: any) {
         anchor={[0, 1]}
         texture={environmentTextures.selectionMenu}
         x={0}
-        y={innerHeight}
+        y={gameHeight}
         width={width}
         height={height * 0.6}
       />
@@ -42,7 +44,7 @@ export function HomeBaseCastle(props: any) {
         anchor={[0, 1]}
         texture={environmentTextures.menuBot}
         x={0}
-        y={innerHeight - height * 0.6}
+        y={gameHeight - height * 0.6}
         width={width}
         height={height * 0.4}
       />
@@ -50,7 +52,7 @@ export function HomeBaseCastle(props: any) {
         anchor={[0, 1]}
         texture={environmentTextures.dragLine}
         x={0}
-        y={innerHeight - height}
+        y={gameHeight - height}
         width={width}
         height={height * 0.2}
       />
@@ -60,7 +62,7 @@ export function HomeBaseCastle(props: any) {
           <Container
             key={index}
             x={spacer + index * (width / 5 + spacer)}
-            y={innerHeight * 0.85}
+            y={gameHeight * 0.85}
             eventMode={"static"}
             pointerdown={() => handleSelection(index)}
           >
@@ -99,7 +101,7 @@ export function HomeBaseCastle(props: any) {
           <Container
             key={index}
             x={spacer + index * (width / 5 + spacer) + spacer * 2}
-            y={innerHeight * 0.85}
+            y={gameHeight * 0.85}
             eventMode={"static"}
             pointerdown={() => handleSelection(index)}
           >

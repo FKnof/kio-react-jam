@@ -153,8 +153,6 @@ export function HomeBase(props: any) {
       handleRespawn();
     }
   };
-  if (!characterTextures || !environmentTextures || !backgroundTextures)
-    return console.log("...Lade");
 
   if (
     !game ||
@@ -167,7 +165,7 @@ export function HomeBase(props: any) {
       <Text
         text="...Lade"
         anchor={0.5}
-        x={innerWidth / 2}
+        x={width / 2}
         y={100}
         style={fontstyle}
       />
@@ -191,16 +189,7 @@ export function HomeBase(props: any) {
         mouseCoordinates={mouseCoordinates}
         selectedWeapon={selectedWeapon}
       />
-      {/* <Container
-        x={x}
-        y={y}
-        width={width}
-        eventMode={"static"}
-        pointerdown={() => {
-          console.log("click");
-          setGraphicsColor("#00ff00");
-        }}
-      > */}
+
       <HomeBaseCastle
         height={height}
         width={width}
@@ -212,6 +201,7 @@ export function HomeBase(props: any) {
         characterTextures={characterTextures}
         environmentTextures={environmentTextures}
         color={colors[thisPlayer]}
+        gameHeight={gameHeight}
       />
       {/* </Container> */}
 
@@ -226,6 +216,8 @@ export function HomeBase(props: any) {
         maxLife={game.maxlife}
         environmentTextures={environmentTextures}
         healthbarTextures={healthbarTextures}
+        gameHeight={gameHeight}
+        gameWidth={width}
       />
       <SelectedWeaponMarker
         mouseCoordinates={mouseCoordinates}
