@@ -1,7 +1,7 @@
 import { Container, Text, Graphics, Sprite } from "@pixi/react";
 import React, { useCallback, useEffect, useState } from "react";
 import * as PIXI from "pixi.js";
-import { LifePoint } from "./LifePoint";
+import { Healthbar } from "./Healthbar";
 
 export interface PlayerState {
   [yourPlayerId: string]: {
@@ -36,44 +36,6 @@ export function Profile({
   gameHeight: number;
   gameWidth: number;
 }) {
-  function createHealthbar(
-    HPofPlayer: number,
-    position: { x: number; y: number },
-    opponent: boolean
-  ) {
-    let xOffset = 0;
-    const itemList = Array(maxLife)
-      .fill(null)
-      .map((_, index) => {
-        if (opponent) {
-          xOffset = 20 * index * -1;
-        } else {
-          xOffset = 20 * index;
-        }
-        if (index < HPofPlayer) {
-          return (
-            <LifePoint
-              key={index}
-              x={position.x + xOffset}
-              active={true}
-              y={position.y}
-              healthbarTextures={healthbarTextures}
-            />
-          );
-        } else {
-          return (
-            <LifePoint
-              key={index}
-              x={position.x + xOffset}
-              active={false}
-              y={position.y}
-            />
-          );
-        }
-      });
-
-    return itemList;
-  }
   // console.log(createHealthbar());
   return (
     <>
@@ -116,16 +78,23 @@ export function Profile({
             })
           }
         />
-        {createHealthbar(
-          playerState[yourPlayerId].life,
-          { x: 66, y: 35 },
-          false
-        )}
+        <Healthbar
+          playerState={playerState}
+          x={60}
+          y={30}
+          healthbarTextures={healthbarTextures}
+          yourPlayerId={yourPlayerId}
+          maxLife={maxLife}
+          gameWidth={gameWidth}
+          gameHeight={gameHeight}
+          forPlayer={yourPlayerId}
+        />
+
         <Sprite
           image={allPlayer[opponentPlayerId].avatarUrl}
           scale={{ x: 0.1, y: 0.1 }}
           anchor={[1, 0]}
-          x={innerWidth - 6}
+          x={gameWidth - 6}
           y={0}
         />
         <Text
@@ -135,7 +104,7 @@ export function Profile({
               : "0"
           }`}
           anchor={[1, 0]}
-          x={innerWidth - 60}
+          x={gameWidth - 60}
           y={2}
           style={
             new PIXI.TextStyle({
@@ -151,14 +120,17 @@ export function Profile({
             })
           }
         />
-        {createHealthbar(
-          playerState[opponentPlayerId].life,
-          {
-            x: innerWidth - 66,
-            y: 35,
-          },
-          true
-        )}
+        <Healthbar
+          playerState={playerState}
+          x={-60}
+          y={30}
+          healthbarTextures={healthbarTextures}
+          yourPlayerId={yourPlayerId}
+          maxLife={maxLife}
+          gameWidth={gameWidth}
+          gameHeight={gameHeight}
+          forPlayer={opponentPlayerId}
+        />
       </Container>
     </>
   );
