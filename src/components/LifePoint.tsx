@@ -1,8 +1,8 @@
-import { Graphics } from "@pixi/react";
+import { Graphics, Sprite } from "@pixi/react";
 import { useCallback } from "react";
 
 export function LifePoint(props: any) {
-  const { x, y, active } = props;
+  const { x, y, active, healthbarTextures } = props;
   let color = "";
 
   switch (active) {
@@ -25,7 +25,14 @@ export function LifePoint(props: any) {
 
   return (
     <>
-      <Graphics draw={lifePoint} />
+      <Sprite
+        anchor={[0, 1]}
+        texture={healthbarTextures.greenCenter}
+        x={0}
+        y={50}
+        width={20}
+        height={20}
+      />
     </>
   );
 }

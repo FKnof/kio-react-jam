@@ -25,6 +25,7 @@ export function HomeBase(props: any) {
     characterTextures,
     environmentTextures,
     backgroundTextures,
+    healthbarTextures,
   } = props;
 
   const colors = ["red", "blue"];
@@ -153,7 +154,8 @@ export function HomeBase(props: any) {
     !game ||
     !characterTextures ||
     !environmentTextures ||
-    !backgroundTextures
+    !backgroundTextures ||
+    !healthbarTextures
   ) {
     return (
       <Text
@@ -213,6 +215,8 @@ export function HomeBase(props: any) {
         opponentPlayerId={opponentPlayerId}
         allPlayer={players}
         maxLife={game.maxlife}
+        environmentTextures={environmentTextures}
+        healthbarTextures={healthbarTextures}
       />
       <SelectedWeaponMarker
         mouseCoordinates={mouseCoordinates}

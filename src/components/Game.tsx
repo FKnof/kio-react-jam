@@ -15,6 +15,7 @@ export function Game() {
   const [characterTextures, setCharacterTextures] = useState<any>();
   const [environmentTextures, setEnvironmentTextures] = useState<any>();
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
+  const [healthbarTextures, sethealthbarTextures] = useState<any>();
 
   const stageProps = {
     width: window.innerWidth,
@@ -83,16 +84,26 @@ export function Game() {
       starVariation6: "./src/assets/Background/Sterne Variation_6.png",
       starVariation7: "./src/assets/Background/Sterne Variation_7.png",
     });
+    PIXI.Assets.addBundle("healthbar", {
+      greenLeft: "./src/assets/HealthBar/lifebar_gree_left.png",
+      greenCenter: "./src/assets/HealthBar/lifebar_green_center.png",
+      greenRight: "./src/assets/HealthBar/lifebar_green_right.png",
+      redLeft: "./src/assets/HealthBar/lifebar_red_left.png",
+      redCenter: "./src/assets/HealthBar/lifebar_red_center.png",
+      redRight: "./src/assets/HealthBar/lifebar_red_right.png",
+    });
 
     async function getTextures() {
       try {
         const characterTextures = await PIXI.Assets.loadBundle("characters");
         const environmentTextures = await PIXI.Assets.loadBundle("environment");
         const backgroundTextures = await PIXI.Assets.loadBundle("background");
+        const healthbarTextures = await PIXI.Assets.loadBundle("healthbar");
 
         setCharacterTextures(characterTextures);
         setEnvironmentTextures(environmentTextures);
         setBackgroundTextures(backgroundTextures);
+        sethealthbarTextures(healthbarTextures);
       } catch (err) {
         console.log(err);
       }
@@ -123,6 +134,7 @@ export function Game() {
         thisPlayer={thisPlayer}
         environmentTextures={environmentTextures}
         backgroundTextures={backgroundTextures}
+        healthbarTextures={healthbarTextures}
       />
       {thisPlayer !== undefined && thisPlayer === 0
         ? game.playerProjectiles.map((projectile, index) => (

@@ -19,6 +19,8 @@ export function Profile({
   opponentPlayerId,
   allPlayer,
   maxLife,
+  environmentTextures,
+  healthbarTextures,
 }: {
   playerState: PlayerState;
   yourPlayerId: string;
@@ -27,6 +29,8 @@ export function Profile({
   opponentPlayerId: string;
   allPlayer: any;
   maxLife: number;
+  environmentTextures: any;
+  healthbarTextures: any;
 }) {
   function createHealthbar(
     HPofPlayer: number,
@@ -49,6 +53,7 @@ export function Profile({
               x={position.x + xOffset}
               active={true}
               y={position.y}
+              healthbarTextures={healthbarTextures}
             />
           );
         } else {
@@ -69,6 +74,14 @@ export function Profile({
   return (
     <>
       <Container position={{ x: x, y: y }}>
+        <Sprite
+          anchor={0}
+          texture={environmentTextures.selectionMenu}
+          x={0}
+          y={-20}
+          width={innerWidth}
+          height={innerHeight * 0.13}
+        />
         <Sprite
           image={allPlayer[yourPlayerId].avatarUrl}
           scale={{ x: 0.1, y: 0.1 }}
@@ -91,7 +104,7 @@ export function Profile({
               fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
               fontSize: 15,
               fontWeight: "400",
-              fill: playerState[yourPlayerId].color, // gradient
+              fill: "#fff", // gradient
               stroke: "#000000",
 
               wordWrap: true,
@@ -126,7 +139,7 @@ export function Profile({
               fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
               fontSize: 15,
               fontWeight: "400",
-              fill: playerState[opponentPlayerId].color, // gradient
+              fill: "#fff", // gradient
               stroke: "#000000",
 
               wordWrap: true,
