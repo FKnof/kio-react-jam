@@ -15,46 +15,47 @@ export default function CharacterSprite({
   y?: number;
   color?: string;
 }) {
-  let characterTexture;
   // console.log(color);
   // console.log(characterTextures, type);
+  const characterTexture = getCharacterTexture(type, color, characterTextures);
 
-  switch (type) {
-    case "paper":
-      if (color === "red") {
-        characterTexture = characterTextures.redPaper;
-      } else {
-        characterTexture = characterTextures.bluePaper;
-      }
-      break;
-    case "rock":
-      if (color === "red") {
-        characterTexture = characterTextures.redStone;
-      } else {
-        characterTexture = characterTextures.blueStone;
-      }
-      break;
-    case "scissors":
-      if (color === "red") {
-        characterTexture = characterTextures.redScissors;
-      } else {
-        characterTexture = characterTextures.blueScissors;
-      }
-      break;
-    default:
-      if (color === "red") {
-        characterTexture = characterTextures.redScissors;
-      } else {
-        characterTexture = characterTextures.blueScissors;
-      }
+  function getCharacterTexture(
+    type: string,
+    color: string | undefined,
+    characterTextures: any
+  ) {
+    if (color == undefined) return;
+    switch (type) {
+      case "paper":
+        if (color === "red") {
+          return characterTextures.redPaper;
+        } else {
+          return characterTextures.bluePaper;
+        }
+        break;
+      case "rock":
+        if (color === "red") {
+          return characterTextures.redStone;
+        } else {
+          return characterTextures.blueStone;
+        }
+        break;
+      case "scissors":
+        if (color === "red") {
+          return characterTextures.redScissors;
+        } else {
+          return characterTextures.blueScissors;
+        }
+        break;
+      default:
+        if (color === "red") {
+          return characterTextures.redScissors;
+        } else {
+          return characterTextures.blueScissors;
+        }
 
-      break;
-  }
-
-  if (rotation) {
-    rotation = 3;
-  } else {
-    rotation = 0;
+        break;
+    }
   }
 
   return (
@@ -63,7 +64,7 @@ export default function CharacterSprite({
       height={50}
       texture={characterTexture}
       // scale={{ x: 1, y: 1 }}
-      rotation={rotation}
+      rotation={0}
       anchor={0.5}
       x={x ? x : 0}
       y={y ? y : 0}
