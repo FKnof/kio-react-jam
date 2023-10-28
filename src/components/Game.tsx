@@ -163,6 +163,8 @@ export function Game() {
               key={index}
               characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
+              characterTextures={characterTextures}
+              yourPlayerId={yourPlayerId}
             />
           ))
         : game.playerProjectiles.map((projectile, index) => (

@@ -17,27 +17,30 @@ export function ProjectileInverted({
   gameHeight: number;
   gameWidth: number;
 }) {
-  const { x, y, type, ownerId, color, radius } = props;
+  const { x, y, vx, vy, type, ownerId, color, radius } = props;
   const width = gameWidth;
   const height = gameHeight;
-  const rotation = ownerId == yourPlayerId ? 0 : 3;
 
-  const projectile = useCallback(
-    (g: any) => {
-      g.clear();
-      g.lineStyle(2, color, 1);
-      g.beginFill("#fefefe");
-      g.drawCircle(0, 0, radius);
-    },
-    [color, radius]
-  );
+  const baseRotation = Math.PI / 2;
+  const movementRotation = Math.atan2(vy, vx);
+
+  const adjustedRotation =
+    ownerId === yourPlayerId
+      ? (baseRotation - movementRotation) * -1
+      : baseRotation + movementRotation;
+  const scale = ownerId == yourPlayerId ? 1 : -1;
 
   return (
-    <Container x={width - x} y={height - y}>
+    <Container
+      x={width - x}
+      y={height - y}
+      rotation={adjustedRotation}
+      scale={{ x: 1, y: scale }}
+    >
       <CharacterSprite
         characterTextures={characterTextures}
         type={type}
-        rotation={rotation}
+        rotation={0}
         color={color}
       />
     </Container>

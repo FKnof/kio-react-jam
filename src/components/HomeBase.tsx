@@ -174,6 +174,7 @@ export function HomeBase(props: any) {
     );
   }
   // console.log(backgroundTextures);
+  // console.log(backgroundTextures);
   return (
     <>
       <HomeBaseBackground

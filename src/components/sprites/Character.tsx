@@ -15,6 +15,7 @@ export default function CharacterSprite({
   y?: number;
   color?: string;
 }) {
+  // console.log(color);
   // console.log(characterTextures, type);
   const characterTexture = getCharacterTexture(type, color, characterTextures);
 
@@ -52,6 +53,7 @@ export default function CharacterSprite({
         } else {
           return characterTextures.blueScissors;
         }
+
         break;
     }
   }
@@ -62,7 +64,7 @@ export default function CharacterSprite({
       height={50}
       texture={characterTexture}
       // scale={{ x: 1, y: 1 }}
-      rotation={rotation}
+      rotation={0}
       anchor={0.5}
       x={x ? x : 0}
       y={y ? y : 0}
