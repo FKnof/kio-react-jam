@@ -1,5 +1,4 @@
-import { Container, Graphics, Text, Sprite } from "@pixi/react";
-import { useCallback, useEffect, useState } from "react";
+import { Container } from "@pixi/react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 import CharacterSprite from "./sprites/Character";
 
@@ -14,15 +13,29 @@ export function Projectile({
   characterTextures: any;
   yourPlayerId: string;
 }) {
-  const { x, y, type, ownerId, color } = props;
-  const rotation = ownerId == yourPlayerId ? 0 : 3;
+  const { x, y, vx, vy, type, ownerId, color } = props;
 
+  // Calculate the angle in radians
+  const baseRotation = Math.PI / 2;
+  const movementRotation = Math.atan2(vy, vx);
+
+  const adjustedRotation =
+    ownerId === yourPlayerId
+      ? baseRotation + movementRotation
+      : baseRotation - movementRotation;
+
+  const scale = ownerId == yourPlayerId ? 1 : -1;
   return (
-    <Container x={x} y={y - offset}>
+    <Container
+      x={x}
+      y={y - offset}
+      rotation={adjustedRotation * scale}
+      scale={{ x: 1, y: scale }}
+    >
       <CharacterSprite
         characterTextures={characterTextures}
         type={type}
-        rotation={rotation}
+        rotation={0}
         color={color}
       />
     </Container>
