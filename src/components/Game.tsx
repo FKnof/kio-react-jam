@@ -152,6 +152,7 @@ export function Game() {
       }}
     >
       <HomeBase {...baseProps} />
+
       {thisPlayer !== undefined && thisPlayer === 0
         ? game.playerProjectiles.map((projectile, index) => (
             <Projectile
