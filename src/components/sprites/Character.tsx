@@ -48,15 +48,13 @@ export default function CharacterSprite({
         }
         break;
       default:
-        if (color === "red") {
-          return characterTextures.redScissors;
-        } else {
-          return characterTextures.blueScissors;
-        }
+        return undefined;
 
         break;
     }
   }
+
+  if (!characterTexture) return null;
 
   return (
     <Sprite
