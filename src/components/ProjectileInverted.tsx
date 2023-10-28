@@ -2,7 +2,7 @@ import { Container, Graphics, Text } from "@pixi/react";
 import { useCallback } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 import { Sprite } from "@pixi/react";
-import CharacterSprite from "./sprites/character";
+import CharacterSprite from "./sprites/Character";
 
 export function ProjectileInverted({
   props,

@@ -25,14 +25,15 @@ export function LifePoint(props: any) {
 
   return (
     <>
-      <Sprite
+      <Graphics draw={lifePoint} eventMode={"static"} />
+      {/* <Sprite
         anchor={[0, 1]}
         texture={healthbarTextures.greenCenter}
         x={0}
         y={50}
         width={20}
         height={20}
-      />
+      /> */}
     </>
   );
 }
