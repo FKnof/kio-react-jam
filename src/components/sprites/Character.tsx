@@ -42,11 +42,7 @@ export default function CharacterSprite({
       }
       break;
     default:
-      if (color === "red") {
-        characterTexture = characterTextures.redScissors;
-      } else {
-        characterTexture = characterTextures.blueScissors;
-      }
+      characterTexture = undefined;
 
       break;
   }
@@ -56,7 +52,10 @@ export default function CharacterSprite({
   } else {
     rotation = 0;
   }
-
+  if (!characterTexture) {
+    // Character texture is empty, don't render anything
+    return null;
+  }
   return (
     <Sprite
       width={50}

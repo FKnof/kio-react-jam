@@ -180,7 +180,7 @@ export function HomeBase(props: any) {
         mouseCoordinates={mouseCoordinates}
         selectedWeapon={selectedWeapon}
       />
-      <Container
+      {/* <Container
         x={x}
         y={y}
         width={width}
@@ -189,19 +189,20 @@ export function HomeBase(props: any) {
           console.log("click");
           setGraphicsColor("#00ff00");
         }}
-      >
-        <HomeBaseCastle
-          height={height}
-          width={width}
-          graphicsColor={graphicsColor}
-          slots={slots}
-          handleSelection={handleSelection}
-          slotsCooldown={slotsCooldown}
-          maxCooldown={respawnFrames}
-          characterTextures={characterTextures}
-          color={colors[thisPlayer]}
-        />
-      </Container>
+      > */}
+      <HomeBaseCastle
+        height={height}
+        width={width}
+        graphicsColor={graphicsColor}
+        slots={slots}
+        handleSelection={handleSelection}
+        slotsCooldown={slotsCooldown}
+        maxCooldown={respawnFrames}
+        characterTextures={characterTextures}
+        environmentTextures={environmentTextures}
+        color={colors[thisPlayer]}
+      />
+      {/* </Container> */}
 
       {/* Mein Profil durch Übergabe der "yourPlayerId" */}
       <Profile
