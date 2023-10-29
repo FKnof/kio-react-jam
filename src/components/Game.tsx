@@ -27,8 +27,8 @@ export function Game() {
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
   const [collisionTextures, setCollisionTextures] = useState<any>();
   const [actionLineTextures, setActionLineTextures] = useState<any>();
-  const [firstPlay, setFirstPlay] = useState<any>();
-
+  const [firstNegativePlay, setFirstNegativePlay] = useState(true);
+  const [firstPositivePlay, setFirstPositivePlay] = useState(true);
   const gameWidth = 430;
   const gameHeight = 932;
   const scaleX = window.innerWidth / gameWidth;
@@ -104,20 +104,18 @@ export function Game() {
   }, []);
 
   useEffect(() => {
-    if (!firstPlay) {
+    if (!firstNegativePlay) {
       sounds.scoreNegative.play();
-    } else {
-      setFirstPlay(true);
     }
-  }, [game?.playerState, firstPlay]);
+    setFirstNegativePlay(false);
+  }, [game?.playerState, firstNegativePlay]);
 
   useEffect(() => {
-    if (!firstPlay) {
+    if (!firstPositivePlay) {
       sounds.scorePositive.play();
-    } else {
-      setFirstPlay(true);
     }
-  }, [game?.playerState, firstPlay]);
+    setFirstPositivePlay(false);
+  }, [game?.playerState, firstPositivePlay]);
 
   useEffect(() => {
     if (game?.collisionSound) {
@@ -161,68 +159,59 @@ export function Game() {
         transformOrigin: "top left",
       }}
     >
-      <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
+      <HomeBase {...baseProps} />
+
+      {game.collisionObjects.length > 0 &&
+        game.collisionObjects.map((collision, index) => (
+          <Collision
+            collision={collision}
+            game={game}
+            key={index}
+            index={index}
+            collisionTextures={collisionTextures}
+            gameHeight={gameHeight}
+            gameWidth={gameWidth}
+            thisPlayer={thisPlayer}
+          />
+        ))}
+
+      {thisPlayer !== undefined && thisPlayer === 0
+        ? game.playerProjectiles.map((projectile, index) => (
+            <Projectile
+              props={projectile}
+              offset={game.baseOffset}
+              key={index}
+              characterTextures={characterTextures}
+              yourPlayerId={yourPlayerId}
+              actionLineTextures={actionLineTextures}
+            />
+          ))
+        : game.playerProjectiles.map((projectile, index) => (
+            <ProjectileInverted
+              props={projectile}
+              key={index}
+              gameWidth={gameWidth}
+              gameHeight={gameHeight}
+              characterTextures={characterTextures}
+              yourPlayerId={yourPlayerId}
+              actionLineTextures={actionLineTextures}
+            />
+          ))}
+      {/* Mein Profil durch Übergabe der "yourPlayerId" */}
+      <Profile
+        playerState={game.playerState}
+        yourPlayerId={yourPlayerId}
+        x={0}
+        y={10}
+        opponentPlayerId={opponentPlayerId}
+        allPlayer={players}
+        maxLife={game.maxlife}
+        environmentTextures={environmentTextures}
+        healthbarTextures={healthbarTextures}
+        gameHeight={gameHeight}
+        gameWidth={gameWidth}
+      />
+      {/* <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} /> //player 1 = mirrored */}
     </Stage>
-    // <Stage
-    //   {...stageProps}
-    //   style={{
-    //     transform: "scale(" + scaleX + "," + scaleY + ")",
-    //     transformOrigin: "top left",
-    //   }}
-    // >
-    //   <HomeBase {...baseProps} />
-
-    //   {game.collisionObjects.length > 0 &&
-    //     game.collisionObjects.map((collision, index) => (
-    //       <Collision
-    //         collision={collision}
-    //         game={game}
-    //         key={index}
-    //         index={index}
-    //         collisionTextures={collisionTextures}
-    //         gameHeight={gameHeight}
-    //         gameWidth={gameWidth}
-    //         thisPlayer={thisPlayer}
-    //       />
-    //     ))}
-
-    //   {thisPlayer !== undefined && thisPlayer === 0
-    //     ? game.playerProjectiles.map((projectile, index) => (
-    //         <Projectile
-    //           props={projectile}
-    //           offset={game.baseOffset}
-    //           key={index}
-    //           characterTextures={characterTextures}
-    //           yourPlayerId={yourPlayerId}
-    //           actionLineTextures={actionLineTextures}
-    //         />
-    //       ))
-    //     : game.playerProjectiles.map((projectile, index) => (
-    //         <ProjectileInverted
-    //           props={projectile}
-    //           key={index}
-    //           gameWidth={gameWidth}
-    //           gameHeight={gameHeight}
-    //           characterTextures={characterTextures}
-    //           yourPlayerId={yourPlayerId}
-    //           actionLineTextures={actionLineTextures}
-    //         />
-    //       ))}
-    //   {/* Mein Profil durch Übergabe der "yourPlayerId" */}
-    //   <Profile
-    //     playerState={game.playerState}
-    //     yourPlayerId={yourPlayerId}
-    //     x={0}
-    //     y={10}
-    //     opponentPlayerId={opponentPlayerId}
-    //     allPlayer={players}
-    //     maxLife={game.maxlife}
-    //     environmentTextures={environmentTextures}
-    //     healthbarTextures={healthbarTextures}
-    //     gameHeight={gameHeight}
-    //     gameWidth={gameWidth}
-    //   />
-    //   <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} />
-    // </Stage>
   );
 }
