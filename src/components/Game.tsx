@@ -21,6 +21,7 @@ export function Game() {
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
   const [collisionTextures, setCollisionTextures] = useState<any>();
   const [actionLineTextures, setActionLineTextures] = useState<any>();
+  const [firstPlay, setFirstPlay] = useState<any>();
 
   const gameWidth = 430;
   const gameHeight = 932;
@@ -89,10 +90,28 @@ export function Game() {
     window.addEventListener("touchmove", touchMoveHandler);
 
     return () => {
+      sounds.theme.stop();
       window.removeEventListener("mousemove", mouseMoveHandler);
       window.removeEventListener("touchmove", touchMoveHandler);
     };
   }, []);
+
+  useEffect(() => {
+    if (!firstPlay) {
+      sounds.scoreNegative.play();
+    } else {
+      setFirstPlay(true);
+    }
+  }, [game?.playerState[yourPlayerId]?.life]);
+
+  useEffect(() => {
+    if (!firstPlay) {
+      sounds.scorePositive.play();
+    } else {
+      setFirstPlay(true);
+    }
+  }, [game?.playerState[opponentPlayerId]?.life]);
+
   const mouseMoveHandler = (event: any) => {
     setMouseCoordinates({
       x: event.clientX,
