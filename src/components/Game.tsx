@@ -109,7 +109,7 @@ export function Game() {
     } else {
       setFirstPlay(true);
     }
-  }, [game?.playerState[yourPlayerId]?.life]);
+  }, [game?.playerState, firstPlay]);
 
   useEffect(() => {
     if (!firstPlay) {
@@ -117,7 +117,21 @@ export function Game() {
     } else {
       setFirstPlay(true);
     }
-  }, [game?.playerState[opponentPlayerId]?.life]);
+  }, [game?.playerState, firstPlay]);
+
+  useEffect(() => {
+    if (game?.collisionSound) {
+      sounds.dissolveSimilar.play();
+      Rune.actions.setCollisionSound({ setting: false });
+    }
+  }, [game?.collisionSound]);
+
+  useEffect(() => {
+    if (game?.destructionSound) {
+      sounds.destroy.play();
+      Rune.actions.setDestructionSound({ setting: false });
+    }
+  }, [game?.destructionSound]);
 
   const mouseMoveHandler = (event: any) => {
     setMouseCoordinates({

@@ -1,7 +1,7 @@
 import { Howl } from "howler";
 
 export const sounds = {
-  theme: new Howl({ src: ["./MusicSounds/theme.mp3"] }),
+  theme: new Howl({ src: ["./MusicSounds/theme.mp3"], loop: true }),
   shoot: new Howl({ src: ["./MusicSounds/shoot.mp3"] }),
   destroy: new Howl({ src: ["./MusicSounds/destroy.mp3"] }),
   dissolveSimilar: new Howl({ src: ["./MusicSounds/dissolve_similar.mp3"] }),
