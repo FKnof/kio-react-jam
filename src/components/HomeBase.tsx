@@ -219,20 +219,6 @@ export function HomeBase(props: any) {
       />
       {/* </Container> */}
 
-      {/* Mein Profil durch Übergabe der "yourPlayerId" */}
-      <Profile
-        playerState={game.playerState}
-        yourPlayerId={yourPlayerId}
-        x={0}
-        y={10}
-        opponentPlayerId={opponentPlayerId}
-        allPlayer={players}
-        maxLife={game.maxlife}
-        environmentTextures={environmentTextures}
-        healthbarTextures={healthbarTextures}
-        gameHeight={gameHeight}
-        gameWidth={width}
-      />
       <SelectedWeaponMarker
         mouseCoordinates={mouseCoordinates}
         y={y}
