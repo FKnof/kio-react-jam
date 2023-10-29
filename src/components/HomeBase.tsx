@@ -1,5 +1,5 @@
 import "@pixi/events";
-import { Container, Sprite, Text, useTick } from "@pixi/react";
+import { Text, useTick } from "@pixi/react";
 import { useCallback, useEffect, useState } from "react";
 import { fontstyle } from "../ui/fontstyle.ts";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
@@ -7,22 +7,17 @@ import { HomeBaseCastle } from "./HomeBase-Castle";
 import { HomeBaseAim } from "./HomeBase-Aim";
 import { HomeBaseBackground } from "./HomeBase-Background";
 import { addPlayerProjectile } from "../util/addPlayerProjectile";
-import Profile from "./HomeBase-Profile.tsx";
 import { SelectedWeaponMarker } from "./HomeBase-SelectedWeaponMarker.tsx";
 
 export function HomeBase(props: any) {
   const {
-    x,
     y,
     height,
     width,
     gameHeight,
     mouseCoordinates,
-    scaleX,
     scaleY,
-    players,
     yourPlayerId,
-    opponentPlayerId,
     thisPlayer,
     game,
     characterTextures,
@@ -145,7 +140,6 @@ export function HomeBase(props: any) {
     }
     const col = thisPlayer !== undefined ? colors[thisPlayer] : "no color";
     const {
-      newId,
       newProjectile,
     }: { newId: number; newProjectile: PlayerProjectile } = addPlayerProjectile(
       selectedWeapon,
