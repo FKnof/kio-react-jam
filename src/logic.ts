@@ -98,7 +98,7 @@ Rune.initLogic({
     },
     addProjectile: ({ projectile }, { game }) => {
       const newProjectile = { ...projectile, id: game.absoluteProjectileIds };
-      console.log("Adding projectile:", newProjectile);
+      //console.log("Adding projectile:", newProjectile);
       game.playerProjectiles.push(newProjectile);
       game.absoluteProjectileIds++;
     },
@@ -106,7 +106,7 @@ Rune.initLogic({
       game.playerProjectiles = game.playerProjectiles.filter(
         (item) => item.id !== id
       );
-      console.log("Updated playerProjectiles:", game.playerProjectiles);
+      //console.log("Updated playerProjectiles:", game.playerProjectiles);
     },
     setScreenSize: ({ width, height, yourPlayerId }, { game }) => {
       game.playerState[yourPlayerId].playerScreenSize.x = width;
@@ -143,11 +143,6 @@ Rune.initLogic({
               checkTypeWeakness(target.type, p.type)
             ) {
               newLevel = p.level - 1;
-              console.log(
-                "Collision detected: ",
-                p.id + ": " + newLevel,
-                target.id
-              );
               game.collisionObjects.push({ x: p.x, y: p.y, age: 0 });
             }
           });
@@ -208,7 +203,6 @@ Rune.initLogic({
             if (!p.tookALife) {
               game.playerState[opponentPlayerId].life -= 1;
               p.tookALife = true;
-              console.log("Leben abgezogen");
             }
           }
         }); // Despawn when out of the top boundary

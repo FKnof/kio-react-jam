@@ -92,7 +92,7 @@ export function HomeBase(props: any) {
 
   const handleSelection = (index: number) => {
     if (slotsCooldown[index] > 0) {
-      console.log("cooldown");
+      //console.log("cooldown");
       return;
     }
     //index = schere, stein,. papier, halde
@@ -104,14 +104,7 @@ export function HomeBase(props: any) {
     const newSlots = [...slots]; // Kopie des Slots-Arrays
     newSlots[index] = oldSelectedWeapon; // setze die alte Waffe in den Slot, aus dem die neue Waffe kommt
     setSlots(newSlots); // Aktualisiere das Slots-Array
-    console.log(
-      "changed " +
-        oldSelectedWeapon +
-        " to " +
-        newSelectedWeapon +
-        " in slot " +
-        index
-    );
+
     if (
       index == 3 &&
       newSelectedWeapon == "empty" &&
@@ -130,14 +123,12 @@ export function HomeBase(props: any) {
   };
 
   const handleAbortedShot = () => {
-    console.log("aborted Shot");
     handleSelection(weaponSlot);
   };
 
   const handleShot = () => {
     if (selectedWeapon == "empty") return;
     if (mouseCoordinates.y > y) {
-      console.log("Shot Aborted");
       handleAbortedShot();
       return;
     }
