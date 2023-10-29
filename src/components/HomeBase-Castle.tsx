@@ -15,7 +15,6 @@ export function HomeBaseCastle(props: any) {
     color,
     gameHeight,
   } = props;
-  console.log(height);
 
   const spacer = width / 5 / 8;
 

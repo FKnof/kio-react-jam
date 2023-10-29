@@ -15,9 +15,8 @@ export function Healthbar(props: any) {
   } = props;
   const [color, setColor] = useState("#000000");
   const [healthbar, setHealthbar] = useState<any>([]);
-  useEffect(() => {
-    console.log(healthbarTextures);
 
+  useEffect(() => {
     const itemList = Array(maxLife)
       .fill(null)
       .map((_, index) => {
@@ -26,6 +25,7 @@ export function Healthbar(props: any) {
             if (forPlayer === yourPlayerId) {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[0, 0]}
@@ -37,6 +37,7 @@ export function Healthbar(props: any) {
             } else {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[1, 0]}
@@ -50,6 +51,7 @@ export function Healthbar(props: any) {
             if (forPlayer === yourPlayerId) {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[0, 0]}
@@ -61,6 +63,7 @@ export function Healthbar(props: any) {
             } else {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[1, 0]}
@@ -76,6 +79,7 @@ export function Healthbar(props: any) {
             if (forPlayer === yourPlayerId) {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[0, 0]}
@@ -87,6 +91,7 @@ export function Healthbar(props: any) {
             } else {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[1, 0]}
@@ -100,6 +105,7 @@ export function Healthbar(props: any) {
             if (forPlayer === yourPlayerId) {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[0, 0]}
@@ -111,6 +117,7 @@ export function Healthbar(props: any) {
             } else {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[1, 0]}
@@ -126,6 +133,7 @@ export function Healthbar(props: any) {
             if (forPlayer === yourPlayerId) {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[0, 0]}
@@ -137,6 +145,7 @@ export function Healthbar(props: any) {
             } else {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[1, 0]}
@@ -150,6 +159,7 @@ export function Healthbar(props: any) {
             if (forPlayer === yourPlayerId) {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[0, 0]}
@@ -161,6 +171,7 @@ export function Healthbar(props: any) {
             } else {
               return (
                 <Sprite
+                  key={index}
                   width={15}
                   height={25}
                   anchor={[1, 0]}
