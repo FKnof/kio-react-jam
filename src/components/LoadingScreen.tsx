@@ -1,6 +1,5 @@
 import { Container, Graphics, Sprite, Text } from "@pixi/react";
 import { useCallback } from "react";
-import background from "../assets/Background/loadingscreen.jpg";
 
 export default function LoadingScreen(props: any) {
   const { gameWidth, gameHeight } = props;
@@ -20,7 +19,7 @@ export default function LoadingScreen(props: any) {
         <Sprite
           width={gameWidth}
           height={gameHeight}
-          image={background}
+          image={"./loadingscreen.jpg"}
           scale={{ x: 1, y: 1 }}
           rotation={0}
           anchor={0}
