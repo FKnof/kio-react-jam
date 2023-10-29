@@ -12,6 +12,7 @@ export interface GameState {
     };
   };
   playerProjectiles: PlayerProjectile[];
+  collisionObjects: { x: number; y: number; age: number }[];
   absoluteProjectileIds: number;
   baseOffset: number;
   maxlife: number;
@@ -78,6 +79,7 @@ Rune.initLogic({
     return {
       playerState: playerState,
       playerProjectiles: [],
+      collisionObjects: [],
       absoluteProjectileIds: 0,
       baseOffset: 163, // BaseHeight = 0,175* 932px
       maxlife: maxlife,
@@ -144,6 +146,7 @@ Rune.initLogic({
                 p.id + ": " + newLevel,
                 target.id
               );
+              game.collisionObjects.push({ x: p.x, y: p.y, age: 0 });
             }
           });
           let newVx = p.vx;
@@ -209,6 +212,21 @@ Rune.initLogic({
         }); // Despawn when out of the top boundary
 
       game.playerProjectiles = updatedProjectiles;
+    }
+
+    if (game && game.collisionObjects.length > 0) {
+      const updatedCollisions = game.collisionObjects
+        .map((collision) => {
+          const newAge = collision.age + 1;
+          return { ...collision, age: newAge };
+        })
+        .filter((collision) => {
+          if (collision.age > 30) {
+            return false;
+          }
+          return true;
+        });
+      game.collisionObjects = updatedCollisions;
     }
   },
   updatesPerSecond: 30,
