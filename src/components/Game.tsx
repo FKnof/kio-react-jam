@@ -127,6 +127,7 @@ export function Game() {
             collision={collision}
             game={game}
             key={index}
+            index={index}
             collisionTextures={collisionTextures}
             gameHeight={gameHeight}
             gameWidth={gameWidth}
