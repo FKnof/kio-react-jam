@@ -108,8 +108,6 @@ export function Game() {
     }
   };
 
-  console.log(game?.collisionObjects);
-
   if (!game) return "Lade...";
 
   return (
