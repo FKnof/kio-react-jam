@@ -55,6 +55,7 @@ export function HomeBase(props: any) {
       setSelectionFrozen(false);
       setWeaponSlot(0);
       setRespawnWeapon(false);
+      setSlotsCooldown([0, 0, 0, 0]);
       Rune.actions.setReset({ res: false });
     }
   }, [game, game.reset]);
@@ -101,15 +102,13 @@ export function HomeBase(props: any) {
       handleRespawn();
     }
   }, [respawnWeapon, handleRespawn]);
-
   const handleSelection = (index: number) => {
     if (slotsCooldown[index] > 0) {
-      //console.log("cooldown");
+      console.log("cooldown");
       return;
     }
     //index = schere, stein,. papier, halde
     const oldSelectedWeapon = selectedWeapon; // speichere zwischen, welche Waffe gerade ausgewählt war. empty = keine ausgewählt
-    const oldSlot = weaponSlot; // speichere den Alten weaponSlot zwischen
     const newSelectedWeapon = slots[index]; // speichere die neue Waffe, die ausgewählt werden soll
     setWeaponSlot(index); // Notiere, aus welchem Slot die neu ausgewählte Waffe kommt
     setSelectedWeapon(newSelectedWeapon); // Aktualisiere, welche Waffe ausgewählt ist

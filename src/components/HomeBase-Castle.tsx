@@ -18,23 +18,17 @@ export function HomeBaseCastle(props: any) {
   } = props;
 
   const spacer = width / 5 / 8;
-
   const cooldownGraphic = useCallback(
     (g: any, cooldown: number) => {
-      const height = (cooldown / maxCooldown) * (width / 5);
+      const height = (cooldown / maxCooldown) * (width / 5 - 20);
       g.clear();
       g.beginFill("#ffffff", 0.75);
       g.lineStyle(1, "#ffffff");
-      g.drawRoundedRect(
-        9,
-        width / 5 - height + 10,
-        width / 5 - 18,
-        height - 20,
-        5
-      );
+      g.drawRect(9, width / 5 - height - 10, width / 5 - 18, height);
     },
     [width, maxCooldown]
   );
+
   return (
     <>
       {/* <Graphics draw={castle} eventMode={"static"} /> */}
