@@ -6,6 +6,8 @@ import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
 import { loadTextures } from "./TextureLoader";
 import { Collision } from "./Collision.tsx";
+
+import { sounds } from "./MusicLoader";
 import Profile from "./HomeBase-Profile.tsx";
 
 export function Game() {
@@ -23,6 +25,7 @@ export function Game() {
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
   const [collisionTextures, setCollisionTextures] = useState<any>();
   const [actionLineTextures, setActionLineTextures] = useState<any>();
+  const [firstPlay, setFirstPlay] = useState<any>();
 
   const gameWidth = 430;
   const gameHeight = 932;
@@ -77,7 +80,6 @@ export function Game() {
         setPlayers(players);
       },
     });
-
     loadTextures().then((textures) => {
       setCharacterTextures(textures.characterTextures);
       setEnvironmentTextures(textures.environmentTextures);
@@ -87,15 +89,34 @@ export function Game() {
       setActionLineTextures(textures.actionLinesTextures);
       setGameReady(true);
     });
+    sounds.theme.play();
 
     window.addEventListener("mousemove", mouseMoveHandler);
     window.addEventListener("touchmove", touchMoveHandler);
 
     return () => {
+      sounds.theme.stop();
       window.removeEventListener("mousemove", mouseMoveHandler);
       window.removeEventListener("touchmove", touchMoveHandler);
     };
   }, []);
+
+  useEffect(() => {
+    if (!firstPlay) {
+      sounds.scoreNegative.play();
+    } else {
+      setFirstPlay(true);
+    }
+  }, [game?.playerState[yourPlayerId]?.life]);
+
+  useEffect(() => {
+    if (!firstPlay) {
+      sounds.scorePositive.play();
+    } else {
+      setFirstPlay(true);
+    }
+  }, [game?.playerState[opponentPlayerId]?.life]);
+
   const mouseMoveHandler = (event: any) => {
     setMouseCoordinates({
       x: event.clientX,
@@ -112,6 +133,7 @@ export function Game() {
       });
     }
   };
+
 
   if (!game || !gameReady) return "Lade...";
 
