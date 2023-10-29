@@ -19,6 +19,7 @@ export function Game() {
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
   const [collisionTextures, setCollisionTextures] = useState<any>();
+  const [actionLineTextures, setActionLineTextures] = useState<any>();
 
   const gameWidth = 430;
   const gameHeight = 932;
@@ -80,6 +81,7 @@ export function Game() {
       setBackgroundTextures(textures.backgroundTextures);
       sethealthbarTextures(textures.healthbarTextures);
       setCollisionTextures(textures.collisionTextures);
+      setActionLineTextures(textures.actionLinesTextures);
     });
 
     window.addEventListener("mousemove", mouseMoveHandler);
@@ -90,7 +92,6 @@ export function Game() {
       window.removeEventListener("touchmove", touchMoveHandler);
     };
   }, []);
-  // console.log(backgroundTextures);
   const mouseMoveHandler = (event: any) => {
     setMouseCoordinates({
       x: event.clientX,
@@ -143,6 +144,7 @@ export function Game() {
               key={index}
               characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
+              actionLineTextures={actionLineTextures}
             />
           ))
         : game.playerProjectiles.map((projectile, index) => (
@@ -153,6 +155,7 @@ export function Game() {
               gameHeight={gameHeight}
               characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
+              actionLineTextures={actionLineTextures}
             />
           ))}
       <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} />

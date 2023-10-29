@@ -11,12 +11,14 @@ export function ProjectileInverted({
   yourPlayerId,
   gameHeight,
   gameWidth,
+  actionLineTextures,
 }: {
   props: PlayerProjectile;
   characterTextures: any;
   yourPlayerId: string;
   gameHeight: number;
   gameWidth: number;
+  actionLineTextures: any;
 }) {
   // const actionLinePaperJSON = actionLinePaperURL;
   const { x, y, vx, vy, type, ownerId, color, radius } = props;
@@ -33,27 +35,19 @@ export function ProjectileInverted({
   const scale = ownerId == yourPlayerId ? 1 : -1;
 
   useEffect(() => {
-    async function loadTextures() {
-      const actionLinePaper = await Assets.load(
-        "./Animations/ActionLine_Paper.json"
+    if (props.type === "paper") {
+      setRenderedActionLine(
+        actionLineTextures.actionLinePaper.animations.ActionLines3
       );
-
-      const actionLineStone = await Assets.load(
-        "./Animations/ActionLines_Stone.json"
+    } else if (props.type === "rock") {
+      setRenderedActionLine(
+        actionLineTextures.actionLineStone.animations.ActionLines2
       );
-
-      const actionLineScissor = await Assets.load(
-        "./Animations/ActionLine_Scissor.json"
+    } else {
+      setRenderedActionLine(
+        actionLineTextures.actionLineScissor.animations.ActionLines1
       );
-      if (props.type === "paper") {
-        setRenderedActionLine(actionLinePaper.animations.ActionLines3);
-      } else if (props.type === "rock") {
-        setRenderedActionLine(actionLineStone.animations.ActionLines2);
-      } else {
-        setRenderedActionLine(actionLineScissor.animations.ActionLines1);
-      }
     }
-    loadTextures();
   }, []);
 
   if (!renderedActionLine) {
