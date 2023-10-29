@@ -1,13 +1,26 @@
 import * as PIXI from "pixi.js";
 export const fontstyle = new PIXI.TextStyle({
-  align: "center",
-  fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
-  fontSize: 50,
+  align: "left",
+  fontFamily: '"Jockey Pro", Helvetica, sans-serif',
+  fontSize: 60,
+  fontWeight: "800",
+  fill: "#1b2239", // gradient
+  //stroke: "#000000",
+  strokeThickness: 0,
+  letterSpacing: 1,
+
+  wordWrap: true,
+  wordWrapWidth: 440,
+});
+export const fontstyleSmall = new PIXI.TextStyle({
+  align: "left",
+  fontFamily: '"Jockey Pro", Helvetica, sans-serif',
+  fontSize: 30,
   fontWeight: "400",
-  fill: "#ffffff", // gradient
-  stroke: "#000000",
-  strokeThickness: 5,
-  letterSpacing: 20,
+  fill: "#1b2239", // gradient
+  //stroke: "#000000",
+  strokeThickness: 0,
+  letterSpacing: 1,
 
   wordWrap: true,
   wordWrapWidth: 440,

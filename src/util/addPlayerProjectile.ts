@@ -13,7 +13,7 @@ export const addPlayerProjectile = (
 ) => {
   // for testing only
   const speedFactor = 0.1; // Wie sehr sich die Geschwindigkeit an der Entfernung orientiert
-  const maxSpeed = 3;
+  const maxSpeed = 5;
   const velocity = calculateVelocity(
     projectileCoordinates.x,
     projectileCoordinates.y,

@@ -150,9 +150,17 @@ export function Game() {
 
   if (!game || !gameReady)
     return (
-      <Container x={0} y={0} anchor={0}>
-        <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
-      </Container>
+      <Stage
+        {...stageProps}
+        style={{
+          transform: "scale(" + scaleX + "," + scaleY + ")",
+          transformOrigin: "top left",
+        }}
+      >
+        <Container x={0} y={0} anchor={0}>
+          <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
+        </Container>
+      </Stage>
     );
 
   return (
