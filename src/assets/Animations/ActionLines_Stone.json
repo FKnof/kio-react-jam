@@ -1,0 +1,39 @@
+{"frames": {
+
+"ActionLines2_1.png":
+{
+	"frame": {"x":0,"y":0,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"ActionLines2_2.png":
+{
+	"frame": {"x":512,"y":0,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"ActionLines2_3.png":
+{
+	"frame": {"x":1024,"y":0,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+}},
+"animations": {
+	"ActionLines2": ["ActionLines2_1.png","ActionLines2_2.png","ActionLines2_3.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "ActionLines_Stone.png",
+	"format": "RGBA8888",
+	"size": {"w":1536,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b70ace33affde98295d53533d1f3e56e:0e1e1cb600cd3917a3de6c7af7d276e5:a585d087fe668fcfa48932c25244adce$"
+}
+}
