@@ -151,11 +151,7 @@ export function Game() {
   };
 
   if (!game || !gameReady)
-    return (
-      <Container x={0} y={0} anchor={0}>
-        <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
-      </Container>
-    );
+    return <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />;
 
   return (
     <Stage
@@ -165,11 +161,7 @@ export function Game() {
         transformOrigin: "top left",
       }}
     >
-      <LoadingScreen
-        gameWidth={gameWidth}
-        gameHeight={gameHeight}
-        players={players}
-      />
+      <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
     </Stage>
     // <Stage
     //   {...stageProps}
