@@ -1,11 +1,13 @@
-import { Stage, Text } from "@pixi/react";
+import { Container, Graphics, Sprite, Stage, Text } from "@pixi/react";
 import { HomeBase } from "./HomeBase";
 import { GameState } from "../logic.ts";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
 import { loadTextures } from "./TextureLoader";
 import { Collision } from "./Collision.tsx";
+import LoadingScreen from "./LoadingScreen.tsx";
+import * as PIXI from "pixi.js";
 
 import { sounds } from "./MusicLoader";
 import Profile from "./HomeBase-Profile.tsx";
@@ -134,8 +136,12 @@ export function Game() {
     }
   };
 
-
-  if (!game || !gameReady) return "Lade...";
+  if (!game || !gameReady)
+    return (
+      <Container x={0} y={0} anchor={0}>
+        <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
+      </Container>
+    );
 
   return (
     <Stage
@@ -145,59 +151,123 @@ export function Game() {
         transformOrigin: "top left",
       }}
     >
-      <HomeBase {...baseProps} />
+      <Container x={0} y={0}>
+        <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
 
-      {game.collisionObjects.length > 0 &&
-        game.collisionObjects.map((collision, index) => (
-          <Collision
-            collision={collision}
-            game={game}
-            key={index}
-            index={index}
-            collisionTextures={collisionTextures}
-            gameHeight={gameHeight}
-            gameWidth={gameWidth}
-            thisPlayer={thisPlayer}
-          />
-        ))}
+        <Sprite
+          width={gameWidth * 0.9}
+          height={gameHeight * 0.3}
+          image={"./Loading.png"}
+          scale={{ x: 1, y: 1 }}
+          rotation={0}
+          anchor={0}
+          x={gameWidth * 0.05}
+          y={gameHeight * 0.5}
+        />
 
-      {thisPlayer !== undefined && thisPlayer === 0
-        ? game.playerProjectiles.map((projectile, index) => (
-            <Projectile
-              props={projectile}
-              offset={game.baseOffset}
-              key={index}
-              characterTextures={characterTextures}
-              yourPlayerId={yourPlayerId}
-              actionLineTextures={actionLineTextures}
-            />
-          ))
-        : game.playerProjectiles.map((projectile, index) => (
-            <ProjectileInverted
-              props={projectile}
-              key={index}
-              gameWidth={gameWidth}
-              gameHeight={gameHeight}
-              characterTextures={characterTextures}
-              yourPlayerId={yourPlayerId}
-              actionLineTextures={actionLineTextures}
-            />
-          ))}
-      {/* Mein Profil durch Übergabe der "yourPlayerId" */}
-      <Profile
-        playerState={game.playerState}
-        yourPlayerId={yourPlayerId}
-        x={0}
-        y={10}
-        opponentPlayerId={opponentPlayerId}
-        allPlayer={players}
-        maxLife={game.maxlife}
-        environmentTextures={environmentTextures}
-        healthbarTextures={healthbarTextures}
-        gameHeight={gameHeight}
-        gameWidth={gameWidth}
-      />
-      <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} />
+        <Sprite
+          width={gameWidth * 0.35}
+          height={gameHeight * 0.18}
+          image={players[yourPlayerId].avatarUrl}
+          // scale={{ x: 1, y: 1 }}
+          rotation={0}
+          anchor={0.5}
+          x={gameWidth * 0.3}
+          y={gameHeight * 0.3}
+        />
+        <Sprite
+          width={gameWidth * 0.35}
+          height={gameHeight * 0.18}
+          image={players[opponentPlayerId].avatarUrl}
+          // scale={{ x: 1, y: 1 }}
+          rotation={0}
+          anchor={0.5}
+          x={gameWidth * 0.7}
+          y={gameHeight * 0.3}
+        />
+        <Text
+          text={players[yourPlayerId].displayName}
+          anchor={[0.5, 0]}
+          x={gameWidth * 0.3}
+          y={gameHeight * 0.41}
+          style={new PIXI.TextStyle({ fill: "white" })}
+        />
+        <Text
+          text={players[opponentPlayerId].displayName}
+          anchor={[0.5, 0]}
+          x={gameWidth * 0.7}
+          y={gameHeight * 0.41}
+          style={new PIXI.TextStyle({ fill: "white" })}
+        />
+        <Text
+          text={"VS"}
+          anchor={[0.5, 0]}
+          x={gameWidth * 0.5}
+          y={gameHeight * 0.12}
+          style={new PIXI.TextStyle({ fill: "white", fontSize: 60 })}
+        />
+      </Container>
     </Stage>
+    // <Stage
+    //   {...stageProps}
+    //   style={{
+    //     transform: "scale(" + scaleX + "," + scaleY + ")",
+    //     transformOrigin: "top left",
+    //   }}
+    // >
+    //   <HomeBase {...baseProps} />
+
+    //   {game.collisionObjects.length > 0 &&
+    //     game.collisionObjects.map((collision, index) => (
+    //       <Collision
+    //         collision={collision}
+    //         game={game}
+    //         key={index}
+    //         index={index}
+    //         collisionTextures={collisionTextures}
+    //         gameHeight={gameHeight}
+    //         gameWidth={gameWidth}
+    //         thisPlayer={thisPlayer}
+    //       />
+    //     ))}
+
+    //   {thisPlayer !== undefined && thisPlayer === 0
+    //     ? game.playerProjectiles.map((projectile, index) => (
+    //         <Projectile
+    //           props={projectile}
+    //           offset={game.baseOffset}
+    //           key={index}
+    //           characterTextures={characterTextures}
+    //           yourPlayerId={yourPlayerId}
+    //           actionLineTextures={actionLineTextures}
+    //         />
+    //       ))
+    //     : game.playerProjectiles.map((projectile, index) => (
+    //         <ProjectileInverted
+    //           props={projectile}
+    //           key={index}
+    //           gameWidth={gameWidth}
+    //           gameHeight={gameHeight}
+    //           characterTextures={characterTextures}
+    //           yourPlayerId={yourPlayerId}
+    //           actionLineTextures={actionLineTextures}
+    //         />
+    //       ))}
+    //   {/* Mein Profil durch Übergabe der "yourPlayerId" */}
+    //   <Profile
+    //     playerState={game.playerState}
+    //     yourPlayerId={yourPlayerId}
+    //     x={0}
+    //     y={10}
+    //     opponentPlayerId={opponentPlayerId}
+    //     allPlayer={players}
+    //     maxLife={game.maxlife}
+    //     environmentTextures={environmentTextures}
+    //     healthbarTextures={healthbarTextures}
+    //     gameHeight={gameHeight}
+    //     gameWidth={gameWidth}
+    //   />
+    //   <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} />
+    // </Stage>
   );
 }
