@@ -18,6 +18,7 @@ export function ProjectileInverted({
   gameHeight: number;
   gameWidth: number;
 }) {
+  // const actionLinePaperJSON = actionLinePaperURL;
   const { x, y, vx, vy, type, ownerId, color, radius } = props;
   const width = gameWidth;
   const height = gameHeight;
@@ -34,15 +35,15 @@ export function ProjectileInverted({
   useEffect(() => {
     async function loadTextures() {
       const actionLinePaper = await Assets.load(
-        "./src/assets/Animations/ActionLine_Paper.json"
+        "./Animations/ActionLine_Paper.json"
       );
 
       const actionLineStone = await Assets.load(
-        "./src/assets/Animations/ActionLines_Stone.json"
+        "./Animations/ActionLines_Stone.json"
       );
 
       const actionLineScissor = await Assets.load(
-        "./src/assets/Animations/ActionLine_Scissor.json"
+        "./Animations/ActionLine_Scissor.json"
       );
       if (props.type === "paper") {
         setRenderedActionLine(actionLinePaper.animations.ActionLines3);
