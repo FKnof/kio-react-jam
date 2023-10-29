@@ -107,6 +107,8 @@ export function Game() {
     }
   };
 
+  console.log(game?.collisionObjects);
+
   if (!game) return "Lade...";
 
   return (
@@ -118,6 +120,11 @@ export function Game() {
       }}
     >
       <HomeBase {...baseProps} />
+
+      {game.collisionObjects.length > 0 &&
+        game.collisionObjects.map((collision, index) => (
+          <Text text={"X"} anchor={0.5} x={collision.x} y={collision.y} />
+        ))}
 
       {thisPlayer !== undefined && thisPlayer === 0
         ? game.playerProjectiles.map((projectile, index) => (
