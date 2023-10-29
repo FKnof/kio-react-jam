@@ -1,8 +1,9 @@
-import { Container, Graphics, Text, Sprite } from "@pixi/react";
+import { Container, Graphics, Text, Sprite, AnimatedSprite } from "@pixi/react";
 import { useCallback, useEffect, useState } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 import CharacterSprite from "./sprites/Character";
-
+import { Assets } from "pixi.js";
+// import actionLinesJSON from "https://pixijs.io/examples/examples/assets/spritesheet/fighter.json";
 export function Projectile({
   props,
   offset,
@@ -16,6 +17,8 @@ export function Projectile({
 }) {
   const { x, y, vx, vy, type, ownerId, color } = props;
 
+  const [renderedActionLine, setRenderedActionLine] = useState<any>();
+
   // Calculate the angle in radians
   const baseRotation = Math.PI / 2;
   const movementRotation = Math.atan2(vy, vx);
@@ -26,6 +29,34 @@ export function Projectile({
       : baseRotation - movementRotation;
 
   const scale = ownerId == yourPlayerId ? 1 : -1;
+
+  useEffect(() => {
+    async function loadTextures() {
+      const actionLinePaper = await Assets.load(
+        "./src/assets/Animations/ActionLine_Paper.json"
+      );
+
+      const actionLineStone = await Assets.load(
+        "./src/assets/Animations/ActionLines_Stone.json"
+      );
+
+      const actionLineScissor = await Assets.load(
+        "./src/assets/Animations/ActionLine_Scissor.json"
+      );
+      if (props.type === "paper") {
+        setRenderedActionLine(actionLinePaper.animations.ActionLines3);
+      } else if (props.type === "rock") {
+        setRenderedActionLine(actionLineStone.animations.ActionLines2);
+      } else {
+        setRenderedActionLine(actionLineScissor.animations.ActionLines1);
+      }
+    }
+    loadTextures();
+  }, []);
+
+  if (!renderedActionLine) {
+    return null;
+  }
   return (
     <Container
       x={x}
@@ -33,6 +64,15 @@ export function Projectile({
       rotation={adjustedRotation * scale}
       scale={{ x: 1, y: scale }}
     >
+      <AnimatedSprite
+        anchor={[0.5, 1]}
+        rotation={3.1}
+        scale={0.3}
+        textures={renderedActionLine}
+        isPlaying={true}
+        initialFrame={0}
+        animationSpeed={0.1}
+      />
       <CharacterSprite
         characterTextures={characterTextures}
         type={type}
