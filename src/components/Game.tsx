@@ -156,7 +156,11 @@ export function Game() {
   };
 
   if (!game || !gameReady)
-    return <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />;
+    return (
+      <Container x={0} y={0} anchor={0}>
+        <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
+      </Container>
+    );
 
   return (
     <Stage
@@ -220,5 +224,66 @@ export function Game() {
       />
       {/* <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} /> //player 1 = mirrored */}
     </Stage>
+    // <Stage
+    //   {...stageProps}
+    //   style={{
+    //     transform: "scale(" + scaleX + "," + scaleY + ")",
+    //     transformOrigin: "top left",
+    //   }}
+    // >
+    //   <HomeBase {...baseProps} />
+
+    //   {game.collisionObjects.length > 0 &&
+    //     game.collisionObjects.map((collision, index) => (
+    //       <Collision
+    //         collision={collision}
+    //         game={game}
+    //         key={index}
+    //         index={index}
+    //         collisionTextures={collisionTextures}
+    //         gameHeight={gameHeight}
+    //         gameWidth={gameWidth}
+    //         thisPlayer={thisPlayer}
+    //       />
+    //     ))}
+
+    //   {thisPlayer !== undefined && thisPlayer === 0
+    //     ? game.playerProjectiles.map((projectile, index) => (
+    //         <Projectile
+    //           props={projectile}
+    //           offset={game.baseOffset}
+    //           key={index}
+    //           characterTextures={characterTextures}
+    //           yourPlayerId={yourPlayerId}
+    //           actionLineTextures={actionLineTextures}
+    //         />
+    //       ))
+    //     : game.playerProjectiles.map((projectile, index) => (
+    //         <ProjectileInverted
+    //           props={projectile}
+    //           key={index}
+    //           gameWidth={gameWidth}
+    //           gameHeight={gameHeight}
+    //           characterTextures={characterTextures}
+    //           yourPlayerId={yourPlayerId}
+    //           actionLineTextures={actionLineTextures}
+    //         />
+    //       ))}
+    //   {/* Mein Profil durch Übergabe der "yourPlayerId" */}
+    //   <Profile
+    //     playerState={game.playerState}
+    //     yourPlayerId={yourPlayerId}
+    //     x={0}
+    //     y={10}
+    //     opponentPlayerId={opponentPlayerId}
+    //     allPlayer={players}
+    //     maxLife={game.maxlife}
+    //     environmentTextures={environmentTextures}
+    //     healthbarTextures={healthbarTextures}
+    //     gameHeight={gameHeight}
+    //     gameWidth={gameWidth}
+    //   />
+    //   <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} />
+    // </Stage>
   );
 }
