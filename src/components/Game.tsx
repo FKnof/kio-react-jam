@@ -1,5 +1,4 @@
-import { Stage, Container, Text, useTick } from "@pixi/react";
-import * as PIXI from "pixi.js";
+import { Stage, Text } from "@pixi/react";
 import { HomeBase } from "./HomeBase";
 import { GameState } from "../logic.ts";
 import { useEffect, useState } from "react";
@@ -18,6 +17,7 @@ export function Game() {
   const [environmentTextures, setEnvironmentTextures] = useState<any>();
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
+  const [collisionTextures, setCollisionTextures] = useState<any>();
 
   const gameWidth = 430;
   const gameHeight = 932;
@@ -78,6 +78,7 @@ export function Game() {
       setEnvironmentTextures(textures.environmentTextures);
       setBackgroundTextures(textures.backgroundTextures);
       sethealthbarTextures(textures.healthbarTextures);
+      setCollisionTextures(textures.collisionTextures);
     });
 
     window.addEventListener("mousemove", mouseMoveHandler);
