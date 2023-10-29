@@ -218,7 +218,6 @@ Rune.initLogic({
             return true;
           } else {
             if (p.level <= 0) {
-              console.log("Projectile despawned: ", p.id);
               return false;
             }
             if (!p.tookALife) {

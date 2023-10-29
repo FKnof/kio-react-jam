@@ -61,7 +61,7 @@ export function HomeBase(props: any) {
 
   const [slotsCooldown, setSlotsCooldown] = useState([0, 0, 0, 0]);
 
-  const respawnSeconds = 5;
+  const respawnSeconds = 7.5;
   const respawnFrames = 60 * respawnSeconds;
 
   useTick((delta) => {
