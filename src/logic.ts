@@ -1,6 +1,7 @@
 import type { RuneClient } from "rune-games-sdk/multiplayer";
 import { detectProjectileCollision } from "./util/detectProjectileCollision";
 import { checkTypeWeakness } from "./util/checkTypeWeakness";
+import { destroy } from "./components/MusicLoader.tsx";
 
 export interface GameState {
   playerState: {

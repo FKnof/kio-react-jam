@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
 import { loadTextures } from "./TextureLoader";
+import { theme } from "./MusicLoader";
 import { Collision } from "./Collision.tsx";
+import { sound, Sound } from "@pixi/sound";
+import * as PIXI from "pixi.js";
 
 export function Game() {
   const [game, setGame] = useState<GameState>();
@@ -74,7 +77,6 @@ export function Game() {
         setPlayers(players);
       },
     });
-
     loadTextures().then((textures) => {
       setCharacterTextures(textures.characterTextures);
       setEnvironmentTextures(textures.environmentTextures);
@@ -84,6 +86,8 @@ export function Game() {
       setActionLineTextures(textures.actionLinesTextures);
     });
 
+    theme.play();
+
     window.addEventListener("mousemove", mouseMoveHandler);
     window.addEventListener("touchmove", touchMoveHandler);
 
@@ -92,6 +96,7 @@ export function Game() {
       window.removeEventListener("touchmove", touchMoveHandler);
     };
   }, []);
+
   const mouseMoveHandler = (event: any) => {
     setMouseCoordinates({
       x: event.clientX,
@@ -110,7 +115,6 @@ export function Game() {
   };
 
   if (!game) return "Lade...";
-
   return (
     <Stage
       {...stageProps}
