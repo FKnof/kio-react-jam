@@ -72,7 +72,6 @@ export function Game() {
           setOpponentPlayerId(enemyId || "");
         }
         setPlayers(players);
-        console.log("hello");
       },
     });
 

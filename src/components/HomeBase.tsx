@@ -46,9 +46,21 @@ export function HomeBase(props: any) {
     "scissors",
     "empty",
   ]);
+
+  //reset
+  useEffect(() => {
+    if (game.reset) {
+      setSlots(["rock", "paper", "scissors", "empty"]);
+      setSelectedWeapon("empty");
+      setSelectionFrozen(false);
+      setWeaponSlot(0);
+      setRespawnWeapon(false);
+      Rune.actions.setReset({ res: false });
+    }
+  }, [game, game.reset]);
+
   const [slotsCooldown, setSlotsCooldown] = useState([0, 0, 0, 0]);
 
-  const [localGameTime, setLocalGameTime] = useState(0);
   const respawnSeconds = 5;
   const respawnFrames = 60 * respawnSeconds;
 

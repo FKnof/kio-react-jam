@@ -17,6 +17,7 @@ export interface GameState {
   baseOffset: number;
   maxlife: number;
   maxCollisionAge: number;
+  reset: boolean;
 }
 export const colors = ["blue", "red"];
 
@@ -32,6 +33,7 @@ type GameActions = {
     height: number;
     yourPlayerId: string;
   }) => void;
+  setReset: (params: { res: boolean }) => void;
 };
 
 export type PlayerProjectile = {
@@ -95,6 +97,7 @@ Rune.initLogic({
       baseOffset: 163, // BaseHeight = 0,175* 932px
       maxlife: maxlife,
       maxCollisionAge: 30,
+      reset: true,
     };
   },
   actions: {
@@ -132,6 +135,9 @@ Rune.initLogic({
       //     playerIdWithSmallestSize = playerId;
       //   }
       // }
+    },
+    setReset: ({ res }, { game }) => {
+      game.reset = res;
     },
   },
   update: ({ game }) => {
