@@ -1,5 +1,5 @@
 import "@pixi/events";
-import { Container, Sprite, Text, useTick } from "@pixi/react";
+import { Text, useTick } from "@pixi/react";
 import { useCallback, useEffect, useState } from "react";
 import { fontstyle } from "../ui/fontstyle.ts";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
@@ -7,23 +7,18 @@ import { HomeBaseCastle } from "./HomeBase-Castle";
 import { HomeBaseAim } from "./HomeBase-Aim";
 import { HomeBaseBackground } from "./HomeBase-Background";
 import { addPlayerProjectile } from "../util/addPlayerProjectile";
-import Profile from "./HomeBase-Profile.tsx";
 import { SelectedWeaponMarker } from "./HomeBase-SelectedWeaponMarker.tsx";
 import { sounds } from "./MusicLoader";
 
 export function HomeBase(props: any) {
   const {
-    x,
     y,
     height,
     width,
     gameHeight,
     mouseCoordinates,
-    scaleX,
     scaleY,
-    players,
     yourPlayerId,
-    opponentPlayerId,
     thisPlayer,
     game,
     characterTextures,
@@ -47,10 +42,23 @@ export function HomeBase(props: any) {
     "scissors",
     "empty",
   ]);
+
+  //reset
+  useEffect(() => {
+    if (game.reset) {
+      setSlots(["rock", "paper", "scissors", "empty"]);
+      setSelectedWeapon("empty");
+      setSelectionFrozen(false);
+      setWeaponSlot(0);
+      setRespawnWeapon(false);
+      setSlotsCooldown([0, 0, 0, 0]);
+      Rune.actions.setReset({ res: false });
+    }
+  }, [game, game.reset]);
+
   const [slotsCooldown, setSlotsCooldown] = useState([0, 0, 0, 0]);
 
-  const [localGameTime, setLocalGameTime] = useState(0);
-  const respawnSeconds = 5;
+  const respawnSeconds = 7.5;
   const respawnFrames = 60 * respawnSeconds;
 
   useTick((delta) => {
@@ -72,7 +80,7 @@ export function HomeBase(props: any) {
         const weapon =
           Math.random() < 0.33
             ? "rock"
-            : Math.random() < 0.66
+            : Math.random() < 0.5
             ? "paper"
             : "scissors";
         newSlots[i] = weapon;
@@ -90,15 +98,13 @@ export function HomeBase(props: any) {
       handleRespawn();
     }
   }, [respawnWeapon, handleRespawn]);
-
   const handleSelection = (index: number) => {
     if (slotsCooldown[index] > 0) {
-      //console.log("cooldown");
+      console.log("cooldown");
       return;
     }
     //index = schere, stein,. papier, halde
     const oldSelectedWeapon = selectedWeapon; // speichere zwischen, welche Waffe gerade ausgewählt war. empty = keine ausgewählt
-    const oldSlot = weaponSlot; // speichere den Alten weaponSlot zwischen
     const newSelectedWeapon = slots[index]; // speichere die neue Waffe, die ausgewählt werden soll
     setWeaponSlot(index); // Notiere, aus welchem Slot die neu ausgewählte Waffe kommt
     setSelectedWeapon(newSelectedWeapon); // Aktualisiere, welche Waffe ausgewählt ist
@@ -135,7 +141,6 @@ export function HomeBase(props: any) {
     }
     const col = thisPlayer !== undefined ? colors[thisPlayer] : "no color";
     const {
-      newId,
       newProjectile,
     }: { newId: number; newProjectile: PlayerProjectile } = addPlayerProjectile(
       selectedWeapon,
@@ -209,20 +214,6 @@ export function HomeBase(props: any) {
       />
       {/* </Container> */}
 
-      {/* Mein Profil durch Übergabe der "yourPlayerId" */}
-      <Profile
-        playerState={game.playerState}
-        yourPlayerId={yourPlayerId}
-        x={0}
-        y={10}
-        opponentPlayerId={opponentPlayerId}
-        allPlayer={players}
-        maxLife={game.maxlife}
-        environmentTextures={environmentTextures}
-        healthbarTextures={healthbarTextures}
-        gameHeight={gameHeight}
-        gameWidth={width}
-      />
       <SelectedWeaponMarker
         mouseCoordinates={mouseCoordinates}
         y={y}

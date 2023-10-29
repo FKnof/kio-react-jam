@@ -17,6 +17,7 @@ export interface GameState {
   baseOffset: number;
   maxlife: number;
   maxCollisionAge: number;
+  reset: boolean;
 }
 export const colors = ["blue", "red"];
 
@@ -32,6 +33,7 @@ type GameActions = {
     height: number;
     yourPlayerId: string;
   }) => void;
+  setReset: (params: { res: boolean }) => void;
 };
 
 export type PlayerProjectile = {
@@ -56,6 +58,16 @@ export function getlife(game: GameState, playerId: string) {
   return game.playerState[playerId].life;
 }
 const maxlife = 5;
+
+const setGameOver = (winner: string, loser: string) => {
+  Rune.gameOver({
+    players: {
+      [winner]: "WON",
+      [loser]: "LOST",
+    },
+    delayPopUp: false,
+  });
+};
 
 Rune.initLogic({
   minPlayers: 2,
@@ -85,6 +97,7 @@ Rune.initLogic({
       baseOffset: 163, // BaseHeight = 0,175* 932px
       maxlife: maxlife,
       maxCollisionAge: 30,
+      reset: true,
     };
   },
   actions: {
@@ -123,14 +136,22 @@ Rune.initLogic({
       //   }
       // }
     },
+    setReset: ({ res }, { game }) => {
+      game.reset = res;
+    },
   },
   update: ({ game }) => {
-    if (
-      game.playerState[Object.keys(game.playerState)[0]].life <= 0 ||
-      game.playerState[Object.keys(game.playerState)[1]].life <= 0
-    ) {
-      Rune.gameOver();
+    if (game.playerState[Object.keys(game.playerState)[0]].life <= 0) {
+      const winner = Object.keys(game.playerState)[1];
+      const loser = Object.keys(game.playerState)[0];
+      setGameOver(winner, loser);
     }
+    if (game.playerState[Object.keys(game.playerState)[1]].life <= 0) {
+      const winner = Object.keys(game.playerState)[0];
+      const loser = Object.keys(game.playerState)[1];
+      setGameOver(winner, loser);
+    }
+
     if (game && game.playerProjectiles.length > 0) {
       const updatedProjectiles = game.playerProjectiles
         .map((p: PlayerProjectile) => {
@@ -197,7 +218,6 @@ Rune.initLogic({
             return true;
           } else {
             if (p.level <= 0) {
-              console.log("Projectile despawned: ", p.id);
               return false;
             }
             if (!p.tookALife) {

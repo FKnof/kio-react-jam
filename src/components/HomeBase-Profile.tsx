@@ -42,7 +42,7 @@ export function Profile({
       <Container position={{ x: x, y: y }}>
         <Sprite
           anchor={0}
-          texture={environmentTextures.selectionMenu}
+          texture={environmentTextures.menuTop}
           x={0}
           y={-20}
           width={gameWidth}

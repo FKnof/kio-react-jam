@@ -6,7 +6,9 @@ import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
 import { loadTextures } from "./TextureLoader";
 import { Collision } from "./Collision.tsx";
+
 import { sounds } from "./MusicLoader";
+import Profile from "./HomeBase-Profile.tsx";
 
 export function Game() {
   const [game, setGame] = useState<GameState>();
@@ -15,6 +17,8 @@ export function Game() {
   const [thisPlayer, setThisPlayer] = useState<number>();
   const [opponentPlayerId, setOpponentPlayerId] = useState<string>("");
   const [players, setPlayers] = useState<any>();
+  const [gameReady, setGameReady] = useState(false);
+
   const [characterTextures, setCharacterTextures] = useState<any>();
   const [environmentTextures, setEnvironmentTextures] = useState<any>();
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
@@ -83,6 +87,7 @@ export function Game() {
       sethealthbarTextures(textures.healthbarTextures);
       setCollisionTextures(textures.collisionTextures);
       setActionLineTextures(textures.actionLinesTextures);
+      setGameReady(true);
     });
     sounds.theme.play();
 
@@ -129,7 +134,9 @@ export function Game() {
     }
   };
 
-  if (!game) return "Lade...";
+
+  if (!game || !gameReady) return "Lade...";
+
   return (
     <Stage
       {...stageProps}
@@ -176,6 +183,20 @@ export function Game() {
               actionLineTextures={actionLineTextures}
             />
           ))}
+      {/* Mein Profil durch Übergabe der "yourPlayerId" */}
+      <Profile
+        playerState={game.playerState}
+        yourPlayerId={yourPlayerId}
+        x={0}
+        y={10}
+        opponentPlayerId={opponentPlayerId}
+        allPlayer={players}
+        maxLife={game.maxlife}
+        environmentTextures={environmentTextures}
+        healthbarTextures={healthbarTextures}
+        gameHeight={gameHeight}
+        gameWidth={gameWidth}
+      />
       <Text text={thisPlayer?.toString()} anchor={0.5} x={20} y={20} />
     </Stage>
   );
