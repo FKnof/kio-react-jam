@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 export function HomeBaseBackground(props: any) {
   const {
     width,
-    pointerdown,
+    pointerup,
     scaleY,
     height,
     environmentTextures,
@@ -25,9 +25,9 @@ export function HomeBaseBackground(props: any) {
       <Graphics
         draw={background}
         eventMode={"static"}
-        pointerdown={() => {
+        pointerup={() => {
           console.log("kaboom");
-          pointerdown();
+          pointerup();
         }}
       />
       <Container position={[0, 0]}>

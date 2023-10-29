@@ -8,6 +8,7 @@ export function HomeBaseCastle(props: any) {
     graphicsColor,
     slots,
     handleSelection,
+    selectedWeapon,
     slotsCooldown,
     maxCooldown,
     characterTextures,
@@ -63,7 +64,12 @@ export function HomeBaseCastle(props: any) {
             x={spacer + index * (width / 5 + spacer)}
             y={gameHeight * 0.85}
             eventMode={"static"}
-            pointerdown={() => handleSelection(index)}
+            pointerup={() =>
+              selectedWeapon != "empty" && handleSelection(index)
+            }
+            pointerdown={() =>
+              selectedWeapon == "empty" && handleSelection(index)
+            }
           >
             {/* <Graphics draw={slotGraphic} eventMode={"static"} /> */}
             <Sprite
@@ -102,7 +108,12 @@ export function HomeBaseCastle(props: any) {
             x={spacer + index * (width / 5 + spacer) + spacer * 2}
             y={gameHeight * 0.85}
             eventMode={"static"}
-            pointerdown={() => handleSelection(index)}
+            pointerup={() =>
+              selectedWeapon != "empty" && handleSelection(index)
+            }
+            pointerdown={() =>
+              selectedWeapon == "empty" && handleSelection(index)
+            }
           >
             {/* <Graphics draw={slotGraphic} eventMode={"static"} /> */}
             <Sprite

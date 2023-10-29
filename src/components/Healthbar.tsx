@@ -1,4 +1,4 @@
-import { Container, Graphics, Sprite } from "@pixi/react";
+import { Container, Sprite } from "@pixi/react";
 import { useEffect, useState } from "react";
 
 export function Healthbar(props: any) {
@@ -11,9 +11,7 @@ export function Healthbar(props: any) {
     playerState,
     forPlayer,
     gameWidth,
-    gameHeight,
   } = props;
-  const [color, setColor] = useState("#000000");
   const [healthbar, setHealthbar] = useState<any>([]);
 
   useEffect(() => {
@@ -186,7 +184,19 @@ export function Healthbar(props: any) {
       });
 
     setHealthbar(itemList);
-  }, [playerState]);
+  }, [
+    forPlayer,
+    gameWidth,
+    healthbarTextures.greenCenter,
+    healthbarTextures.greenLeft,
+    healthbarTextures.greenRight,
+    healthbarTextures.redCenter,
+    healthbarTextures.redLeft,
+    healthbarTextures.redRight,
+    maxLife,
+    playerState,
+    yourPlayerId,
+  ]);
 
   return (
     <>

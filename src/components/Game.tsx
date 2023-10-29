@@ -81,8 +81,11 @@ export function Game() {
     });
 
     window.addEventListener("mousemove", mouseMoveHandler);
+    window.addEventListener("touchmove", touchMoveHandler);
+
     return () => {
       window.removeEventListener("mousemove", mouseMoveHandler);
+      window.removeEventListener("touchmove", touchMoveHandler);
     };
   }, []);
   // console.log(backgroundTextures);
@@ -91,6 +94,16 @@ export function Game() {
       x: event.clientX,
       y: event.clientY,
     });
+  };
+
+  const touchMoveHandler = (event: any) => {
+    if (event.touches.length > 0) {
+      const touch = event.touches[0];
+      setMouseCoordinates({
+        x: touch.clientX,
+        y: touch.clientY,
+      });
+    }
   };
 
   if (!game) return "Lade...";

@@ -14,5 +14,6 @@ export function HomeBaseAim(props: any) {
     [x, mouseCoordinates, y]
   );
 
-  if (selectedWeapon !== "empty") return <Graphics draw={aim} />;
+  if (selectedWeapon !== "empty" && mouseCoordinates.y < y)
+    return <Graphics draw={aim} />;
 }

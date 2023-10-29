@@ -129,8 +129,18 @@ export function HomeBase(props: any) {
     setSelectionFrozen(true);
   };
 
+  const handleAbortedShot = () => {
+    console.log("aborted Shot");
+    handleSelection(weaponSlot);
+  };
+
   const handleShot = () => {
     if (selectedWeapon == "empty") return;
+    if (mouseCoordinates.y > y) {
+      console.log("Shot Aborted");
+      handleAbortedShot();
+      return;
+    }
     const col = thisPlayer !== undefined ? colors[thisPlayer] : "no color";
     const {
       newId,
@@ -179,7 +189,7 @@ export function HomeBase(props: any) {
         width={width}
         height={gameHeight}
         scaleY={scaleY}
-        pointerdown={handleShot}
+        pointerup={handleShot}
         environmentTextures={environmentTextures}
         backgroundTextures={backgroundTextures}
       />
@@ -196,6 +206,7 @@ export function HomeBase(props: any) {
         graphicsColor={graphicsColor}
         slots={slots}
         handleSelection={handleSelection}
+        selectedWeapon={selectedWeapon}
         slotsCooldown={slotsCooldown}
         maxCooldown={respawnFrames}
         characterTextures={characterTextures}
