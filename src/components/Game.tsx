@@ -151,62 +151,11 @@ export function Game() {
         transformOrigin: "top left",
       }}
     >
-      <Container x={0} y={0}>
-        <LoadingScreen gameWidth={gameWidth} gameHeight={gameHeight} />
-
-        <Sprite
-          width={gameWidth * 0.9}
-          height={gameHeight * 0.3}
-          image={"./Loading.png"}
-          scale={{ x: 1, y: 1 }}
-          rotation={0}
-          anchor={0}
-          x={gameWidth * 0.05}
-          y={gameHeight * 0.5}
-        />
-
-        <Sprite
-          width={gameWidth * 0.35}
-          height={gameHeight * 0.18}
-          image={players[yourPlayerId].avatarUrl}
-          // scale={{ x: 1, y: 1 }}
-          rotation={0}
-          anchor={0.5}
-          x={gameWidth * 0.3}
-          y={gameHeight * 0.3}
-        />
-        <Sprite
-          width={gameWidth * 0.35}
-          height={gameHeight * 0.18}
-          image={players[opponentPlayerId].avatarUrl}
-          // scale={{ x: 1, y: 1 }}
-          rotation={0}
-          anchor={0.5}
-          x={gameWidth * 0.7}
-          y={gameHeight * 0.3}
-        />
-        <Text
-          text={players[yourPlayerId].displayName}
-          anchor={[0.5, 0]}
-          x={gameWidth * 0.3}
-          y={gameHeight * 0.41}
-          style={new PIXI.TextStyle({ fill: "white" })}
-        />
-        <Text
-          text={players[opponentPlayerId].displayName}
-          anchor={[0.5, 0]}
-          x={gameWidth * 0.7}
-          y={gameHeight * 0.41}
-          style={new PIXI.TextStyle({ fill: "white" })}
-        />
-        <Text
-          text={"VS"}
-          anchor={[0.5, 0]}
-          x={gameWidth * 0.5}
-          y={gameHeight * 0.12}
-          style={new PIXI.TextStyle({ fill: "white", fontSize: 60 })}
-        />
-      </Container>
+      <LoadingScreen
+        gameWidth={gameWidth}
+        gameHeight={gameHeight}
+        players={players}
+      />
     </Stage>
     // <Stage
     //   {...stageProps}
