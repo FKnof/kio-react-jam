@@ -18,6 +18,8 @@ export interface GameState {
   maxlife: number;
   maxCollisionAge: number;
   reset: boolean;
+  collisionSound: boolean;
+  destructionSound: boolean;
 }
 export const colors = ["blue", "red"];
 
@@ -34,6 +36,8 @@ type GameActions = {
     yourPlayerId: string;
   }) => void;
   setReset: (params: { res: boolean }) => void;
+  setCollisionSound: (params: { setting: boolean }) => void;
+  setDestructionSound: (params: { setting: boolean }) => void;
 };
 
 export type PlayerProjectile = {
@@ -98,6 +102,8 @@ Rune.initLogic({
       maxlife: maxlife,
       maxCollisionAge: 30,
       reset: true,
+      collisionSound: false,
+      destructionSound: false,
     };
   },
   actions: {
@@ -139,6 +145,12 @@ Rune.initLogic({
     setReset: ({ res }, { game }) => {
       game.reset = res;
     },
+    setCollisionSound: ({ setting }, { game }) => {
+      game.collisionSound = setting;
+    },
+    setDestructionSound: ({ setting }, { game }) => {
+      game.destructionSound = setting;
+    },
   },
   update: ({ game }) => {
     if (game.playerState[Object.keys(game.playerState)[0]].life <= 0) {
@@ -164,6 +176,8 @@ Rune.initLogic({
               checkTypeWeakness(target.type, p.type)
             ) {
               newLevel = p.level - 1;
+              if (p.type == target.type) game.collisionSound = true;
+              if (p.type !== target.type) game.destructionSound = true;
               game.collisionObjects.push({ x: p.x, y: p.y, age: 0 });
             }
           });
