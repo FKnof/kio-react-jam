@@ -1,17 +1,15 @@
-import { Sound } from "@pixi/sound";
-import * as PIXI from "pixi.js";
+const sounds = {
+  theme: new Audio("./MusicSounds/theme.mp3"),
+  shoot: new Audio("./MusicSounds/shoot.mp3"),
+  scorePositive: new Audio("audio/score_positive.mp3"),
+  // playerHit: new Audio("audio/PlayerHit.wav"),
+};
 
-export const theme = Sound.from({
-  url: "./MusicSounds/theme.mp3",
-  // preload: true,
-  // autoPlay: true,
-  // complete: function () {
-  //   console.log("Sound finished");
-  // },
-});
-
-export const destroy = Sound.from({
-  url: "./MusicSounds/destroy.mp3",
-  // preload: true,
-  // autoPlay: false,
-});
+export const playSound = (name: keyof typeof sounds) => {
+  const sound = sounds[name];
+  try {
+    sound.play();
+  } catch (_e) {
+    // Sounds may be blocked by browser
+  }
+};

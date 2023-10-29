@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
 import { loadTextures } from "./TextureLoader";
-import { theme } from "./MusicLoader";
 import { Collision } from "./Collision.tsx";
-import { sound, Sound } from "@pixi/sound";
+import { playSound } from "./MusicLoader";
 import * as PIXI from "pixi.js";
 
 export function Game() {
@@ -85,8 +84,7 @@ export function Game() {
       setCollisionTextures(textures.collisionTextures);
       setActionLineTextures(textures.actionLinesTextures);
     });
-
-    theme.play();
+    playSound("theme");
 
     window.addEventListener("mousemove", mouseMoveHandler);
     window.addEventListener("touchmove", touchMoveHandler);
@@ -96,7 +94,6 @@ export function Game() {
       window.removeEventListener("touchmove", touchMoveHandler);
     };
   }, []);
-
   const mouseMoveHandler = (event: any) => {
     setMouseCoordinates({
       x: event.clientX,
