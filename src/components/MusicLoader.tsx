@@ -1,15 +1,12 @@
-const sounds = {
-  theme: new Audio("./MusicSounds/theme.mp3"),
-  shoot: new Audio("./MusicSounds/shoot.mp3"),
-  scorePositive: new Audio("audio/score_positive.mp3"),
-  // playerHit: new Audio("audio/PlayerHit.wav"),
-};
+import { Howl } from "howler";
 
-export const playSound = (name: keyof typeof sounds) => {
-  const sound = sounds[name];
-  try {
-    sound.play();
-  } catch (_e) {
-    // Sounds may be blocked by browser
-  }
+export const sounds = {
+  theme: new Howl({ src: ["./MusicSounds/theme.mp3"] }),
+  shoot: new Howl({ src: ["./MusicSounds/shoot.mp3"] }),
+  destroy: new Howl({ src: ["./MusicSounds/destroy.mp3"] }),
+  dissolveSimilar: new Howl({ src: ["./MusicSounds/dissolve_similar.mp3"] }),
+  gameOver: new Howl({ src: ["./MusicSounds/game_over.mp3"] }),
+  gameWon: new Howl({ src: ["./MusicSounds/game_won.mp3"] }),
+  scorePositive: new Howl({ src: ["./MusicSounds/score_positive.mp3"] }),
+  scoreNegative: new Howl({ src: ["./MusicSounds/score_negative.mp3"] }),
 };

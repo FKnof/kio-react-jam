@@ -6,8 +6,7 @@ import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
 import { loadTextures } from "./TextureLoader";
 import { Collision } from "./Collision.tsx";
-import { playSound } from "./MusicLoader";
-import * as PIXI from "pixi.js";
+import { sounds } from "./MusicLoader";
 
 export function Game() {
   const [game, setGame] = useState<GameState>();
@@ -84,7 +83,7 @@ export function Game() {
       setCollisionTextures(textures.collisionTextures);
       setActionLineTextures(textures.actionLinesTextures);
     });
-    playSound("theme");
+    sounds.theme.play();
 
     window.addEventListener("mousemove", mouseMoveHandler);
     window.addEventListener("touchmove", touchMoveHandler);

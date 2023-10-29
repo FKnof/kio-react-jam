@@ -9,7 +9,7 @@ import { HomeBaseBackground } from "./HomeBase-Background";
 import { addPlayerProjectile } from "../util/addPlayerProjectile";
 import Profile from "./HomeBase-Profile.tsx";
 import { SelectedWeaponMarker } from "./HomeBase-SelectedWeaponMarker.tsx";
-import { playSound } from "./MusicLoader";
+import { sounds } from "./MusicLoader";
 
 export function HomeBase(props: any) {
   const {
@@ -150,7 +150,7 @@ export function HomeBase(props: any) {
       game ? game.baseOffset : 0
     );
     Rune.actions.addProjectile({ projectile: newProjectile });
-    playSound("shoot");
+    sounds.shoot.play();
     setSelectedWeapon("empty");
     if (weaponSlot < 3) {
       handleRespawn();
