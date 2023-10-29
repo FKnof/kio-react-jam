@@ -57,6 +57,16 @@ export function getlife(game: GameState, playerId: string) {
 }
 const maxlife = 5;
 
+const setGameOver = (winner: string, loser: string) => {
+  Rune.gameOver({
+    players: {
+      [winner]: "WON",
+      [loser]: "LOST",
+    },
+    delayPopUp: false,
+  });
+};
+
 Rune.initLogic({
   minPlayers: 2,
   maxPlayers: 2,
@@ -125,12 +135,17 @@ Rune.initLogic({
     },
   },
   update: ({ game }) => {
-    if (
-      game.playerState[Object.keys(game.playerState)[0]].life <= 0 ||
-      game.playerState[Object.keys(game.playerState)[1]].life <= 0
-    ) {
-      Rune.gameOver();
+    if (game.playerState[Object.keys(game.playerState)[0]].life <= 0) {
+      const winner = Object.keys(game.playerState)[1];
+      const loser = Object.keys(game.playerState)[0];
+      setGameOver(winner, loser);
     }
+    if (game.playerState[Object.keys(game.playerState)[1]].life <= 0) {
+      const winner = Object.keys(game.playerState)[0];
+      const loser = Object.keys(game.playerState)[1];
+      setGameOver(winner, loser);
+    }
+
     if (game && game.playerProjectiles.length > 0) {
       const updatedProjectiles = game.playerProjectiles
         .map((p: PlayerProjectile) => {

@@ -26,7 +26,7 @@ export function HomeBaseBackground(props: any) {
         draw={background}
         eventMode={"static"}
         pointerup={() => {
-          console.log("kaboom");
+          // console.log("kaboom");
           pointerup();
         }}
       />
