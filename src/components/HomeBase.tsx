@@ -79,7 +79,7 @@ export function HomeBase(props: any) {
         const weapon =
           Math.random() < 0.33
             ? "rock"
-            : Math.random() < 0.66
+            : Math.random() < 0.5
             ? "paper"
             : "scissors";
         newSlots[i] = weapon;
