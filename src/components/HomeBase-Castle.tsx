@@ -25,7 +25,13 @@ export function HomeBaseCastle(props: any) {
       g.clear();
       g.beginFill("#ffffff", 0.75);
       g.lineStyle(1, "#ffffff");
-      g.drawRect(0, width / 5 - height, width / 5, height);
+      g.drawRoundedRect(
+        9,
+        width / 5 - height + 10,
+        width / 5 - 18,
+        height - 20,
+        5
+      );
     },
     [width, maxCooldown]
   );
