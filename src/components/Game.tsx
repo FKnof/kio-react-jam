@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
 import { loadTextures } from "./TextureLoader";
+import { Collision } from "./Collision.tsx";
 
 export function Game() {
   const [game, setGame] = useState<GameState>();
@@ -123,7 +124,15 @@ export function Game() {
 
       {game.collisionObjects.length > 0 &&
         game.collisionObjects.map((collision, index) => (
-          <Text text={"X"} anchor={0.5} x={collision.x} y={collision.y} />
+          <Collision
+            collision={collision}
+            game={game}
+            key={index}
+            collisionTextures={collisionTextures}
+            gameHeight={gameHeight}
+            gameWidth={gameWidth}
+            thisPlayer={thisPlayer}
+          />
         ))}
 
       {thisPlayer !== undefined && thisPlayer === 0
