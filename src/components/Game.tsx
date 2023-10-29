@@ -122,6 +122,13 @@ export function Game() {
       sounds.dissolveSimilar.play();
       Rune.actions.setCollisionSound({ setting: false });
     }
+  }, [game?.playerState, firstPlay]);
+
+  useEffect(() => {
+    if (game?.collisionSound) {
+      sounds.dissolveSimilar.play();
+      Rune.actions.setCollisionSound({ setting: false });
+    }
   }, [game?.collisionSound]);
 
   useEffect(() => {
