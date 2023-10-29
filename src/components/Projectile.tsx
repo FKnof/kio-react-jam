@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 import CharacterSprite from "./sprites/Character";
 import { Assets } from "pixi.js";
-// import actionLinesJSON from "https://pixijs.io/examples/examples/assets/spritesheet/fighter.json";
+
 export function Projectile({
   props,
   offset,
@@ -22,7 +22,6 @@ export function Projectile({
   // Calculate the angle in radians
   const baseRotation = Math.PI / 2;
   const movementRotation = Math.atan2(vy, vx);
-
   const adjustedRotation =
     ownerId === yourPlayerId
       ? baseRotation + movementRotation
@@ -33,15 +32,15 @@ export function Projectile({
   useEffect(() => {
     async function loadTextures() {
       const actionLinePaper = await Assets.load(
-        "./src/assets/Animations/ActionLine_Paper.json"
+        "./Animations/ActionLine_Paper.json"
       );
 
       const actionLineStone = await Assets.load(
-        "./src/assets/Animations/ActionLines_Stone.json"
+        "./Animations/ActionLines_Stone.json"
       );
 
       const actionLineScissor = await Assets.load(
-        "./src/assets/Animations/ActionLine_Scissor.json"
+        "./Animations/ActionLine_Scissor.json"
       );
       if (props.type === "paper") {
         setRenderedActionLine(actionLinePaper.animations.ActionLines3);
