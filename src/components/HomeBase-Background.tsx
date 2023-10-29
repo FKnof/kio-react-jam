@@ -1,15 +1,8 @@
-import { Container, Graphics, Sprite, useTick } from "@pixi/react";
-import { useCallback, useState } from "react";
+import { Container, Graphics, Sprite } from "@pixi/react";
+import { useCallback } from "react";
 
 export function HomeBaseBackground(props: any) {
-  const {
-    width,
-    pointerup,
-    scaleY,
-    height,
-    environmentTextures,
-    backgroundTextures,
-  } = props;
+  const { width, pointerup, height, backgroundTextures } = props;
   const background = useCallback(
     (g: any) => {
       g.clear();
