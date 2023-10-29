@@ -56,7 +56,7 @@ export function Profile({
           y={0}
         />
         <Text
-          text={`P${
+          text={`${
             allPlayer[yourPlayerId].displayName !== undefined
               ? allPlayer[yourPlayerId].displayName
               : "0"
@@ -98,7 +98,7 @@ export function Profile({
           y={0}
         />
         <Text
-          text={`P${
+          text={`${
             allPlayer[opponentPlayerId].displayName !== undefined
               ? allPlayer[opponentPlayerId].displayName.toString()
               : "0"
