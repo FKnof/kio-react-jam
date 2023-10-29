@@ -16,6 +16,7 @@ export interface GameState {
   absoluteProjectileIds: number;
   baseOffset: number;
   maxlife: number;
+  maxCollisionAge: number;
 }
 export const colors = ["blue", "red"];
 
@@ -83,6 +84,7 @@ Rune.initLogic({
       absoluteProjectileIds: 0,
       baseOffset: 163, // BaseHeight = 0,175* 932px
       maxlife: maxlife,
+      maxCollisionAge: 30,
     };
   },
   actions: {
@@ -221,7 +223,7 @@ Rune.initLogic({
           return { ...collision, age: newAge };
         })
         .filter((collision) => {
-          if (collision.age > 30) {
+          if (collision.age > game.maxCollisionAge) {
             return false;
           }
           return true;
