@@ -35,6 +35,9 @@ export function Profile({
   gameHeight: number;
   gameWidth: number;
 }) {
+  // console.log(createHealthbar());
+  const positionLeft = 20;
+  const positionRight = gameWidth - 20;
   return (
     <>
       <Container position={{ x: x, y: y }}>
@@ -46,6 +49,13 @@ export function Profile({
           width={gameWidth}
           height={gameHeight * 0.13}
         />
+        {/*<Sprite
+          image={allPlayer[yourPlayerId].avatarUrl}
+          scale={{ x: 0.1, y: 0.1 }}
+          anchor={[0, 0]}
+          x={6}
+          y={0}
+        />*/}
         <Text
           text={`${
             allPlayer[yourPlayerId].displayName !== undefined
@@ -53,7 +63,7 @@ export function Profile({
               : "0"
           }`}
           anchor={0}
-          x={60}
+          x={positionLeft}
           y={2}
           style={
             new PIXI.TextStyle({
@@ -71,7 +81,7 @@ export function Profile({
         />
         <Healthbar
           playerState={playerState}
-          x={60}
+          x={positionLeft}
           y={30}
           healthbarTextures={healthbarTextures}
           yourPlayerId={yourPlayerId}
@@ -81,6 +91,13 @@ export function Profile({
           forPlayer={yourPlayerId}
         />
 
+        {/*        <Sprite
+          image={allPlayer[opponentPlayerId].avatarUrl}
+          scale={{ x: 0.1, y: 0.1 }}
+          anchor={[1, 0]}
+          x={gameWidth - 6}
+          y={0}
+        /> */}
         <Text
           text={`${
             allPlayer[opponentPlayerId].displayName !== undefined
@@ -88,7 +105,7 @@ export function Profile({
               : "0"
           }`}
           anchor={[1, 0]}
-          x={gameWidth - 60}
+          x={positionRight}
           y={2}
           style={
             new PIXI.TextStyle({
@@ -106,7 +123,7 @@ export function Profile({
         />
         <Healthbar
           playerState={playerState}
-          x={-60}
+          x={-20}
           y={30}
           healthbarTextures={healthbarTextures}
           yourPlayerId={yourPlayerId}
