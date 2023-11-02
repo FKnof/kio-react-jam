@@ -1,5 +1,4 @@
-import { Container, Text, Graphics, Sprite } from "@pixi/react";
-import React, { useCallback, useEffect, useState } from "react";
+import { Container, Text, Sprite } from "@pixi/react";
 import * as PIXI from "pixi.js";
 import { Healthbar } from "./Healthbar";
 
@@ -36,7 +35,6 @@ export function Profile({
   gameHeight: number;
   gameWidth: number;
 }) {
-  // console.log(createHealthbar());
   return (
     <>
       <Container position={{ x: x, y: y }}>
@@ -47,13 +45,6 @@ export function Profile({
           y={-20}
           width={gameWidth}
           height={gameHeight * 0.13}
-        />
-        <Sprite
-          image={allPlayer[yourPlayerId].avatarUrl}
-          scale={{ x: 0.1, y: 0.1 }}
-          anchor={[0, 0]}
-          x={6}
-          y={0}
         />
         <Text
           text={`${
@@ -90,13 +81,6 @@ export function Profile({
           forPlayer={yourPlayerId}
         />
 
-        <Sprite
-          image={allPlayer[opponentPlayerId].avatarUrl}
-          scale={{ x: 0.1, y: 0.1 }}
-          anchor={[1, 0]}
-          x={gameWidth - 6}
-          y={0}
-        />
         <Text
           text={`${
             allPlayer[opponentPlayerId].displayName !== undefined
