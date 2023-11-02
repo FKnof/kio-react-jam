@@ -13,7 +13,6 @@ export function SelectedWeaponMarker(props: any) {
     handleSelectionPosition,
     cannonHeight,
     selectedPosition,
-    characterTextures,
     color,
   } = props;
 
@@ -35,7 +34,6 @@ export function SelectedWeaponMarker(props: any) {
     handleSelectionPosition,
     handleSelectionFrozen,
   ]);
-  // console.log(characterTextures);
   if (selectedWeapon !== "empty")
     return (
       <>
@@ -48,7 +46,6 @@ export function SelectedWeaponMarker(props: any) {
         )}
 
         <CharacterSprite
-          characterTextures={characterTextures}
           type={selectedWeapon}
           rotation={0}
           x={selectionFrozen ? selectedPosition.x : mouseCoordinates.x}

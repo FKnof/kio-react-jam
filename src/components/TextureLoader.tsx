@@ -4,7 +4,6 @@ import { environmentAssets } from "../assets/AssetLoader/Environment";
 import { backgroundAssets } from "../assets/AssetLoader/Background";
 import { healthbarAssets } from "../assets/AssetLoader/Healthbar";
 import { collisionAssets } from "../assets/AssetLoader/collisions";
-import { actionLineAssets } from "../assets/AssetLoader/ActionLines";
 
 export const textures = {
   characterTextures: { ...characterAssets },
@@ -12,5 +11,4 @@ export const textures = {
   backgroundTextures: { ...backgroundAssets },
   healthbarTextures: { ...healthbarAssets },
   collisionTextures: { ...collisionAssets },
-  actionLineTextures: { ...actionLineAssets },
 };

@@ -1,7 +1,6 @@
 import { Sprite, Text } from "@pixi/react";
-import { fontstyle } from "../ui/fontstyle";
-import { useState } from "react";
-import { ImageSource, Resource, Texture } from "pixi.js";
+import { useState, useEffect } from "react";
+import { ImageSource } from "pixi.js";
 export function Collision(props: any) {
   const {
     collision,
@@ -10,12 +9,17 @@ export function Collision(props: any) {
     gameHeight,
     gameWidth,
     thisPlayer,
-    index,
   } = props;
+
   const textureArray: ImageSource[] = Object.values(collisionTextures);
-  const [texture, setTexture] = useState<ImageSource | undefined>(
-    textureArray[Math.floor(Math.random() * textureArray.length)],
-  );
+  const [collisionTexture, setCollisionTexture] = useState<
+    ImageSource | undefined
+  >(textureArray[0]);
+  useEffect(() => {
+    const newTexture =
+      textureArray[Math.floor(Math.random() * textureArray.length)];
+    setCollisionTexture(newTexture);
+  }, []);
   const x = thisPlayer == 0 ? collision.x : gameWidth - collision.x;
   const pureY = collision.y - game.baseOffset;
   const y = thisPlayer == 0 ? pureY : gameHeight - collision.y;
@@ -34,11 +38,15 @@ export function Collision(props: any) {
     );
   }
 
+  if (collisionTexture == undefined) {
+    return;
+  }
+
   return (
     <Sprite
       width={150}
       height={150}
-      image={texture}
+      image={collisionTexture.toString()}
       alpha={alpha}
       // scale={{ x: 1, y: 1 }}
       rotation={0}

@@ -24,7 +24,6 @@ export function Game() {
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
   const [collisionTextures, setCollisionTextures] = useState<any>();
-  const [actionLineTextures, setActionLineTextures] = useState<any>();
   const [firstNegativePlay, setFirstNegativePlay] = useState(true);
   const [firstPositivePlay, setFirstPositivePlay] = useState(true);
   const gameWidth = 430;
@@ -83,8 +82,6 @@ export function Game() {
     setBackgroundTextures(textures.backgroundTextures);
     sethealthbarTextures(textures.healthbarTextures);
     setCollisionTextures(textures.collisionTextures);
-    setActionLineTextures(textures.actionLinesTextures);
-    console.log(textures);
     setGameReady(true);
     sounds.theme.play();
 
@@ -189,7 +186,6 @@ export function Game() {
               offset={game.baseOffset}
               key={index}
               yourPlayerId={yourPlayerId}
-              actionLineTextures={actionLineTextures}
             />
           ))
         : game.playerProjectiles.map((projectile, index) => (
@@ -199,7 +195,6 @@ export function Game() {
               gameWidth={gameWidth}
               gameHeight={gameHeight}
               yourPlayerId={yourPlayerId}
-              actionLineTextures={actionLineTextures}
             />
           ))}
       {/* Mein Profil durch Übergabe der "yourPlayerId" */}

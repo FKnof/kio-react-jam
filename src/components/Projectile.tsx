@@ -16,15 +16,11 @@ import { Assets } from "pixi.js";
 export function Projectile({
   props,
   offset,
-  characterTextures,
   yourPlayerId,
-  actionLineTextures,
 }: {
   props: PlayerProjectile;
   offset: number;
-  characterTextures: any;
   yourPlayerId: string;
-  actionLineTextures: any;
 }) {
   const { x, y, vx, vy, type, ownerId, color } = props;
 

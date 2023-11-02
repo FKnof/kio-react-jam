@@ -17,18 +17,14 @@ import actionLineScissors3 from "../assets/Animations/ActionLines_Scissors_3.png
 
 export function ProjectileInverted({
   props,
-  characterTextures,
   yourPlayerId,
   gameHeight,
   gameWidth,
-  actionLineTextures,
 }: {
   props: PlayerProjectile;
-  characterTextures: any;
   yourPlayerId: string;
   gameHeight: number;
   gameWidth: number;
-  actionLineTextures: any;
 }) {
   // const actionLinePaperJSON = actionLinePaperURL;
   const { x, y, vx, vy, type, ownerId, color, radius } = props;
