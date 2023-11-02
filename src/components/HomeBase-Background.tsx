@@ -9,7 +9,7 @@ export function HomeBaseBackground(props: any) {
       g.beginFill("#130C5F");
       g.drawRect(0, 0, width, height);
     },
-    [width, height]
+    [width, height],
   );
 
   // console.log(backgroundTextures);
@@ -29,7 +29,7 @@ export function HomeBaseBackground(props: any) {
           scale={1}
           x={0}
           y={0}
-          texture={backgroundTextures.fullBG}
+          image={backgroundTextures.fullBG}
         />
       </Container>
     </>

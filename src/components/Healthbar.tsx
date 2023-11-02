@@ -27,7 +27,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[0, 0]}
-                  texture={healthbarTextures.greenLeft}
+                  image={healthbarTextures.greenLeft}
                   x={index * 15}
                   y={0}
                 />
@@ -39,7 +39,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[1, 0]}
-                  texture={healthbarTextures.greenRight}
+                  image={healthbarTextures.greenRight}
                   x={gameWidth}
                   y={0}
                 />
@@ -53,7 +53,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[0, 0]}
-                  texture={healthbarTextures.redLeft}
+                  image={healthbarTextures.redLeft}
                   x={index * 15}
                   y={0}
                 />
@@ -65,7 +65,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[1, 0]}
-                  texture={healthbarTextures.redRight}
+                  image={healthbarTextures.redRight}
                   x={gameWidth}
                   y={0}
                 />
@@ -81,7 +81,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[0, 0]}
-                  texture={healthbarTextures.greenRight}
+                  image={healthbarTextures.greenRight}
                   x={index * 15}
                   y={0}
                 />
@@ -93,7 +93,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[1, 0]}
-                  texture={healthbarTextures.greenLeft}
+                  image={healthbarTextures.greenLeft}
                   x={gameWidth - index * 15}
                   y={0}
                 />
@@ -107,7 +107,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[0, 0]}
-                  texture={healthbarTextures.redRight}
+                  image={healthbarTextures.redRight}
                   x={index * 15}
                   y={0}
                 />
@@ -119,7 +119,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[1, 0]}
-                  texture={healthbarTextures.redLeft}
+                  image={healthbarTextures.redLeft}
                   x={gameWidth - index * 15}
                   y={0}
                 />
@@ -135,7 +135,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[0, 0]}
-                  texture={healthbarTextures.greenCenter}
+                  image={healthbarTextures.greenCenter}
                   x={index * 15}
                   y={0}
                 />
@@ -147,7 +147,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[1, 0]}
-                  texture={healthbarTextures.greenCenter}
+                  image={healthbarTextures.greenCenter}
                   x={gameWidth - index * 15}
                   y={0}
                 />
@@ -161,7 +161,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[0, 0]}
-                  texture={healthbarTextures.redCenter}
+                  image={healthbarTextures.redCenter}
                   x={index * 15}
                   y={0}
                 />
@@ -173,7 +173,7 @@ export function Healthbar(props: any) {
                   width={15}
                   height={25}
                   anchor={[1, 0]}
-                  texture={healthbarTextures.redCenter}
+                  image={healthbarTextures.redCenter}
                   x={gameWidth - index * 15}
                   y={0}
                 />

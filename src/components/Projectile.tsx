@@ -2,6 +2,15 @@ import { Container, Graphics, Text, Sprite, AnimatedSprite } from "@pixi/react";
 import { useCallback, useEffect, useState } from "react";
 import { PlayerProjectile } from "../interfaces/PlayerProjectiles";
 import CharacterSprite from "./sprites/Character";
+import actionLineStone1 from "../assets/Animations/ActionLines_Stone_1.png";
+import actionLineStone2 from "../assets/Animations/ActionLines_Stone_2.png";
+import actionLineStone3 from "../assets/Animations/ActionLines_Stone_3.png";
+import actionLinePaper1 from "../assets/Animations/ActionLines_Paper_1.png";
+import actionLinePaper2 from "../assets/Animations/ActionLines_Paper_2.png";
+import actionLinePaper3 from "../assets/Animations/ActionLines_Paper_3.png";
+import actionLineScissors1 from "../assets/Animations/ActionLines_Scissors_1.png";
+import actionLineScissors2 from "../assets/Animations/ActionLines_Scissors_2.png";
+import actionLineScissors3 from "../assets/Animations/ActionLines_Scissors_3.png";
 import { Assets } from "pixi.js";
 
 export function Projectile({
@@ -33,17 +42,23 @@ export function Projectile({
 
   useEffect(() => {
     if (props.type === "paper") {
-      setRenderedActionLine(
-        actionLineTextures.actionLinePaper.animations.ActionLines3
-      );
+      setRenderedActionLine([
+        actionLinePaper1,
+        actionLinePaper2,
+        actionLinePaper3,
+      ]);
     } else if (props.type === "rock") {
-      setRenderedActionLine(
-        actionLineTextures.actionLineStone.animations.ActionLines2
-      );
+      setRenderedActionLine([
+        actionLineStone1,
+        actionLineStone2,
+        actionLineStone3,
+      ]);
     } else {
-      setRenderedActionLine(
-        actionLineTextures.actionLineScissor.animations.ActionLines1
-      );
+      setRenderedActionLine([
+        actionLineScissors1,
+        actionLineScissors2,
+        actionLineScissors3,
+      ]);
     }
   }, []);
 
@@ -61,17 +76,12 @@ export function Projectile({
         anchor={[0.5, 1]}
         rotation={3.1}
         scale={0.3}
-        textures={renderedActionLine}
+        images={renderedActionLine}
         isPlaying={true}
         initialFrame={0}
         animationSpeed={0.1}
       />
-      <CharacterSprite
-        characterTextures={characterTextures}
-        type={type}
-        rotation={0}
-        color={color}
-      />
+      <CharacterSprite type={type} rotation={0} color={color} />
     </Container>
   );
 }

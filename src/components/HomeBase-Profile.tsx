@@ -1,6 +1,7 @@
 import { Container, Text, Sprite } from "@pixi/react";
 import * as PIXI from "pixi.js";
 import { Healthbar } from "./Healthbar";
+import avatarPlaceholder from "../assets/Environment/avatar-placeholder.png";
 
 export interface PlayerState {
   [yourPlayerId: string]: {
@@ -36,26 +37,40 @@ export function Profile({
   gameWidth: number;
 }) {
   // console.log(createHealthbar());
-  const positionLeft = 20;
-  const positionRight = gameWidth - 20;
+
+  if (allPlayer[yourPlayerId] === undefined) {
+    return;
+  }
+  const positionLeft = 60;
+  const positionRight = gameWidth - 60;
+  const myPlayerImage = allPlayer[yourPlayerId].avatarUrl;
+  const opponentPlayerImage = allPlayer[opponentPlayerId].avatarUrl;
+
   return (
     <>
       <Container position={{ x: x, y: y }}>
         <Sprite
           anchor={0}
-          texture={environmentTextures.menuTop}
+          image={environmentTextures.menuTop}
           x={0}
           y={-20}
           width={gameWidth}
           height={gameHeight * 0.13}
         />
-        {/*<Sprite
-          image={allPlayer[yourPlayerId].avatarUrl}
+        <Sprite
+          image={avatarPlaceholder}
           scale={{ x: 0.1, y: 0.1 }}
           anchor={[0, 0]}
-          x={6}
-          y={0}
-        />*/}
+          x={7}
+          y={5}
+        />
+        <Sprite
+          image={myPlayerImage ?? avatarPlaceholder}
+          scale={{ x: 0.1, y: 0.1 }}
+          anchor={[0, 0]}
+          x={7}
+          y={5}
+        />
         <Text
           text={`${
             allPlayer[yourPlayerId].displayName !== undefined
@@ -91,13 +106,20 @@ export function Profile({
           forPlayer={yourPlayerId}
         />
 
-        {/*        <Sprite
-          image={allPlayer[opponentPlayerId].avatarUrl}
+        <Sprite
+          image={avatarPlaceholder}
           scale={{ x: 0.1, y: 0.1 }}
           anchor={[1, 0]}
-          x={gameWidth - 6}
-          y={0}
-        /> */}
+          x={gameWidth - 7}
+          y={5}
+        />
+        <Sprite
+          image={opponentPlayerImage ?? avatarPlaceholder}
+          scale={{ x: 0.1, y: 0.1 }}
+          anchor={[1, 0]}
+          x={gameWidth - 7}
+          y={5}
+        />
         <Text
           text={`${
             allPlayer[opponentPlayerId].displayName !== undefined
@@ -123,7 +145,7 @@ export function Profile({
         />
         <Healthbar
           playerState={playerState}
-          x={-20}
+          x={-60}
           y={30}
           healthbarTextures={healthbarTextures}
           yourPlayerId={yourPlayerId}

@@ -153,7 +153,7 @@ export function HomeBase(props: any) {
       yourPlayerId,
       col,
       thisPlayer !== undefined ? thisPlayer : 0,
-      game ? game.baseOffset : 0
+      game ? game.baseOffset : 0,
     );
     Rune.actions.addProjectile({ projectile: newProjectile });
     sounds.shoot.play();
@@ -163,13 +163,7 @@ export function HomeBase(props: any) {
     }
   };
 
-  if (
-    !game ||
-    !characterTextures ||
-    !environmentTextures ||
-    !backgroundTextures ||
-    !healthbarTextures
-  ) {
+  if (!game) {
     return (
       <Text
         text="...Lade"
@@ -212,6 +206,8 @@ export function HomeBase(props: any) {
         environmentTextures={environmentTextures}
         color={colors[thisPlayer]}
         gameHeight={gameHeight}
+        playerState={game.playerState}
+        yourPlayerId={yourPlayerId}
       />
       {/* </Container> */}
 

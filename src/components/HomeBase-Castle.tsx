@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react";
 import { Graphics, Container, Text, Sprite } from "@pixi/react";
 import CharacterSprite from "./sprites/Character";
+import selectionBox from "../assets/Environment/selection_box.png";
+import selectionBoxBonus from "../assets/Environment/selection_box_bonus.png";
 export function HomeBaseCastle(props: any) {
   const {
     height,
@@ -15,6 +17,8 @@ export function HomeBaseCastle(props: any) {
     environmentTextures,
     color,
     gameHeight,
+    playerState,
+    yourPlayerId,
   } = props;
 
   const spacer = width / 5 / 8;
@@ -26,15 +30,14 @@ export function HomeBaseCastle(props: any) {
       g.lineStyle(1, "#ffffff");
       g.drawRect(9, width / 5 - height - 10, width / 5 - 18, height);
     },
-    [width, maxCooldown]
+    [width, maxCooldown],
   );
 
   return (
     <>
-      {/* <Graphics draw={castle} eventMode={"static"} /> */}
       <Sprite
         anchor={[0, 1]}
-        texture={environmentTextures.selectionMenu}
+        image={environmentTextures.selectionMenu}
         x={0}
         y={gameHeight}
         width={width}
@@ -42,112 +45,98 @@ export function HomeBaseCastle(props: any) {
       />
       <Sprite
         anchor={[0, 1]}
-        texture={environmentTextures.menuBot}
+        image={environmentTextures.menuBot}
         x={0}
         y={gameHeight - height * 0.6}
         width={width}
         height={height * 0.4}
       />
-      <Sprite
-        anchor={[0, 1]}
-        texture={environmentTextures.dragLine}
-        x={0}
-        y={gameHeight - height}
-        width={width}
-        height={height * 0.2}
-      />
 
-      {slots.map((slot: string, index: number) =>
-        index !== 3 ? (
-          <Container
-            key={index}
-            x={spacer + index * (width / 5 + spacer)}
-            y={gameHeight * 0.85}
-            eventMode={"static"}
-            pointerup={() =>
-              selectedWeapon != "empty" && handleSelection(index)
-            }
-            pointerdown={() =>
-              selectedWeapon == "empty" && handleSelection(index)
-            }
-          >
-            {/* <Graphics draw={slotGraphic} eventMode={"static"} /> */}
-            <Sprite
-              anchor={[0, 0]}
-              texture={environmentTextures.selectionBox}
-              width={width / 5}
-              height={width / 5}
-              x={0}
-              y={0}
-            />
-            <CharacterSprite
-              characterTextures={characterTextures}
-              type={slot}
-              rotation={0}
-              x={width / 5 / 2}
-              y={width / 5 / 2}
-              color={color}
-            />
-            {/* <Text
-            text={slot.charAt(0) !== "e" ? slots[index].charAt(0) : ""}
-            anchor={0}
-            x={20}
-            eventMode={"static"}
-            style={fontstyle}
-          /> */}
-            {slotsCooldown[index] > 0 && (
-              <Graphics
-                draw={(g) => cooldownGraphic(g, slotsCooldown[index])}
-                eventMode={"static"}
-              />
-            )}
-          </Container>
-        ) : (
-          <Container
-            key={index}
-            x={spacer + index * (width / 5 + spacer) + spacer * 2}
-            y={gameHeight * 0.85}
-            eventMode={"static"}
-            pointerup={() =>
-              selectedWeapon != "empty" && handleSelection(index)
-            }
-            pointerdown={() =>
-              selectedWeapon == "empty" && handleSelection(index)
-            }
-          >
-            {/* <Graphics draw={slotGraphic} eventMode={"static"} /> */}
-            <Sprite
-              anchor={[0, 0]}
-              texture={environmentTextures.selectionBoxBonus}
-              width={width / 5}
-              height={width / 5}
-              x={0}
-              y={0}
-            />
-            <CharacterSprite
-              characterTextures={characterTextures}
-              type={slot}
-              rotation={0}
-              x={width / 5 / 2}
-              y={width / 5 / 2}
-              color={color}
-            />
-            {/* <Text
-          text={slot.charAt(0) !== "e" ? slots[index].charAt(0) : ""}
-          anchor={0}
-          x={20}
-          eventMode={"static"}
-          style={fontstyle}
-        /> */}
-            {slotsCooldown[index] > 0 && (
-              <Graphics
-                draw={(g) => cooldownGraphic(g, slotsCooldown[index])}
-                eventMode={"static"}
-              />
-            )}
-          </Container>
-        )
+      {playerState[yourPlayerId] !== undefined && (
+        <Sprite
+          anchor={[0, 1]}
+          image={environmentTextures.dragLine}
+          x={0}
+          y={gameHeight - height}
+          width={width}
+          height={height * 0.2}
+        />
       )}
+
+      {playerState[yourPlayerId] !== undefined &&
+        slots.map((slot: string, index: number) =>
+          index !== 3 ? (
+            <Container
+              key={index}
+              x={spacer + index * (width / 5 + spacer)}
+              y={gameHeight * 0.85}
+              eventMode={"static"}
+              pointerup={() =>
+                selectedWeapon != "empty" && handleSelection(index)
+              }
+              pointerdown={() =>
+                selectedWeapon == "empty" && handleSelection(index)
+              }
+            >
+              <Sprite
+                anchor={[0, 0]}
+                image={selectionBox}
+                width={width / 5}
+                height={width / 5}
+                x={0}
+                y={0}
+              />
+              <CharacterSprite
+                type={slot}
+                rotation={0}
+                x={width / 5 / 2}
+                y={width / 5 / 2}
+                color={color}
+              />
+              {slotsCooldown[index] > 0 && (
+                <Graphics
+                  draw={(g) => cooldownGraphic(g, slotsCooldown[index])}
+                  eventMode={"static"}
+                />
+              )}
+            </Container>
+          ) : (
+            <Container
+              key={index}
+              x={spacer + index * (width / 5 + spacer) + spacer * 2}
+              y={gameHeight * 0.85}
+              eventMode={"static"}
+              pointerup={() =>
+                selectedWeapon != "empty" && handleSelection(index)
+              }
+              pointerdown={() =>
+                selectedWeapon == "empty" && handleSelection(index)
+              }
+            >
+              <Sprite
+                anchor={[0, 0]}
+                image={selectionBoxBonus}
+                width={width / 5}
+                height={width / 5}
+                x={0}
+                y={0}
+              />
+              <CharacterSprite
+                type={slot}
+                rotation={0}
+                x={width / 5 / 2}
+                y={width / 5 / 2}
+                color={color}
+              />
+              {slotsCooldown[index] > 0 && (
+                <Graphics
+                  draw={(g) => cooldownGraphic(g, slotsCooldown[index])}
+                  eventMode={"static"}
+                />
+              )}
+            </Container>
+          ),
+        )}
     </>
   );
 }

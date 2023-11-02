@@ -1,13 +1,12 @@
-import { Container, Graphics, Sprite, Stage, Text } from "@pixi/react";
+import { Container, Stage } from "@pixi/react";
 import { HomeBase } from "./HomeBase";
 import { GameState } from "../logic.ts";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Projectile } from "./Projectile.tsx";
 import { ProjectileInverted } from "./ProjectileInverted.tsx";
-import { loadTextures } from "./TextureLoader";
+import { textures } from "./TextureLoader";
 import { Collision } from "./Collision.tsx";
 import LoadingScreen from "./LoadingScreen.tsx";
-import * as PIXI from "pixi.js";
 
 import { sounds } from "./MusicLoader";
 import Profile from "./HomeBase-Profile.tsx";
@@ -21,7 +20,6 @@ export function Game() {
   const [players, setPlayers] = useState<any>();
   const [gameReady, setGameReady] = useState(false);
 
-  const [characterTextures, setCharacterTextures] = useState<any>();
   const [environmentTextures, setEnvironmentTextures] = useState<any>();
   const [backgroundTextures, setBackgroundTextures] = useState<any>();
   const [healthbarTextures, sethealthbarTextures] = useState<any>();
@@ -61,7 +59,6 @@ export function Game() {
     players,
     thisPlayer,
     game,
-    characterTextures,
     environmentTextures,
     backgroundTextures,
     healthbarTextures,
@@ -75,22 +72,20 @@ export function Game() {
         if (yourPlayerId != undefined) {
           setThisPlayer(game.playerState[yourPlayerId].playerIndex);
           const enemyId = Object.keys(game.playerState).find(
-            (playerId) => playerId !== yourPlayerId
+            (playerId) => playerId !== yourPlayerId,
           );
           setOpponentPlayerId(enemyId || "");
         }
         setPlayers(players);
       },
     });
-    loadTextures().then((textures) => {
-      setCharacterTextures(textures.characterTextures);
-      setEnvironmentTextures(textures.environmentTextures);
-      setBackgroundTextures(textures.backgroundTextures);
-      sethealthbarTextures(textures.healthbarTextures);
-      setCollisionTextures(textures.collisionTextures);
-      setActionLineTextures(textures.actionLinesTextures);
-      setGameReady(true);
-    });
+    setEnvironmentTextures(textures.environmentTextures);
+    setBackgroundTextures(textures.backgroundTextures);
+    sethealthbarTextures(textures.healthbarTextures);
+    setCollisionTextures(textures.collisionTextures);
+    setActionLineTextures(textures.actionLinesTextures);
+    console.log(textures);
+    setGameReady(true);
     sounds.theme.play();
 
     window.addEventListener("mousemove", mouseMoveHandler);
@@ -148,7 +143,7 @@ export function Game() {
     }
   };
 
-  if (!game || !gameReady)
+  if (!game)
     return (
       <Stage
         {...stageProps}
@@ -193,7 +188,6 @@ export function Game() {
               props={projectile}
               offset={game.baseOffset}
               key={index}
-              characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
               actionLineTextures={actionLineTextures}
             />
@@ -204,7 +198,6 @@ export function Game() {
               key={index}
               gameWidth={gameWidth}
               gameHeight={gameHeight}
-              characterTextures={characterTextures}
               yourPlayerId={yourPlayerId}
               actionLineTextures={actionLineTextures}
             />
